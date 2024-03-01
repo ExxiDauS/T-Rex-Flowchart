@@ -1,4 +1,4 @@
 public interface Shape{
-  public abstract void getCode();
+  public abstract void convertToCode();
   
 }
