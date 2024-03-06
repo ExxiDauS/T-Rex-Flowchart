@@ -1,7 +1,15 @@
-public class Expression implements Shape{
+
+import java.awt.Graphics;
+
+public class Expression extends Shape{
 
     @Override
     public void convertToCode() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void paint(Graphics g) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
