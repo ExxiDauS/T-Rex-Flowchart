@@ -1,6 +1,5 @@
-import java.io.File;
-
-public class Input implements Shape{
+import java.io.*;
+public class Input extends Shape{
 
     @Override
     public void convertToCode(File f) {

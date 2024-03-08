@@ -1,6 +1,5 @@
-import java.io.File;
-
-public class Loop implements Shape{
+import java.io.*;
+public class Loop extends Shape{
 
     @Override
     public void convertToCode(File f) {

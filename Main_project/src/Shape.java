@@ -1,5 +1,11 @@
 import java.io.*;
-public interface Shape{
-  public abstract void convertToCode(File f);
+import java.awt.*;
+public class Shape{
+
+    public void convertToCode(File f) {
+    }
+
+    public void paint(Graphics g){
+    }
   
 }
