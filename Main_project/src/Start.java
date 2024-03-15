@@ -3,8 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Start extends Shape{
-//    JFrame for test
-//    private JFrame jf;
     private JPanel jp;
     private JButton startBtn;
     private ArrowComponent arrow;
@@ -23,13 +21,28 @@ public class Start extends Shape{
 
     @Override
     public void convertToCode(File f) {
-        try(FileWriter fw = new FileWriter(f)) {
-            fw.write("class " + f.getName() + " {\n");
-            fw.write("public static void main(String[] args) {\n");
-            fw.write("try { \n");
-            fw.write("System.out.println(\"Hello,World! \");\n");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (f.exists()){
+            f.delete();
+            try (FileWriter fw = new FileWriter(f)){
+                String fileNameWithOutExt = f.getName().replaceFirst("[.][^.]+$", "");
+                fw.write("public class " + fileNameWithOutExt + " {\n");
+                fw.write("public static void main(String[] args) {\n");
+                fw.write("try { \n");
+            } 
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try (FileWriter fw = new FileWriter(f)){
+                String fileNameWithOutExt = f.getName().replaceFirst("[.][^.]+$", "");
+                fw.write("public class " + fileNameWithOutExt + " {\n");
+                fw.write("public static void main(String[] args) {\n");
+                fw.write("try { \n");
+            } 
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

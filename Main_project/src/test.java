@@ -1,11 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.*;
+import java.awt.event.*;
 
 public class test implements ActionListener{
     private JFrame jf;
@@ -34,10 +30,13 @@ public class test implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+//        Test your flowchart shape here.
         if (e.getSource() == runBtn) {
             start.convertToCode(file);
+            end.convertToCode(file);
 
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "java C:\\Users\\User\\Downloads\\" + fileName + ".java");
+//            ! This is for test run.
+            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "java C:\\Users\\kitti\\Downloads\\" + fileName + ".java");
             builder.redirectErrorStream(true);
             try {
                 Process p = builder.start();
