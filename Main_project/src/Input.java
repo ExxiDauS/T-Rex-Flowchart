@@ -1,6 +1,4 @@
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Input implements Shape{
     private String type;
@@ -32,18 +30,6 @@ public class Input implements Shape{
         this.value = value;
     }
 
-    // Method to check if the entered value matches the specified data type
-    public boolean checkValueType() {
-        if (type.equals("int")) {
-            return value instanceof Integer;
-        } else if (type.equals("double")) {
-            return value instanceof Double;
-        } else if (type.equals("String")) {
-            return value instanceof String;
-        }
-        return false;
-    }
-
     // Getter methods
     public String getType() {
         return type;
@@ -60,29 +46,17 @@ public class Input implements Shape{
     @Override
     public void convertToCode(File f) {
         if (f.exists()) {
-            try (FileReader fIn = new FileReader(f);
-                    FileWriter fOut = new FileWriter(f, true);)
+            try (FileWriter fOut = new FileWriter(f, true);)
             {
                 Input_Enter_GUI enter = new Input_Enter_GUI(this);
                 Input_Run_GUI run = new Input_Run_GUI(this);
-                fOut.write(this.getType() + " " + this.getName() + " = " + this.getValue() + ";");
-            } 
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        else{
-            try {
-                f.createNewFile();
-            } catch (IOException ex) {
-                Logger.getLogger(Input.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try (FileReader fIn = new FileReader(f);
-                    FileWriter fOut = new FileWriter(f, true);)
-            {
-                Input_Enter_GUI enter = new Input_Enter_GUI(this);
-                Input_Run_GUI run = new Input_Run_GUI(this);
-                fOut.write(this.getType() + " " + this.getName() + " = " + this.getValue() + ";");
+                while(!run.get_setted()) {System.out.println("");};
+                if(this.getType().equals("String")) {
+                    fOut.write(this.getType() + " " + this.getName() + " = " +  "\"" + this.getValue() + "\"" + ";" + "\n");
+                }
+                else {
+                    fOut.write(this.getType() + " " + this.getName() + " = " + this.getValue() + ";" + "\n");
+                }
             } 
             catch (Exception e) {
                 e.printStackTrace();

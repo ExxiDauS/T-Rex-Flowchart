@@ -46,7 +46,7 @@ public class Input_Enter_GUI {
                     return;
                 }
 
-                // Set type and name in shared input object
+                // Set type and name in input object
                 input.setType(type);
                 input.setName(name);
                 System.out.println("Name: " + input.getName() + ", Type: " + input.getType()); //Check if it's work we will delete it later
@@ -71,7 +71,7 @@ public class Input_Enter_GUI {
             return false;
         }
 
-        // Name cannot contain illegal characters (e.g., whitespace)
+        // Name cannot contain illegal characters
         if (!name.matches("[a-zA-Z0-9_]+")) {
             return false;
         }

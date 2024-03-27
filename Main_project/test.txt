@@ -1,1 +1,6 @@
-  = null;  = null;  = null;  = null;  = null;  = null;  = null;  = null;  = null;
+int x = 5;
+String tt = Hello;
+String x =  " Hello";
+String ty = "Hello test";
+int y = 6;
+double d = 5.7;

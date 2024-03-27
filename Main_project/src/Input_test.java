@@ -1,8 +1,9 @@
-
-public class Input_test{
+//this is file for test the input process
+import java.io.*;
+public class Input_test {
     public static void main(String[] args) {
-         Input input = new Input(); // Create shared input object
-        Input_Enter_GUI enter = new Input_Enter_GUI(input); // Pass input object to Enter GUI
-        Input_Run_GUI run = new Input_Run_GUI(input); // Pass input object to Run GUI
+        File f = new File("test.txt");
+        Input input = new Input();
+        input.convertToCode(f);
     }
 }

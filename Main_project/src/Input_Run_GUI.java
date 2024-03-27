@@ -1,11 +1,11 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.*;
 public class Input_Run_GUI {
     private JFrame frame;
     private JTextField valueField;
     private Input input;
+    private boolean setted = false;
 
     public Input_Run_GUI(Input input) {
         this.input = input;
@@ -50,18 +50,18 @@ public class Input_Run_GUI {
                 } else {
                     value = valueString;
                 }
-                input.setValue(value); // Set value in shared input object
-                if (input.checkValueType()) {
-                    System.out.println("Value: " + input.getValue() + " is of type " + input.getType());
-                } else {
-                    System.out.println("Value: " + input.getValue() + " is not of type " + input.getType());
-                }
+                input.setValue(value); // Set value in input object
                 frame.dispose();
+                setted = true;
             }
         });
         panel.add(runButton);
 
         frame.add(panel);
         frame.setVisible(true);
+    }
+    
+    public boolean get_setted() {
+        return setted;
     }
 }
