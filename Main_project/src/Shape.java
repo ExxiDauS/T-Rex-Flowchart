@@ -1,11 +1,7 @@
 import java.io.*;
-import java.awt.*;
-public class Shape{
 
-    public void convertToCode(File f) {
-    }
-
-    public void paint(Graphics g){
-    }
-  
+public abstract class Shape {
+    private Boolean clicked;
+    public void convertToCode(File f) {}
+    public boolean IsClicked() {return clicked;}
 }
