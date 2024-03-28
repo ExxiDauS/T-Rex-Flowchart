@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 public class Input_Shape_Flowchart extends Input_Shape implements MouseListener, KeyListener {
     Flowchart_panel f;
     public Input_Shape_Flowchart(Flowchart_panel f){
@@ -12,11 +13,11 @@ public class Input_Shape_Flowchart extends Input_Shape implements MouseListener,
     public void mouseClicked(MouseEvent e) {
         paintWhenClicked();
         f.repaint();
-        for(Object o: f.getOrder()){
-            if (o.getClass().getName().equals("Input_Shape_Flowchart") & !o.equals(this)){
-                Input_Shape_Flowchart pro = (Input_Shape_Flowchart)o;
-                if (pro.IsClicked()){
-                    pro.paintWhenClicked();
+        ArrayList<ShapeForFlowchart> a = f.getOrder();
+        for(ShapeForFlowchart o: a){
+            if (!o.equals(this)){
+                if (o.IsClicked()){
+                    o.paintWhenClicked();
                     f.repaint();
                 }
             }

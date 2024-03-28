@@ -1,18 +1,20 @@
 import java.awt.*;
 import javax.swing.*;
-public class Decision_Shape extends JPanel {
+public class Decision_Shape extends ShapeForFlowchart {
     private int yPosition;
     private int xPosition;
-    private Boolean clicked;
+    private boolean clicked;
     
     public Decision_Shape(){
         xPosition = 0;
         yPosition = 0; 
         clicked = false;
     }
-    public Boolean IsClicked(){
+    @Override
+    public boolean IsClicked(){
         return clicked;
     }
+    @Override
     public void paintWhenClicked(){
         clicked = !clicked;
        repaint();

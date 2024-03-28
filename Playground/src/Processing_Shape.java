@@ -1,19 +1,21 @@
 import java.awt.*;
 import javax.swing.*;
-public class Processing_Shape extends JPanel{
+public class Processing_Shape extends ShapeForFlowchart{
 
     private int xPosition;
     private int yPosition;
-    private Boolean clicked;
+    private boolean clicked;
 
     public Processing_Shape() {
         xPosition = 0;
         yPosition = 0; 
         clicked = false;
     }
-    public Boolean IsClicked(){
+    @Override
+    public boolean IsClicked(){
         return clicked;
     }
+    @Override
     public void paintWhenClicked(){
         clicked = !clicked;
        repaint();

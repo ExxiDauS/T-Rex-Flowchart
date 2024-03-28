@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class Flowchart_panel extends JPanel{
-    private ArrayList order = new ArrayList();
+    private final ArrayList<ShapeForFlowchart> order;
     private Start_Shape start;
     private End_Shape end;
     private ArrowComponent firstarrow;
@@ -11,6 +11,7 @@ public class Flowchart_panel extends JPanel{
         start = new Start_Shape();
         end = new End_Shape();
         firstarrow = new ArrowComponent(this);
+        order = new ArrayList<ShapeForFlowchart>();
         start.setBounds(100, 5, 103, 53);
         end.setBounds(100, 94, 103, 53);
         firstarrow.setBounds(145, 53, 10, 43);
@@ -21,7 +22,7 @@ public class Flowchart_panel extends JPanel{
         order.add(firstarrow);
         order.add(end);
     }
-    public void addShape(JPanel shape, int index) {
+    public void addShape(ShapeForFlowchart shape, int index) {
         this.add(shape);
         order.add(index, shape);
         checkBoundsAndAdjustPanel(shape);

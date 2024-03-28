@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import  javax.swing.*;
-public class ArrowComponent extends JPanel implements MouseListener{
+public class ArrowComponent extends ShapeForFlowchart implements MouseListener{
     private Flowchart_panel FlowchartForArrow;
     public ArrowComponent(Flowchart_panel f) {
         FlowchartForArrow = f;

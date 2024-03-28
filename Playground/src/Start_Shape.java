@@ -1,6 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
-public class Start_Shape extends JPanel{
+public class Start_Shape extends ShapeForFlowchart{
     @Override
     public void paintComponent(Graphics g){
         
