@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.Flow;
 
@@ -42,11 +43,13 @@ public class LoginViewController implements FocusListener, ActionListener{
         if (fe.getSource().equals(loginView.getUsernameTextField())) {
             if (loginView.getUsernameTextField().getText().equals("Username")) {
                 loginView.setUsername("");
+                loginView.getUsernameTextField().setForeground(new Color(51,51,51));
             }
         }
         else if (fe.getSource().equals(loginView.getPasswordTextField())) {
             if (loginView.getPasswordTextField().getText().equals("Password")) {
                 loginView.setPassword("");
+                loginView.getPasswordTextField().setForeground(new Color(51,51,51));
             }
         }
     }
@@ -56,11 +59,13 @@ public class LoginViewController implements FocusListener, ActionListener{
         if (fe.getSource().equals(loginView.getUsernameTextField())) {
             if (loginView.getUsernameTextField().getText().isEmpty()) {
                 loginView.setUsername("Username");
+                loginView.getUsernameTextField().setForeground(new Color(119,119,119));
             }
         }
         else if (fe.getSource().equals(loginView.getPasswordTextField())) {
             if (loginView.getPasswordTextField().getText().isEmpty()) {
                 loginView.setPassword("Password");
+                loginView.getPasswordTextField().setForeground(new Color(119,119,119));
             }
         }
     }
