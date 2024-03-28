@@ -22,7 +22,7 @@ public class Shape_panel extends JPanel implements MouseListener{
         this.add(input);
         output.setBounds(35,150,120, 45);
         this.add(output);
-        decision.setBounds(50, 210, 80, 80);
+        decision.setBounds(50, 210, 82, 82);
         this.add(decision);        
     }
     public void checkClicked(Object o){

@@ -36,7 +36,7 @@ public class Decision_Shape extends JPanel {
 //        int[] yPoints2 = {yPosition, yPosition + 40, yPosition+81, yPosition+40};     
 //        g2.setColor(Color.WHITE);
 //        g2.fillPolygon(xPoints2, yPoints2, 4);
-        
+//        
         if(!clicked){
             g2.setColor(Color.BLACK);
         }else{

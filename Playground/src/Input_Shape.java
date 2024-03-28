@@ -35,12 +35,12 @@ public class Input_Shape extends JPanel {
             g2.setColor(Color.red);
         }
         g2.drawPolygon(xPoints, yPoints, 4);
-        
+        g2.setStroke(new BasicStroke(2));
 //        g2.setStroke(oldStroke);
-        int[] xPoints2 = {xPosition+1, xPosition + 21, xPosition + 119, xPosition + 99};
-        int[] yPoints2 = {yPosition + 39, yPosition+1, yPosition+1, yPosition+39};
-        g2.setColor(Color.WHITE);
-        g2.fillPolygon(xPoints2, yPoints2, 4);
+//        int[] xPoints2 = {xPosition+1, xPosition + 21, xPosition + 119, xPosition + 99};
+//        int[] yPoints2 = {yPosition + 39, yPosition+3, yPosition+3, yPosition+39};
+//        g2.setColor(Color.WHITE);
+//        g2.fillPolygon(xPoints2, yPoints2, 4);
         Font f = new Font("Arial", Font.PLAIN, 13);
         g2.setFont(f);
         if(!clicked){
@@ -53,16 +53,16 @@ public class Input_Shape extends JPanel {
     }
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(120, 50); // กำหนดขนาดของ Processing_Shape
+        return new Dimension(120, 45); // กำหนดขนาดของ Processing_Shape
     }
-        public static void main(String[] args) {
-        JFrame fr = new JFrame();
-        JPanel panel = new JPanel();
-        Input_Shape input = new Input_Shape();
-        panel.add(input);
-        fr.add(panel);
-        fr.pack(); // ปรับขนาดของ JFrame ให้พอดีกับขนาดของ JPanel
-        fr.setVisible(true);
-        fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
+//        public static void main(String[] args) {
+//        JFrame fr = new JFrame();
+//        JPanel panel = new JPanel();
+//        Input_Shape input = new Input_Shape();
+//        panel.add(input);
+//        fr.add(panel);
+//        fr.pack(); // ปรับขนาดของ JFrame ให้พอดีกับขนาดของ JPanel
+//        fr.setVisible(true);
+//        fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//    }
 }

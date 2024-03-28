@@ -35,12 +35,40 @@ public class ArrowComponent extends JPanel implements MouseListener{
         ArrowComponent newArrow = new ArrowComponent(FlowchartForArrow);       
         int index = FlowchartForArrow.getOrder().indexOf(e.getSource());
         FlowchartForArrow.addShape(s, index+1);
-        s.setBounds(100, this.getY() + 41, 101, 53);
+        s.setBounds(this.getX() - 45, this.getY() + 41, 101, 53);
         FlowchartForArrow.addShape(newArrow, index+2);
-        newArrow.setBounds(145, this.getY() + 92, 10, 43);
+        newArrow.setBounds(this.getX(), this.getY() + 92, 10, 43);
         for(int i = index+3; i < FlowchartForArrow.getOrder().size(); i++){
             JPanel pa = (JPanel)(FlowchartForArrow.getOrder().get(i));
             pa.setLocation(pa.getX(), pa.getY() + 92);
+            FlowchartForArrow.checkBoundsAndAdjustPanel(pa);
+        }
+    }
+    public void addInput(MouseEvent e){
+        Input_Shape_Flowchart in = new Input_Shape_Flowchart(FlowchartForArrow);
+        ArrowComponent newArrow = new ArrowComponent(FlowchartForArrow);       
+        int index = FlowchartForArrow.getOrder().indexOf(e.getSource());
+        FlowchartForArrow.addShape(in, index+1);
+        in.setBounds(this.getX() - 50, this.getY() + 41, 120, 45);
+        FlowchartForArrow.addShape(newArrow, index+2);
+        newArrow.setBounds(this.getX(), this.getY() + 84, 10, 43);
+        for(int i = index+3; i < FlowchartForArrow.getOrder().size(); i++){
+            JPanel pa = (JPanel)(FlowchartForArrow.getOrder().get(i));
+            pa.setLocation(pa.getX(), pa.getY() + 84);
+            FlowchartForArrow.checkBoundsAndAdjustPanel(pa);
+        }
+    }
+    public void addOutput(MouseEvent e){
+        Output_Shape_Flowchart in = new Output_Shape_Flowchart(FlowchartForArrow);
+        ArrowComponent newArrow = new ArrowComponent(FlowchartForArrow);       
+        int index = FlowchartForArrow.getOrder().indexOf(e.getSource());
+        FlowchartForArrow.addShape(in, index+1);
+        in.setBounds(this.getX() - 50, this.getY() + 41, 120, 45);
+        FlowchartForArrow.addShape(newArrow, index+2);
+        newArrow.setBounds(this.getX(), this.getY() + 84, 10, 43);
+        for(int i = index+3; i < FlowchartForArrow.getOrder().size(); i++){
+            JPanel pa = (JPanel)(FlowchartForArrow.getOrder().get(i));
+            pa.setLocation(pa.getX(), pa.getY() + 84);
             FlowchartForArrow.checkBoundsAndAdjustPanel(pa);
         }
     }
@@ -49,9 +77,9 @@ public class ArrowComponent extends JPanel implements MouseListener{
         if(Shape_panel.getProcess().IsClicked()){
             addProcess(e);
         }else if(Shape_panel.getInput().IsClicked()){
-            
+            addInput(e);
         }else if(Shape_panel.getOutput().IsClicked()){
-            
+            addOutput(e);
         }else if(Shape_panel.getDecision().IsClicked()){
             
         }

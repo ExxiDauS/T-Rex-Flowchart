@@ -41,7 +41,32 @@ public class Flowchart_panel extends JPanel{
         order.remove(index);
         repaint();
     }
-
+    public void deleteInputShape(JPanel shape){
+        int index = order.indexOf(shape);
+        for(int i = index+2; i < order.size(); i++){
+            JPanel pa = (JPanel)(order.get(i));
+            pa.setLocation(pa.getX(), pa.getY() - 84);
+            checkBoundsAndAdjustPanel(pa);
+        }
+        this.remove((Component) order.get(index));
+        this.remove((Component) order.get(index+1));
+        order.remove(index);
+        order.remove(index);
+        repaint();
+    }
+    public void deleteOutputShape(JPanel shape){
+        int index = order.indexOf(shape);
+        for(int i = index+2; i < order.size(); i++){
+            JPanel pa = (JPanel)(order.get(i));
+            pa.setLocation(pa.getX(), pa.getY() - 84);
+            checkBoundsAndAdjustPanel(pa);
+        }
+        this.remove((Component) order.get(index));
+        this.remove((Component) order.get(index+1));
+        order.remove(index);
+        order.remove(index);
+        repaint();
+    }
     public void checkBoundsAndAdjustPanel(JPanel shape) {
         Rectangle bounds = shape.getBounds();
         Dimension panelSize = getPreferredSize();
@@ -98,5 +123,4 @@ public class Flowchart_panel extends JPanel{
     public void run(){
         System.out.println(order);
     }
-    
 }
