@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class FlowchartController implements ActionListener, WindowListener, MouseListener{
     private FlowchartModel model;
@@ -87,6 +88,8 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     }
     public void runFlowchart() {
         //run flowchart
+        ArrayList<Shape> flowchart =  model.getOrder();
+        System.out.println(flowchart.getFirst());
     }
 
     @Override
