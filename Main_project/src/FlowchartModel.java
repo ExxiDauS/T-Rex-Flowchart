@@ -41,6 +41,10 @@ public class FlowchartModel {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public ArrayList<Shape> getOrder() {
+        return order;
+    }
 }
 
 
