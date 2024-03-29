@@ -4,7 +4,6 @@ import javax.swing.*;
 public class ProcessShape extends ActionShape{
     private int xPosition;
     private int yPosition;
-    private boolean clicked;
 
     public ProcessShape(Dimension panelSize) {
         super();

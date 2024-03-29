@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 
-public class FlowchartController implements ActionListener, WindowListener{
+public class FlowchartController implements ActionListener, WindowListener, MouseListener{
     private FlowchartModel model;
     private PlaygroundView mainView;
     private TopBarPanel topBarPanel;
@@ -19,6 +19,10 @@ public class FlowchartController implements ActionListener, WindowListener{
         topBarPanel = mainView.getToolPanel();
         topBarPanel.getRunButton().addActionListener(this);
         topBarPanel.getLoginButton().addActionListener(this);
+        mainView.getShapePanel().getProcessShape().addMouseListener(this);
+        mainView.getShapePanel().getInputShape().addMouseListener(this);
+        mainView.getShapePanel().getOutputShape().addMouseListener(this);
+        mainView.getShapePanel().getDecisionShape().addMouseListener(this);
     }
 
     @Override
@@ -82,6 +86,39 @@ public class FlowchartController implements ActionListener, WindowListener{
 
     @Override
     public void windowDeactivated(WindowEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getSource().equals(mainView.getShapePanel().getProcessShape())){
+            mainView.getShapePanel().getProcessShape().paintWhenClicked();
+        }else if(e.getSource().equals(mainView.getShapePanel().getInputShape())){
+            mainView.getShapePanel().getInputShape().paintWhenClicked();
+        }else if(e.getSource().equals(mainView.getShapePanel().getOutputShape())){
+            mainView.getShapePanel().getOutputShape().paintWhenClicked();
+        }else if(e.getSource().equals(mainView.getShapePanel().getDecisionShape())){
+            mainView.getShapePanel().getDecisionShape().paintWhenClicked();
+        }
+        mainView.getShapePanel().repaint();
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
 
     }
 
