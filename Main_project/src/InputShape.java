@@ -1,15 +1,17 @@
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
+import java.io.*;
 
 public class InputShape extends ActionShape{
     private int xPosition;
     private int yPosition;
     private boolean clicked;
 
-    public InputShape() {
+    public InputShape(Dimension panelSize) {
         super();
         xPosition = 0;  yPosition = 0;
         clicked = false;
+        parentSize = panelSize;
     }
 
     @Override
@@ -20,7 +22,7 @@ public class InputShape extends ActionShape{
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         Font f = new Font("Montserrat", Font.PLAIN, 18);
         int[] xPoints = {xPosition, xPosition + getWidth()/6, xPosition + getWidth(), xPosition + (getWidth()*5)/6};
-        int[] yPoints = {yPosition + (getHeight()*4)/5, yPosition, yPosition, (getHeight()*4)/5};
+        int[] yPoints = {yPosition - 1 + getHeight(), yPosition, yPosition, yPosition + getHeight() - 1};
 
         if(!clicked) {
             g2.setColor(Color.BLACK);
@@ -30,8 +32,8 @@ public class InputShape extends ActionShape{
         }
 
         g2.drawPolygon(xPoints, yPoints, 4);
-        int[] xPoints2 = {xPosition+1, xPosition + (getWidth()/6)+1, xPosition + (getWidth())-1, xPosition + ((getWidth()*5)/6)-1};
-        int[] yPoints2 = {yPosition + (getHeight()*4)/5 - 1, yPosition+1, yPosition+1, yPosition + (getHeight()*4)/5 - 1};
+        int[] xPoints2 = {xPosition + 1, xPosition + (getWidth()/6) + 1, xPosition + (getWidth())-1, xPosition + ((getWidth()*5)/6)-1};
+        int[] yPoints2 = {yPosition + getHeight() - 1, yPosition+1, yPosition+1, yPosition + getHeight() - 1};
         g2.setColor(Color.WHITE);
         g2.fillPolygon(xPoints2, yPoints2, 4);
         if(!clicked) {
@@ -47,18 +49,6 @@ public class InputShape extends ActionShape{
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(120, 50);
-    }
-
-    public static void main(String[] args) {
-        JFrame fr = new JFrame();
-        fr.setLayout(new FlowLayout());
-        ProcessShape pro = new ProcessShape();
-        InputShape in = new InputShape();
-        OutputShape out = new OutputShape();
-        fr.add(pro);    fr.add(in);     fr.add(out);
-        fr.pack();
-        fr.setLocationRelativeTo(null);
-        fr.setVisible(true);
+        return new Dimension((int)parentSize.getWidth()/2, (int)parentSize.getHeight()/9);
     }
 }

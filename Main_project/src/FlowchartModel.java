@@ -3,7 +3,6 @@ import java.util.*;
 public class FlowchartModel {
     private ArrayList<Shape> order;
     private String username;
-    private String password;
     private String status;
     private DatabaseConnect databaseConnect;
 
@@ -11,14 +10,12 @@ public class FlowchartModel {
         order = new ArrayList<Shape>();
         databaseConnect = new DatabaseConnect();
         username = "";
-        password = "";
         status = "play";
     }
 
     public boolean logIn(String username, String password) {
         if (databaseConnect.login(username,password)) {
             this.username = username;
-            this.password = password;
             return true;
         }
         else{

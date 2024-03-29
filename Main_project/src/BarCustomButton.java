@@ -14,7 +14,7 @@ public class BarCustomButton extends JButton{
             }
         });
         setFont(new Font("Montserrat", Font.BOLD, 20));
-        setBorder(new EmptyBorder(5,10,5,10));
+        setBorder(new EmptyBorder(5,20,5,20));
         color = new Color(45,45,45);
     }
 

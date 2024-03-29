@@ -6,10 +6,11 @@ public class ProcessShape extends ActionShape{
     private int yPosition;
     private boolean clicked;
 
-    public ProcessShape() {
+    public ProcessShape(Dimension panelSize) {
         super();
         xPosition = 0;  yPosition = 0;
         clicked = false;
+        parentSize = panelSize;
     }
 
     @Override
@@ -45,7 +46,17 @@ public class ProcessShape extends ActionShape{
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(105, 55);
+        return new Dimension((int)parentSize.getWidth()/2, (int)parentSize.getHeight()/9);
     }
 
+    public static void main(String[] args) {
+        JFrame fr = new JFrame();
+        fr.setLayout(new FlowLayout());
+        ProcessShape pro = new ProcessShape(new Dimension(288, 450));
+        pro.setPreferredSize(new Dimension(288, 450));
+        fr.add(pro);
+        fr.setSize(500,500);
+        fr.setLocationRelativeTo(null);
+        fr.setVisible(true);
+    }
 }
