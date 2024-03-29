@@ -32,6 +32,10 @@ public class Processing_Shape_Flowchart extends Processing_Shape implements Mous
             if (!o.equals(this)){
                 if (o.IsClicked()){
                     o.paintWhenClicked();
+                    if (o.getClass().getName().equals("Decision_Shape_Flowchart")){
+                        ((Decision_Shape_Flowchart)o).getLeft().paintWhenClicked();
+                        ((Decision_Shape_Flowchart)o).getRight().paintWhenClicked();
+                    }
                     f.repaint();
                 }
             }

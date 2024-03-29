@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Victus/Desktop/oop%20project/Playground/src/Flowchart_panel.java</file>
+            <file>file:/C:/Users/Victus/Desktop/oop%20project/Playground/src/Processing_Shape_Flowchart.java</file>
             <file>file:/C:/Users/Victus/Desktop/oop%20project/Playground/src/Playground_Main.java</file>
-            <file>file:/C:/Users/Victus/Desktop/oop%20project/Playground/src/Output_Shape_Flowchart.java</file>
-            <file>file:/C:/Users/Victus/Desktop/oop%20project/Playground/src/ArrowComponent.java</file>
-            <file>file:/C:/Users/Victus/Desktop/oop%20project/Playground/src/Input_Shape_Flowchart.java</file>
+            <file>file:/C:/Users/Victus/Desktop/oop%20project/Playground/src/Decision_Shape_Flowchart.java</file>
+            <file>file:/C:/Users/Victus/Desktop/oop%20project/Playground/src/Decision_Shape.java</file>
+            <file>file:/C:/Users/Victus/Desktop/oop%20project/Playground/src/LeftArrowComponent.java</file>
+            <file>file:/C:/Users/Victus/Desktop/oop%20project/Playground/src/RightArrowComponent.java</file>
         </group>
     </open-files>
 </project-private>

@@ -19,6 +19,10 @@ public class Output_Shape_Flowchart extends Output_Shape implements MouseListene
             if (!o.equals(this)){
                 if (o.IsClicked()){
                     o.paintWhenClicked();
+                    if (o.getClass().getName().equals("Decision_Shape_Flowchart")){
+                        ((Decision_Shape_Flowchart)o).getLeft().paintWhenClicked();
+                        ((Decision_Shape_Flowchart)o).getRight().paintWhenClicked();
+                    }
                     f.repaint();
                 }
             }

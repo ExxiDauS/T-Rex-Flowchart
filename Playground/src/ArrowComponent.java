@@ -4,12 +4,16 @@ import java.awt.event.MouseListener;
 import  javax.swing.*;
 public class ArrowComponent extends ShapeForFlowchart implements MouseListener{
     private Flowchart_panel FlowchartForArrow;
+    public ArrowComponent() {
+        FlowchartForArrow = null;
+        addMouseListener(this);
+    }
     public ArrowComponent(Flowchart_panel f) {
         FlowchartForArrow = f;
         addMouseListener(this);
     }
     @Override
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
 //        super.paintComponent(g);
         g.setColor(Color.BLACK);
         g.drawLine(5, 0, 5, 40);
@@ -42,6 +46,7 @@ public class ArrowComponent extends ShapeForFlowchart implements MouseListener{
             JPanel pa = (JPanel)(FlowchartForArrow.getOrder().get(i));
             pa.setLocation(pa.getX(), pa.getY() + 92);
             FlowchartForArrow.checkBoundsAndAdjustPanel(pa);
+
         }
     }
     public void addInput(MouseEvent e){
@@ -56,6 +61,7 @@ public class ArrowComponent extends ShapeForFlowchart implements MouseListener{
             JPanel pa = (JPanel)(FlowchartForArrow.getOrder().get(i));
             pa.setLocation(pa.getX(), pa.getY() + 84);
             FlowchartForArrow.checkBoundsAndAdjustPanel(pa);
+
         }
     }
     public void addOutput(MouseEvent e){
@@ -70,6 +76,21 @@ public class ArrowComponent extends ShapeForFlowchart implements MouseListener{
             JPanel pa = (JPanel)(FlowchartForArrow.getOrder().get(i));
             pa.setLocation(pa.getX(), pa.getY() + 84);
             FlowchartForArrow.checkBoundsAndAdjustPanel(pa);
+
+        }
+    }
+    public void addDecision(MouseEvent e){
+        Decision_Shape_Flowchart in = new Decision_Shape_Flowchart(FlowchartForArrow);
+        ArrowComponent newArrow = new ArrowComponent(FlowchartForArrow);       
+        int index = FlowchartForArrow.getOrder().indexOf(e.getSource());
+        FlowchartForArrow.addShape(in, index+1);
+        in.setBounds(this.getX() - 95, this.getY() + 41, 203, 103);
+        FlowchartForArrow.addShape(newArrow, index+2);
+        newArrow.setBounds(this.getX(), this.getY() + 141, 10, 43);
+        for(int i = index+3; i < FlowchartForArrow.getOrder().size(); i++){
+            JPanel pa = (JPanel)(FlowchartForArrow.getOrder().get(i));
+            pa.setLocation(pa.getX(), pa.getY() + 141);
+            FlowchartForArrow.checkBoundsAndAdjustPanel(pa);
         }
     }
     @Override
@@ -81,7 +102,7 @@ public class ArrowComponent extends ShapeForFlowchart implements MouseListener{
         }else if(Shape_panel.getOutput().IsClicked()){
             addOutput(e);
         }else if(Shape_panel.getDecision().IsClicked()){
-            
+            addDecision(e);
         }
     }
 
