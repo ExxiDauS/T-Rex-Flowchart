@@ -7,6 +7,7 @@ public class ShapePanel extends JPanel{
     private InputShape inputShape;
     private OutputShape outputShape;
     private DecisionShape decisionShape;
+    private LoopShape loopShape;
 
 
     public ShapePanel(Dimension frameSize) {
@@ -15,12 +16,15 @@ public class ShapePanel extends JPanel{
         inputShape = new InputShape(new Dimension((int)frameSize.getWidth()/5,(int)(frameSize.getHeight()/2)-60));
         outputShape = new OutputShape(new Dimension((int)frameSize.getWidth()/5,(int)(frameSize.getHeight()/2)-60));
         decisionShape = new DecisionShape(new Dimension((int)frameSize.getWidth()/5,(int)(frameSize.getHeight()/2)-60));
+        loopShape = new LoopShape(new Dimension((int)frameSize.getWidth()/5,(int)(frameSize.getHeight()/2)-60));
 
-        //shape config
-        processShape.setPreferredSize(getSize());
-        inputShape.setPreferredSize(getSize());
-        outputShape.setPreferredSize(getSize());
-        decisionShape.setPreferredSize(getSize());
+
+        //action shape setting
+        processShape.isNotInFlowchart();
+        inputShape.isNotInFlowchart();
+        outputShape.isNotInFlowchart();
+        decisionShape.isNotInFlowchart();
+        loopShape.isNotInFlowchart();
 
         //panel setting
         setBackground(new Color(234,234,234));
@@ -40,6 +44,22 @@ public class ShapePanel extends JPanel{
         add(outputShape, gbc);
         gbc.gridy = 3;
         add(decisionShape, gbc);
+        gbc.gridy = 4;
+        add(loopShape, gbc);
+    }
+
+    public void paintCurrentTool(ActionShape current) {
+        if (processShape.isClicked() && !processShape.equals(current)) {
+            processShape.paintWhenClicked();
+        } else if (inputShape.isClicked() && !inputShape.equals(current)) {
+            inputShape.paintWhenClicked();
+        } else if (outputShape.isClicked() && !outputShape.equals(current)) {
+            outputShape.paintWhenClicked();
+        } else if (decisionShape.isClicked() && !decisionShape.equals(current)) {
+            decisionShape.paintWhenClicked();
+        } else if (loopShape.isClicked() && !loopShape.equals(current)) {
+            loopShape.paintWhenClicked();
+        }
     }
 
     public ProcessShape getProcessShape() {
@@ -56,5 +76,9 @@ public class ShapePanel extends JPanel{
 
     public DecisionShape getDecisionShape() {
         return decisionShape;
+    }
+
+    public LoopShape getLoopShape() {
+        return loopShape;
     }
 }

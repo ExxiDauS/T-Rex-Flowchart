@@ -5,6 +5,8 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     private PlaygroundView mainView;
     private TopBarPanel topBarPanel;
     private LoginViewController loginViewController;
+    private ActionShape currentTool;
+    private ActionShape current;
 
     public FlowchartController() {
         model = new FlowchartModel();
@@ -13,6 +15,8 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     }
 
     public void init() {
+        current = null;
+        currentTool = null;
         topBarPanel = mainView.getToolPanel();
         topBarPanel.getRunButton().addActionListener(this);
         topBarPanel.getLoginButton().addActionListener(this);
@@ -20,6 +24,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         mainView.getShapePanel().getInputShape().addMouseListener(this);
         mainView.getShapePanel().getOutputShape().addMouseListener(this);
         mainView.getShapePanel().getDecisionShape().addMouseListener(this);
+        mainView.getShapePanel().getLoopShape().addMouseListener(this);
     }
 
     @Override
@@ -79,16 +84,18 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource().equals(mainView.getShapePanel().getProcessShape())){
-            mainView.getShapePanel().getProcessShape().paintWhenClicked();
-        }else if(e.getSource().equals(mainView.getShapePanel().getInputShape())){
-            mainView.getShapePanel().getInputShape().paintWhenClicked();
-        }else if(e.getSource().equals(mainView.getShapePanel().getOutputShape())){
-            mainView.getShapePanel().getOutputShape().paintWhenClicked();
-        }else if(e.getSource().equals(mainView.getShapePanel().getDecisionShape())){
-            mainView.getShapePanel().getDecisionShape().paintWhenClicked();
+        Object source = e.getSource();
+        boolean isActionShape = ActionShape.class.isAssignableFrom(source.getClass());
+        if (isActionShape) {
+            current = (ActionShape) source;
+            current.paintWhenClicked();
+            if (!current.isInFlowchart()) {
+                boolean isSame = current.equals(currentTool);
+                currentTool = current;
+                mainView.getShapePanel().paintCurrentTool(currentTool);
+                if (isSame) {currentTool = null;}
+            }
         }
-        mainView.getShapePanel().repaint();
     }
 
     @Override
