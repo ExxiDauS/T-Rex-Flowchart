@@ -1,4 +1,6 @@
+import javax.swing.*;
 import java.awt.event.*;
+import java.io.*;
 import java.util.ArrayList;
 
 public class FlowchartController implements ActionListener, WindowListener{
@@ -30,10 +32,16 @@ public class FlowchartController implements ActionListener, WindowListener{
         }
     }
 
+    public FlowchartModel getModel(){
+        return this.model;
+    }
     public void runFlowchart() {
         //run flowchart
         ArrayList<Shape> flowchart =  model.getOrder();
-        System.out.println(flowchart.getFirst());
+        File f = new File("trex.java");
+        for(int i=0;i<flowchart.size();i++){
+            flowchart.get(i).convertToCode(f);
+        }
     }
 
 
