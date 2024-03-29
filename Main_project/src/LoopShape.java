@@ -1,11 +1,10 @@
-import javax.swing.*;
 import java.awt.*;
 
-public class DecisionShape extends ActionShape{
+public class LoopShape extends ActionShape{
     private int xPosition;
     private int yPosition;
 
-    public DecisionShape(Dimension panelSize) {
+    public LoopShape(Dimension panelSize) {
         super();
         xPosition = 0;  yPosition = 0;
         clicked = false;
@@ -26,7 +25,7 @@ public class DecisionShape extends ActionShape{
             g2.setColor(Color.BLACK);
         }
         else {
-            g2.setColor(new Color(255,87,34));
+            g2.setColor(new Color(181, 93, 223));
         }
 
         g2.drawPolygon(xPoints, yPoints, 4);
@@ -38,11 +37,11 @@ public class DecisionShape extends ActionShape{
             g2.setColor(Color.BLACK);
         }
         else {
-            g2.setColor(new Color(255,87,34));
+            g2.setColor(new Color(181, 93, 223));
         }
 
         g2.setFont(f);
-        drawCenteredString(g2, "Condition", new Rectangle(getWidth(), getHeight()), f);
+        drawCenteredString(g2, "While", new Rectangle(getWidth(), getHeight()), f);
     }
 
     @Override

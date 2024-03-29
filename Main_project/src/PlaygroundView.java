@@ -20,8 +20,8 @@ public class PlaygroundView extends JFrame{
             e.printStackTrace();
         }
         toolkit = Toolkit.getDefaultToolkit();
-//        this.setSize(toolkit.getScreenSize());
-        this.setSize(1366, 768);
+        this.setSize(toolkit.getScreenSize());
+//        this.setSize(1366, 768);
         topBarPanel = new TopBarPanel();
         dp = new JDesktopPane();
         shapePanel = new ShapePanel(getSize());
@@ -31,6 +31,7 @@ public class PlaygroundView extends JFrame{
         shapePanel.setBounds(0,60,getWidth()/5,(getHeight()/2)-60);
         consolePanel.setBounds(0,60+shapePanel.getHeight(),getWidth()/5,(getHeight()-((getHeight()/2)-60)));
 
+        dp.setBackground(Color.WHITE);
         dp.add(topBarPanel);
         dp.add(shapePanel);
         dp.add(consolePanel);
