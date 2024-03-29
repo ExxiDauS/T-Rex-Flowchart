@@ -1,6 +1,5 @@
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 
 public class FlowchartController implements ActionListener, WindowListener, MouseListener{
@@ -89,7 +88,10 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     public void runFlowchart() {
         //run flowchart
         ArrayList<Shape> flowchart =  model.getOrder();
-        System.out.println(flowchart.getFirst());
+        File f = new File("trex.java");
+        for(int i=0;i<flowchart.size();i++){
+            flowchart.get(i).convertToCode(f);
+        }
     }
 
     @Override
@@ -100,6 +102,18 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         else if (ae.getSource().equals(mainView.getToolPanel().getLoginButton())) {
             loginViewController = new LoginViewController(model);
             loginViewController.getLoginView().getFrame().addWindowListener(this);
+        }
+    }
+
+    public FlowchartModel getModel(){
+        return this.model;
+    }
+    public void runFlowchart() {
+        //run flowchart
+        ArrayList<Shape> flowchart =  model.getOrder();
+        File f = new File("trex.java");
+        for(int i=0;i<flowchart.size();i++){
+            flowchart.get(i).convertToCode(f);
         }
         else if (ae.getSource().equals(mainView.getToolPanel().getDeleteToggleBtn())) {
             deleteToggle = !deleteToggle;
