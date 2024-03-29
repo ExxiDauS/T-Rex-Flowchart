@@ -1,5 +1,5 @@
 import java.sql.*;
-import java.util.Arrays;
+import java.util.*;
 
 public class DatabaseConnect {
 //    DB credentials.
@@ -31,7 +31,7 @@ public class DatabaseConnect {
         return false;
     }
     
-    public void insertProblem(String description, String imgUrl, Arrays cases[], String titleName){
+    public void insertProblem(String description, String imgUrl, ArrayList cases[], String titleName){
         String sql = "INSERT INTO Question VALUES(ID, '{\"description\": " + description + ", \"imgUrl\": " + imgUrl
                 + ", \"cases\": " + Arrays.toString(cases) + ", \"titleName\": " + titleName + "}');";
         try (Connection connect = DriverManager.getConnection(
