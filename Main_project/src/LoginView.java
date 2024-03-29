@@ -89,6 +89,8 @@ public class LoginView {
             gbc.insets = new Insets(30,0,0,0);
             gbc.gridy = 4;
             bagPanel.add(guestPanel, gbc);
+            ImageIcon img = new ImageIcon("Main_project//src//picture//logo96.png");
+            fr.setIconImage(img.getImage());
 
             // showing frame config
             fr.add(bagPanel, BorderLayout.CENTER);
