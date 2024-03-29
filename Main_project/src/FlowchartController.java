@@ -1,4 +1,5 @@
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class FlowchartController implements ActionListener, WindowListener{
     private FlowchartModel model;
@@ -31,6 +32,8 @@ public class FlowchartController implements ActionListener, WindowListener{
 
     public void runFlowchart() {
         //run flowchart
+        ArrayList<Shape> flowchart =  model.getOrder();
+        System.out.println(flowchart.getFirst());
     }
 
 
