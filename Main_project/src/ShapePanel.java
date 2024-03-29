@@ -42,4 +42,19 @@ public class ShapePanel extends JPanel{
         add(decisionShape, gbc);
     }
 
+    public ProcessShape getProcessShape() {
+        return processShape;
+    }
+
+    public InputShape getInputShape() {
+        return inputShape;
+    }
+
+    public OutputShape getOutputShape() {
+        return outputShape;
+    }
+
+    public DecisionShape getDecisionShape() {
+        return decisionShape;
+    }
 }

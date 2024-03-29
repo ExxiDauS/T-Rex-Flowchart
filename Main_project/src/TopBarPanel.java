@@ -8,7 +8,7 @@ public class TopBarPanel extends JPanel{
     private JPanel leftAlign, rightAlign;
     public TopBarPanel(){
         setBackground(new Color(234,234,234));
-        setBorder(new LineBorder(new Color(102,102,102)));
+        setBorder(new LineBorder(new Color(204,204,204)));
         setLayout(new GridLayout(1,2));
         leftAlign = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 10));
         rightAlign = new JPanel(new FlowLayout(FlowLayout.RIGHT, 40, 10));

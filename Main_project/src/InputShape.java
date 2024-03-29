@@ -5,7 +5,6 @@ import java.io.*;
 public class InputShape extends ActionShape{
     private int xPosition;
     private int yPosition;
-    private boolean clicked;
 
     public InputShape(Dimension panelSize) {
         super();

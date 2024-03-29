@@ -8,6 +8,7 @@ public class PlaygroundView extends JFrame{
     private JDesktopPane dp;
     private TopBarPanel topBarPanel;
     private ShapePanel shapePanel;
+    private ConsolePanel consolePanel;
     public PlaygroundView() {
         //load font
         try {
@@ -24,13 +25,15 @@ public class PlaygroundView extends JFrame{
         topBarPanel = new TopBarPanel();
         dp = new JDesktopPane();
         shapePanel = new ShapePanel(getSize());
+        consolePanel = new ConsolePanel();
 
-        topBarPanel.setBounds(0,0, this.getWidth(), 60);
-
-        shapePanel.setBounds(0,60,this.getWidth()/5,(this.getHeight()/2)-60);
+        topBarPanel.setBounds(0,0, getWidth(), 60);
+        shapePanel.setBounds(0,60,getWidth()/5,(getHeight()/2)-60);
+        consolePanel.setBounds(0,60+shapePanel.getHeight(),getWidth()/5,(getHeight()-((getHeight()/2)-60)));
 
         dp.add(topBarPanel);
         dp.add(shapePanel);
+        dp.add(consolePanel);
         dp.setVisible(true);
 
         this.add(dp);
@@ -42,5 +45,11 @@ public class PlaygroundView extends JFrame{
 
     public TopBarPanel getToolPanel() {
         return topBarPanel;
+    }
+    public ShapePanel getShapePanel() {
+        return shapePanel;
+    }
+    public ConsolePanel getConsolePanel() {
+        return consolePanel;
     }
 }

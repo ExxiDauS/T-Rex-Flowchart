@@ -4,7 +4,6 @@ import java.awt.*;
 public class DecisionShape extends ActionShape{
     private int xPosition;
     private int yPosition;
-    private boolean clicked;
 
     public DecisionShape(Dimension panelSize) {
         super();
