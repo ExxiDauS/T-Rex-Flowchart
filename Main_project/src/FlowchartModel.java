@@ -5,16 +5,18 @@ public class FlowchartModel {
     private String username;
     private String password;
     private String status;
+    private DatabaseConnect databaseConnect;
 
     public FlowchartModel() {
         order = new ArrayList<Shape>();
+        databaseConnect = new DatabaseConnect();
         username = "";
         password = "";
         status = "play";
     }
 
     public boolean logIn(String username, String password) {
-        if (find()) {
+        if (databaseConnect.login(username,password)) {
             this.username = username;
             this.password = password;
             return true;
@@ -22,10 +24,6 @@ public class FlowchartModel {
         else{
             return false;
         }
-    }
-
-    public boolean find() {
-        return false;
     }
 
     public void setUsername(String username) {
