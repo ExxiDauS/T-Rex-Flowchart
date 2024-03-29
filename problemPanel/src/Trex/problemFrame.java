@@ -26,13 +26,13 @@ public class problemFrame implements ActionListener, MouseListener{
     // {new cases("hey", "ha")}
     
     private problem[] problemLst = {new problem("DebtCalculation", 
-            "C:\\Users\\User\\Desktop\\BANK\\JavaApplication3\\src\\Trex\\images\\jaii.jpg",
+            "../problemPanel/src/Trex/images/jaii.jpg",
     "Ni ai wo wo ai ni\n" +
     "Mi xue bing cheng tianmi mi\n" +
     "Ni ai wo wo ai ni\n" +
     "Mi xue bing cheng tianmi mi\n"
   ,  new cases[]{case1, case2}),
-    new problem("Tim", "C:\\Users\\User\\Desktop\\BANK\\JavaApplication3\\src\\Trex\\images\\v6wirw3s76g91.jpg","jekjek\nasdsdsad",  new cases[]{case1, case2}),
+    new problem("Tim", "../problemPanel/src/Trex/images/v6wirw3s76g91.jpg","jekjek\nasdsdsad",  new cases[]{case1, case2}),
     new problem("T$E", 
  "14255",
     "jekjek",  new cases[]{case1, case2})
