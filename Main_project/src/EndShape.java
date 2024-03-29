@@ -1,6 +1,6 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.awt.*;
+import javax.swing.*;
+import java.io.*;
 
 public class EndShape extends Shape{
     @Override

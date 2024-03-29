@@ -1,10 +1,11 @@
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 import java.io.*;
 
 public abstract class Shape extends JPanel {
-
+    protected Dimension parentSize;
     public Shape() {
+        setOpaque(false);
         try {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Main_project\\src\\font\\Montserrat-Thin.ttf")));
@@ -23,4 +24,5 @@ public abstract class Shape extends JPanel {
         g2.setFont(f);
         g2.drawString(text, x, y);
     }
+
 }

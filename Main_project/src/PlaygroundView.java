@@ -19,14 +19,15 @@ public class PlaygroundView extends JFrame{
             e.printStackTrace();
         }
         toolkit = Toolkit.getDefaultToolkit();
-        this.setSize(toolkit.getScreenSize());
+//        this.setSize(toolkit.getScreenSize());
+        this.setSize(1366, 768);
         topBarPanel = new TopBarPanel();
         dp = new JDesktopPane();
-        shapePanel = new ShapePanel();
+        shapePanel = new ShapePanel(getSize());
 
         topBarPanel.setBounds(0,0, this.getWidth(), 60);
 
-        shapePanel.setBounds(0,60,(this.getWidth()/10)*2,(this.getHeight()/2)-60);
+        shapePanel.setBounds(0,60,this.getWidth()/5,(this.getHeight()/2)-60);
 
         dp.add(topBarPanel);
         dp.add(shapePanel);
