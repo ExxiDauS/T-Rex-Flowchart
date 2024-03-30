@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class LoopShape extends ActionShape{
+public class LoopShape extends ContainerShape{
     private int xPosition;
     private int yPosition;
 
@@ -11,6 +11,12 @@ public class LoopShape extends ActionShape{
         parentSize = panelSize;
     }
 
+    public LoopShape() {
+        super();
+        xPosition = 0;  yPosition = 0;
+        clicked = false;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -18,6 +24,8 @@ public class LoopShape extends ActionShape{
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         Font f = new Font("Montserrat", Font.PLAIN, 18);
+        Color highlighted = new Color(0, 150, 136);
+        Color identical = new Color(181, 93, 223);
         int[] xPoints = {xPosition + getWidth()/2, xPosition + getWidth(), xPosition + getWidth()/2, xPosition};
         int[] yPoints = {yPosition, yPosition + getHeight()/2, yPosition+getHeight(), yPosition+getHeight()/2};
 
@@ -25,7 +33,7 @@ public class LoopShape extends ActionShape{
             g2.setColor(Color.BLACK);
         }
         else {
-            g2.setColor(new Color(181, 93, 223));
+            g2.setColor(identical);
         }
 
         g2.drawPolygon(xPoints, yPoints, 4);
@@ -37,7 +45,7 @@ public class LoopShape extends ActionShape{
             g2.setColor(Color.BLACK);
         }
         else {
-            g2.setColor(new Color(181, 93, 223));
+            g2.setColor(identical);
         }
 
         g2.setFont(f);
@@ -46,6 +54,11 @@ public class LoopShape extends ActionShape{
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension((int)parentSize.getHeight()/3, (int)parentSize.getHeight()/6);
+        if (!isInFlowchart()){
+            return new Dimension((int)parentSize.getHeight()/3, (int)parentSize.getHeight()/6);
+        }
+        else {
+            return new Dimension(150, 70);
+        }
     }
 }

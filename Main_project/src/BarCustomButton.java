@@ -8,6 +8,7 @@ public class BarCustomButton extends JButton{
     public BarCustomButton() {
         setOpaque(false);
         setContentAreaFilled(false);
+        setFocusPainted(false);
         setUI(new MetalButtonUI() {
             protected Color getDisabledTextColor() {
                 return getForeground();

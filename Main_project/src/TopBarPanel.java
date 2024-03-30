@@ -5,6 +5,7 @@ import javax.swing.border.LineBorder;
 public class TopBarPanel extends JPanel{
     private BarCustomButton loginBtn;
     private BarCustomButton runBtn;
+    private BarCustomButton deleteToggleBtn;
     private JPanel leftAlign, rightAlign;
     public TopBarPanel(){
         setBackground(new Color(234,234,234));
@@ -19,8 +20,13 @@ public class TopBarPanel extends JPanel{
         runBtn = new BarCustomButton();
         runBtn.setText("Run");
         runBtn.setForeground(Color.WHITE);
+        deleteToggleBtn = new BarCustomButton();
+        deleteToggleBtn.setText("Delete: OFF");
+        deleteToggleBtn.setForeground(Color.WHITE);
+        deleteToggleBtn.setColor(new Color(0,102,204));
         runBtn.setColor(new Color(33, 150, 243));
         leftAlign.add(runBtn);
+        leftAlign.add(deleteToggleBtn);
         rightAlign.add(loginBtn);
         add(leftAlign);     add(rightAlign);
     }
@@ -31,5 +37,9 @@ public class TopBarPanel extends JPanel{
 
     public JButton getRunButton() {
         return runBtn;
+    }
+
+    public JButton getDeleteToggleBtn() {
+        return deleteToggleBtn;
     }
 }

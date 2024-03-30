@@ -13,6 +13,12 @@ public class InputShape extends ActionShape{
         parentSize = panelSize;
     }
 
+    public InputShape() {
+        super();
+        xPosition = 0;  yPosition = 0;
+        clicked = false;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -20,6 +26,8 @@ public class InputShape extends ActionShape{
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         Font f = new Font("Montserrat", Font.PLAIN, 18);
+        Color highlighted = new Color(0, 150, 136);
+        Color identical = new Color(33,150,243);
         int[] xPoints = {xPosition, xPosition + getWidth()/6, xPosition + getWidth(), xPosition + (getWidth()*5)/6};
         int[] yPoints = {yPosition - 1 + getHeight(), yPosition, yPosition, yPosition + getHeight() - 1};
 
@@ -27,7 +35,7 @@ public class InputShape extends ActionShape{
             g2.setColor(Color.BLACK);
         }
         else {
-            g2.setColor(new Color(33, 150, 243));
+            g2.setColor(identical);
         }
 
         g2.drawPolygon(xPoints, yPoints, 4);
@@ -39,7 +47,7 @@ public class InputShape extends ActionShape{
             g2.setColor(Color.BLACK);
         }
         else {
-            g2.setColor(new Color(33, 150, 243));
+            g2.setColor(identical);
         }
 
         g2.setFont(f);
@@ -48,6 +56,11 @@ public class InputShape extends ActionShape{
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension((int)parentSize.getWidth()/2, (int)parentSize.getHeight()/9);
+        if (!isInFlowchart()){
+            return new Dimension((int)parentSize.getWidth()/2, (int)parentSize.getHeight()/9);
+        }
+        else {
+            return new Dimension(150, 50);
+        }
     }
 }
