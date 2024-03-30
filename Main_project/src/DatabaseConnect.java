@@ -152,4 +152,33 @@ public class DatabaseConnect {
         }
         return null;
     }
+    
+    public ArrayList getInputType(int questionID){
+        String sql = "SELECT * FROM Testcases";
+        String tmp = "";
+        ArrayList input = new ArrayList();
+        try (Connection connect = DriverManager.getConnection(
+                    "jdbc:mariadb://161.246.127.24:9004/clua7yac5000cbsmnfvj64hef", 
+                    "clua7yac3000absmnajq5d7jl", "kVGzhZ64mXAGplcwmtUL3Ub4");
+                Statement s = connect.createStatement();
+                ResultSet rec = s.executeQuery(sql);){
+            Class.forName("org.mariadb.jdbc.Driver");
+            System.out.println("Connected database successfully...");
+            while (rec.next()) {                
+                if (rec.getInt("ID") == questionID) {
+                    System.out.println("Get Output successfully.");
+                    tmp = rec.getString("Input_Type");
+                }
+            }
+            int start = tmp.indexOf('[');
+            int end = tmp.indexOf(']');
+            tmp = tmp.substring(start + 1, end);
+            String arrOfStr[] = tmp.split(", ");
+            input.addAll(Arrays.asList(arrOfStr));
+            return input;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
