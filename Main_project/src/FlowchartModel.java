@@ -42,6 +42,16 @@ public class FlowchartModel {
     public ArrayList<Shape> getOrder() {
         return order;
     }
+    
+    public ArrayList getInput(int questionID){
+//        return databaseConnect.getInput(questionID);
+        return null;
+    }
+    
+    public ArrayList getInputType(int questionID){
+//        return databaseConnect.getInputType(questionID);
+        return null;
+    }
 }
 
 
