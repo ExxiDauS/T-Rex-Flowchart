@@ -31,9 +31,9 @@ public class DatabaseConnect {
         return false;
     }
     
-    public void insertProblem(String description, String imgUrl, ArrayList cases[], String titleName){
+    public void insertProblem(String description, String imgUrl, ArrayList cases[], String titleName, int casesCount){
         String sql = "INSERT INTO Question VALUES(ID, '{\"description\": " + description + ", \"imgUrl\": " + imgUrl
-                + ", \"cases\": " + Arrays.toString(cases) + ", \"titleName\": " + titleName + "}');";
+                + ", \"cases\": " + Arrays.toString(cases) + ", \"titleName\": " + titleName + "}', " + casesCount + ");";
         try (Connection connect = DriverManager.getConnection(
                     "jdbc:mariadb://161.246.127.24:9004/clua7yac5000cbsmnfvj64hef", 
                     "clua7yac3000absmnajq5d7jl", "kVGzhZ64mXAGplcwmtUL3Ub4");
