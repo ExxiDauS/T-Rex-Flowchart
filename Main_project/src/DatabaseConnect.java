@@ -74,6 +74,28 @@ public class DatabaseConnect {
         return null;
     }
     
+    public String getProblemTestCasesCount(int id){
+        String sql = "SELECT * FROM Question";
+        try (Connection connect = DriverManager.getConnection(
+                    "jdbc:mariadb://161.246.127.24:9004/clua7yac5000cbsmnfvj64hef", 
+                    "clua7yac3000absmnajq5d7jl", "kVGzhZ64mXAGplcwmtUL3Ub4");
+                Statement s = connect.createStatement();
+                ResultSet rec = s.executeQuery(sql);){
+            Class.forName("org.mariadb.jdbc.Driver");
+            System.out.println("Connected database successfully...");
+            while (rec.next()) {                
+                if (rec.getInt("ID") == id) {
+                    System.out.println("Get problem successfully.");
+                    return rec.getString("Testcase_Count");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Please check problem ID and try again.");
+        return null;
+    }
+    
     public void insertTestcases(ArrayList input[], ArrayList output[]){
         String sql = "INSERT INTO Testcases VALUES(ID, " 
                 + Arrays.toString(input) + ", " + Arrays.toString(output) + ");";
