@@ -11,8 +11,8 @@ public class FlowchartPanel extends JPanel{
         setBorder(new LineBorder(new Color(204, 204, 204)));
     }
 
-    public void checkBoundsAndAdjustPanel(Shape shape) {
-        Rectangle bounds = shape.getBounds();
+    public void checkBoundsAndAdjustPanel(Rectangle shapeBounds) {
+        Rectangle bounds = shapeBounds;
         Dimension panelSize = getPreferredSize();
 
         int newX = Math.min(bounds.x, 0);
@@ -29,22 +29,40 @@ public class FlowchartPanel extends JPanel{
     }
 
     public void drawFlowchart(ArrayList<Shape> order) {
+        repaint();
+        removeAll();
         int runningX = getWidth()/2;
         int runningY = 10;
+        Rectangle bounds = new Rectangle();
         for (Shape shape : order) {
-            int shapeWidth = (int)shape.getPreferredSize().getWidth();
-            int shapeHeight = (int)shape.getPreferredSize().getHeight();
-            shape.setBounds(runningX-(shapeWidth/2), runningY, shapeWidth, shapeHeight);
-            add(shape);
-            runningY += shapeHeight;
+            boolean isConditionShape = ConditionShape.class.isAssignableFrom(shape.getClass());
+            boolean isDecisionShape = shape.getClass().equals(new DecisionShape().getClass());
+            if (!isConditionShape) {
+                int shapeWidth = (int)shape.getPreferredSize().getWidth();
+                int shapeHeight = (int)shape.getPreferredSize().getHeight();
+                shape.setBounds(runningX-(shapeWidth/2), runningY, shapeWidth, shapeHeight);
+                add(shape);
+                runningY += shapeHeight;
+                bounds = shape.getBounds();
+            }
+            else if (isDecisionShape) {
+                DecisionFlow decisionFlow = new DecisionFlow((DecisionShape) shape);
+                decisionFlow.drawFlowchart();
+                int shapeWidth = decisionFlow.getWidth();
+                int shapeHeight = decisionFlow.getHeight();
+                decisionFlow.setLocation(runningX-(shapeWidth/2), runningY);
+                add(decisionFlow);
+                runningY += shapeHeight;
+                bounds = decisionFlow.getBounds();
+            }
             repaint();
-            checkBoundsAndAdjustPanel(shape);
+            checkBoundsAndAdjustPanel(bounds);
         }
     }
 
     public void shapeDelete(ActionShape shape, ArrowComponent arrow) {
-        remove((Component) shape);
-        remove((Component) arrow);
+        remove(shape);
+        remove(arrow);
     }
 
     public void paintCurrentShape(ArrayList<Shape> order) {}

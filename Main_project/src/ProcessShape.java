@@ -1,9 +1,12 @@
 import java.awt.*;
 import javax.swing.*;
+import java.io.*;
 
 public class ProcessShape extends ActionShape{
     private int xPosition;
     private int yPosition;
+    private String variableName;
+    private String value;
 
     public ProcessShape(Dimension panelSize) {
         super();
@@ -12,10 +15,16 @@ public class ProcessShape extends ActionShape{
         parentSize = panelSize;
     }
 
-    public ProcessShape() {
+    public ProcessShape(String variableName, String value) {
         super();
         xPosition = 0;  yPosition = 0;
         clicked = false;
+        this.variableName = variableName;
+        this.value = value;
+    }
+
+    public ProcessShape() {
+        this("","");
     }
 
     @Override
@@ -57,6 +66,15 @@ public class ProcessShape extends ActionShape{
         }
         else {
             return new Dimension(150, 60);
+        }
+    }
+
+    @Override
+    public void convertToCode(File f) {
+        try(FileWriter fw = new FileWriter(f, true)){
+            fw.write(variableName + " = " + value + ";\n");
+        }catch(IOException ioe){
+            ioe.printStackTrace();
         }
     }
 }

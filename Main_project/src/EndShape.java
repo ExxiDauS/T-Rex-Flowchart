@@ -38,9 +38,9 @@ public class EndShape extends Shape{
                 e.printStackTrace();
             }
         }
-        else{
-            System.out.println("Please contact developer of this project.");
-        }
+//        else{
+//            System.out.println("Please contact developer of this project.");
+//        }
     }
 
     @Override

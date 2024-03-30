@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class FlowchartController implements ActionListener, WindowListener, MouseListener{
     private FlowchartModel model;
@@ -63,7 +64,11 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         } else if (currentTool.getClass().equals(new OutputShape().getClass())) {
             newShape = new OutputShape();
         } else if (currentTool.getClass().equals(new DecisionShape().getClass())) {
-            newShape = new DecisionShape();
+            ArrowComponent yesArrow = new ArrowComponent(80);
+            ArrowComponent noArrow = new ArrowComponent(80);
+            newShape = new DecisionShape(yesArrow, noArrow);
+            yesArrow.addMouseListener(this);
+            noArrow.addMouseListener(this);
         } else if (currentTool.getClass().equals(new LoopShape().getClass())) {
             newShape = new LoopShape();
         } else {
@@ -72,9 +77,28 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         newShape.addMouseListener(this);
         ArrowComponent newArrow = new ArrowComponent();
         newArrow.addMouseListener(this);
-        int index = model.getOrder().indexOf(current);
-        model.getOrder().add(index+1, newShape);
-        model.getOrder().add(index+2, newArrow);
+
+        if (current.getParent().getClass().equals(DecisionFlow.class)) {
+            DecisionFlow pointer = (DecisionFlow) current.getParent();
+            ArrayList<Shape> yesOrder = pointer.getMainShape().getYesOrder();
+            ArrayList<Shape> noOrder = pointer.getMainShape().getNoOrder();
+            if (yesOrder.indexOf(current) != -1) {
+                int index = yesOrder.indexOf(current);
+                yesOrder.add(index+1, newShape);
+                yesOrder.add(index+2, newArrow);
+            }
+            else {
+                int index = noOrder.indexOf(current);
+                noOrder.add(index+1, newShape);
+                noOrder.add(index+2, newArrow);
+            }
+            pointer.drawFlowchart();
+        }
+        else {
+            int index = model.getOrder().indexOf(current);
+            model.getOrder().add(index+1, newShape);
+            model.getOrder().add(index+2, newArrow);
+        }
         mainView.getFlowchartPanel().drawFlowchart(model.getOrder());
     }
 

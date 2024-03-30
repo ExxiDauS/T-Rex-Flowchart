@@ -1,21 +1,35 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 
-public class DecisionShape extends ContainerShape{
+public class DecisionShape extends ConditionShape {
     private int xPosition;
     private int yPosition;
+    private String condition;
+    private ArrayList<Shape> yesOrder;
+    private ArrayList<Shape> noOrder;
 
     public DecisionShape(Dimension panelSize) {
-        super();
-        xPosition = 0;  yPosition = 0;
-        clicked = false;
+        this();
         parentSize = panelSize;
+    }
+
+    public DecisionShape(ArrowComponent yesArrow, ArrowComponent noArrow) {
+        this();
+        yesOrder.add(yesArrow);
+        noOrder.add(noArrow);
     }
 
     public DecisionShape(){
         super();
         xPosition = 0;  yPosition = 0;
         clicked = false;
+        condition = "true";
+        yesOrder = new ArrayList<Shape>();
+        noOrder = new ArrayList<Shape>();
     }
 
     @Override
@@ -62,4 +76,50 @@ public class DecisionShape extends ContainerShape{
             return new Dimension(150, 70);
         }
     }
+
+    public int getxPosition() {
+        return xPosition;
+    }
+
+    public int getyPosition() {
+        return yPosition;
+    }
+
+    @Override
+    public void convertToCode(File f) {
+        if (f.exists()) {
+            f.delete();
+            try (FileWriter fw = new FileWriter(f)) {
+                String Header = "if (" + condition + ")" + " {\n";
+                fw.write(Header);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+
+    public ArrayList<Shape> getYesOrder() {
+        return yesOrder;
+    }
+
+    public ArrayList<Shape> getNoOrder() {
+        return noOrder;
+    }
+
+    public static void main(String[] args) {
+        JFrame fr = new JFrame();
+        fr.setLayout(null);
+        fr.setSize(600,600);
+        DecisionShape decisionShape = new DecisionShape();
+        decisionShape.setLocation(fr.getWidth()/2, 10);
+        fr.add(decisionShape);
+        fr.setLocationRelativeTo(null);
+        fr.setVisible(true);
+        fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
 }

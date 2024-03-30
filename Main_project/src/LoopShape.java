@@ -1,13 +1,17 @@
+import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 
-public class LoopShape extends ContainerShape{
+public class LoopShape extends ConditionShape {
     private int xPosition;
     private int yPosition;
+    private ArrayList<Shape> trueOrder;
 
     public LoopShape(Dimension panelSize) {
-        super();
-        xPosition = 0;  yPosition = 0;
-        clicked = false;
+        this();
         parentSize = panelSize;
     }
 
@@ -15,6 +19,8 @@ public class LoopShape extends ContainerShape{
         super();
         xPosition = 0;  yPosition = 0;
         clicked = false;
+        trueOrder = new ArrayList<Shape>();
+        condition = "true";
     }
 
     @Override
@@ -52,6 +58,19 @@ public class LoopShape extends ContainerShape{
         drawCenteredString(g2, "While", new Rectangle(getWidth(), getHeight()), f);
     }
 
+    public void drawSubFlowchart(ArrayList<Shape> order) {
+        int runningX = getWidth()/2;
+        int runningY = 10;
+        for (Shape shape : order) {
+            int shapeWidth = (int)shape.getPreferredSize().getWidth();
+            int shapeHeight = (int)shape.getPreferredSize().getHeight();
+            shape.setBounds(runningX-(shapeWidth/2), runningY, shapeWidth, shapeHeight);
+            add(shape);
+            runningY += shapeHeight;
+            repaint();
+        }
+    }
+
     @Override
     public Dimension getPreferredSize() {
         if (!isInFlowchart()){
@@ -60,5 +79,58 @@ public class LoopShape extends ContainerShape{
         else {
             return new Dimension(150, 70);
         }
+    }
+
+
+
+    @Override
+    public void convertToCode(File f) {
+        if (f.exists()){
+            try(FileWriter fw = new FileWriter(f,true)) {
+                String header = "while (" + condition + ") {\n";
+                fw.write(header);
+            }
+            catch(IOException iex) {
+                iex.printStackTrace();
+            }
+            convertSubCode(trueOrder, f);
+            try(FileWriter fw = new FileWriter(f,true)) {
+                fw.write("}");
+            }
+            catch(IOException iex) {
+                iex.printStackTrace();
+            }
+
+
+        }
+
+    }
+
+    @Override
+    public void convertSubCode(ArrayList<Shape> order, File f) {
+        for (Shape shape : order) {
+            if (!shape.getClass().equals(new ArrowComponent().getClass())) {
+                shape.convertToCode(f);
+                System.out.println(shape.getClass());
+            }
+        }
+    }
+
+    public ArrayList<Shape> getTrueOrder() {
+        return trueOrder;
+    }
+
+    public static void main(String[] args) {
+        JFrame fr = new JFrame();
+        fr.setLayout(null);
+        LoopShape loopShape = new LoopShape();
+        loopShape.getTrueOrder().add(new ArrowComponent());
+        loopShape.getTrueOrder().add(new ProcessShape());
+        loopShape.setBounds(0,0,150, 70);
+        fr.add(loopShape);
+        fr.setSize(1000,1000);
+        fr.setLocationRelativeTo(null);
+        fr.setVisible(true);
+        fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }
