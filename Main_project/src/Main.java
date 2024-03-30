@@ -1,6 +1,13 @@
-import java.util.*;
 public class Main {
     public static void main(String[] args) {
-        new Flowchart();
+        ConsoleController con = new ConsoleController();
+        con.whenRunClicked();
+        con.whenRunClicked();
+        con.whenRunClicked();
+        con.whenRunClicked();
+        con.whenRunClicked();
+        con.whenRunClicked();
+        con.whenRunClicked();
+        con.whenRunClicked();
     }
 }
