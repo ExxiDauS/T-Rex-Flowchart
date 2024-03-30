@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class DecisionShape extends ConditionShape {
+public class DecisionShape extends ActionShape implements drawFlowchartable{
     private int xPosition;
     private int yPosition;
     private String condition;
@@ -77,6 +77,64 @@ public class DecisionShape extends ConditionShape {
         }
     }
 
+    public int addNonDrawable(Shape shape, int runningX, int runningY, JPanel panel) {
+        int shapeWidth = (int)shape.getPreferredSize().getWidth();
+        int shapeHeight = (int)shape.getPreferredSize().getHeight();
+        shape.setBounds(runningX-(shapeWidth/2), runningY, shapeWidth, shapeHeight);
+        panel.add(shape);
+        runningY += shapeHeight;
+        return runningY;
+    }
+
+    @Override
+    public JPanel drawFlowchart() {
+        DecisionFlow panel = new DecisionFlow(this);
+        int yesRunningX = ((panel.getWidth()/2)-75)-getWidth();
+        int yesRunningY = 35+1;
+        ArrowComponent yesLastArrow = null;
+        for (Shape shape : yesOrder) {
+            boolean isDrawFlowchartable = shape instanceof drawFlowchartable;
+            if (!isDrawFlowchartable) {
+                if (shape.getClass().equals(new ArrowComponent().getClass())) {
+                    yesLastArrow = (ArrowComponent) shape;
+                    yesLastArrow.setArrowHeight(80);
+                }
+                yesRunningY = addNonDrawable(shape, yesRunningX, yesRunningY, panel);
+            }
+            else {
+                DecisionShape castShape = (DecisionShape)shape;
+                JPanel Panel = castShape.drawFlowchart();
+                int shapeWidth = Panel.getWidth();
+                int shapeHeight = Panel.getHeight();
+                Panel.setLocation(yesRunningX-(shapeWidth/2), yesRunningY);
+                panel.add(Panel);
+                yesRunningY += shapeHeight;
+            }
+        }
+
+
+        int noRunningX = ((panel.getWidth()/2)+75)+getWidth();
+        int noRunningY = 35+1;
+        ArrowComponent noLastArrow = null;
+        for (Shape shape : noOrder) {
+            if (shape.getClass().equals(new ArrowComponent().getClass())) {
+                noLastArrow = (ArrowComponent) shape;
+                noLastArrow.setArrowHeight(80);
+            }
+            noRunningY = addNonDrawable(shape, noRunningX, noRunningY, panel);
+        }
+        int flowchartMaxY = Math.max(yesRunningY, noRunningY);
+        panel.setFlowchartMaxY(flowchartMaxY);
+        if (flowchartMaxY == yesRunningY) {
+            noLastArrow.setArrowHeight(noLastArrow.getArrowHeight()+(yesRunningY-noRunningY));
+        }else if (flowchartMaxY == noRunningY) {
+            yesLastArrow.setArrowHeight(yesLastArrow.getArrowHeight()+(noRunningY-yesRunningY));
+        }
+        panel.setSize(panel.getWidth(), flowchartMaxY);
+        panel.repaint();
+        return panel;
+    }
+
     public int getxPosition() {
         return xPosition;
     }
@@ -96,8 +154,6 @@ public class DecisionShape extends ConditionShape {
             catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
 
@@ -112,11 +168,13 @@ public class DecisionShape extends ConditionShape {
 
     public static void main(String[] args) {
         JFrame fr = new JFrame();
-        fr.setLayout(null);
+        fr.setLayout(new FlowLayout());
         fr.setSize(600,600);
-        DecisionShape decisionShape = new DecisionShape();
-        decisionShape.setLocation(fr.getWidth()/2, 10);
-        fr.add(decisionShape);
+        DecisionShape decisionShape = new DecisionShape(new ArrowComponent(80), new ArrowComponent(80));
+        JPanel panel = decisionShape.drawFlowchart();
+        fr.add(panel);
+        System.out.println(panel.getWidth());
+//        fr.add(new ArrowComponent(80));
         fr.setLocationRelativeTo(null);
         fr.setVisible(true);
         fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

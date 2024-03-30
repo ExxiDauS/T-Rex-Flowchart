@@ -5,10 +5,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class LoopShape extends ConditionShape {
+public class LoopShape extends ActionShape {
     private int xPosition;
     private int yPosition;
     private ArrayList<Shape> trueOrder;
+    private String condition;
 
     public LoopShape(Dimension panelSize) {
         this();
@@ -93,7 +94,6 @@ public class LoopShape extends ConditionShape {
             catch(IOException iex) {
                 iex.printStackTrace();
             }
-            convertSubCode(trueOrder, f);
             try(FileWriter fw = new FileWriter(f,true)) {
                 fw.write("}");
             }
@@ -106,31 +106,8 @@ public class LoopShape extends ConditionShape {
 
     }
 
-    @Override
-    public void convertSubCode(ArrayList<Shape> order, File f) {
-        for (Shape shape : order) {
-            if (!shape.getClass().equals(new ArrowComponent().getClass())) {
-                shape.convertToCode(f);
-                System.out.println(shape.getClass());
-            }
-        }
-    }
-
     public ArrayList<Shape> getTrueOrder() {
         return trueOrder;
     }
 
-    public static void main(String[] args) {
-        JFrame fr = new JFrame();
-        fr.setLayout(null);
-        LoopShape loopShape = new LoopShape();
-        loopShape.getTrueOrder().add(new ArrowComponent());
-        loopShape.getTrueOrder().add(new ProcessShape());
-        loopShape.setBounds(0,0,150, 70);
-        fr.add(loopShape);
-        fr.setSize(1000,1000);
-        fr.setLocationRelativeTo(null);
-        fr.setVisible(true);
-        fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    }
 }

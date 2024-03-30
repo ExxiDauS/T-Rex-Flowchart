@@ -5,6 +5,7 @@ import java.io.*;
 public class OutputShape extends ActionShape{
     private int xPosition;
     private int yPosition;
+    private String message;
 
     public OutputShape(Dimension panelSize) {
         super();
@@ -61,6 +62,15 @@ public class OutputShape extends ActionShape{
         }
         else {
             return new Dimension(150, 50);
+        }
+    }
+
+    @Override
+    public void convertToCode(File f) {
+        try(FileWriter fw = new FileWriter(f)){
+            fw.write("System.out.println("+message+");");
+        }catch(IOException ioe){
+            ioe.printStackTrace();
         }
     }
 }

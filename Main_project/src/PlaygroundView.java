@@ -28,8 +28,8 @@ public class PlaygroundView extends JFrame{
         toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         Dimension fixedScreenSize = new Dimension((int)screenSize.getWidth(), (int)screenSize.getHeight()-48);
-//        this.setSize(fixedScreenSize);
-        this.setSize(1366, 768-48);
+        this.setSize(fixedScreenSize);
+//        this.setSize(1366, 768-48);
 
         topBarPanel = new TopBarPanel();
         dp = new JDesktopPane();

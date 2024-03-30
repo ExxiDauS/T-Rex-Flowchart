@@ -5,8 +5,9 @@ import java.io.*;
 public class ProcessShape extends ActionShape{
     private int xPosition;
     private int yPosition;
-    private String variableName;
-    private String value;
+    private String varName;
+    private String varValue;
+    private boolean isNewVar;
 
     public ProcessShape(Dimension panelSize) {
         super();
@@ -19,8 +20,8 @@ public class ProcessShape extends ActionShape{
         super();
         xPosition = 0;  yPosition = 0;
         clicked = false;
-        this.variableName = variableName;
-        this.value = value;
+        this.varName = variableName;
+        this.varValue = value;
     }
 
     public ProcessShape() {
@@ -71,8 +72,11 @@ public class ProcessShape extends ActionShape{
 
     @Override
     public void convertToCode(File f) {
-        try(FileWriter fw = new FileWriter(f, true)){
-            fw.write(variableName + " = " + value + ";\n");
+        try(FileWriter fw = new FileWriter(f)){
+            if(isNewVar){
+                fw.write("Object" + varName + ";\n");
+            }
+            fw.write(varName + " = " + varValue + ";\n");
         }catch(IOException ioe){
             ioe.printStackTrace();
         }

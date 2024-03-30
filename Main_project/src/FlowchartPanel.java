@@ -35,9 +35,8 @@ public class FlowchartPanel extends JPanel{
         int runningY = 10;
         Rectangle bounds = new Rectangle();
         for (Shape shape : order) {
-            boolean isConditionShape = ConditionShape.class.isAssignableFrom(shape.getClass());
-            boolean isDecisionShape = shape.getClass().equals(new DecisionShape().getClass());
-            if (!isConditionShape) {
+            boolean isDrawFlowchartable = shape instanceof drawFlowchartable;
+            if (!isDrawFlowchartable) {
                 int shapeWidth = (int)shape.getPreferredSize().getWidth();
                 int shapeHeight = (int)shape.getPreferredSize().getHeight();
                 shape.setBounds(runningX-(shapeWidth/2), runningY, shapeWidth, shapeHeight);
@@ -45,24 +44,19 @@ public class FlowchartPanel extends JPanel{
                 runningY += shapeHeight;
                 bounds = shape.getBounds();
             }
-            else if (isDecisionShape) {
-                DecisionFlow decisionFlow = new DecisionFlow((DecisionShape) shape);
-                decisionFlow.drawFlowchart();
-                int shapeWidth = decisionFlow.getWidth();
-                int shapeHeight = decisionFlow.getHeight();
-                decisionFlow.setLocation(runningX-(shapeWidth/2), runningY);
-                add(decisionFlow);
+            else {
+                DecisionShape castShape = (DecisionShape)shape;
+                JPanel Panel = castShape.drawFlowchart();
+                int shapeWidth = Panel.getWidth();
+                int shapeHeight = Panel.getHeight();
+                Panel.setLocation(runningX-(shapeWidth/2), runningY);
+                add(Panel);
                 runningY += shapeHeight;
-                bounds = decisionFlow.getBounds();
+                bounds = Panel.getBounds();
             }
             repaint();
             checkBoundsAndAdjustPanel(bounds);
         }
-    }
-
-    public void shapeDelete(ActionShape shape, ArrowComponent arrow) {
-        remove(shape);
-        remove(arrow);
     }
 
     public void paintCurrentShape(ArrayList<Shape> order) {}

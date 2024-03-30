@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class DecisionFlow extends JPanel{
     private DecisionShape mainShape;
-    private boolean flowchartDrawn;
     private int flowchartMaxY;
 
     public DecisionFlow(DecisionShape mainShape) {
@@ -15,9 +14,8 @@ public class DecisionFlow extends JPanel{
         setLayout(null);
         setOpaque(false);
         add(mainShape);
-        setSize(750, 700);
+        setSize(750,210);
         mainShape.setBounds(getWidth()/2-75,0,150,70);
-        flowchartDrawn = false;
     }
 
     @Override
@@ -37,89 +35,70 @@ public class DecisionFlow extends JPanel{
         g2.drawLine((getWidth()/2), flowchartMaxY,(getWidth()/2+(mainShape.getWidth()/2))+150,flowchartMaxY);
     }
 
-    public void checkBoundsAndAdjustPanel(Rectangle shapeBounds) {
-        Rectangle bounds = shapeBounds;
-        Dimension panelSize = getPreferredSize();
-
-        int newX = Math.min(bounds.x, 0);
-        int newY = Math.min(bounds.y, 0);
-        int newWidth = Math.max(panelSize.width, bounds.x + bounds.width - newX);
-        int newHeight = Math.max(panelSize.height, bounds.y + bounds.height - newY);
-
-        if (newWidth != panelSize.width || newHeight != panelSize.height || newX < 0 || newY < 0) {
-            setSize(new Dimension(newWidth+50, newHeight+50));
-        }
-    }
-
-    public void drawFlowchart() {
-        int yesRunningX = ((getWidth()/2)-75)-mainShape.getWidth();
-        int yesRunningY = 35+1;
-        ArrowComponent yesLastArrow = null;
-        Rectangle bounds = new Rectangle();
-        for (Shape shape : mainShape.getYesOrder()) {
-            boolean isConditionShape = ConditionShape.class.isAssignableFrom(shape.getClass());
-            boolean isDecisionShape = shape.getClass().equals(new DecisionShape().getClass());
-            if (!isConditionShape) {
-                if (shape.getClass().equals(new ArrowComponent().getClass())) {
-                    yesLastArrow = (ArrowComponent) shape;
-                    yesLastArrow.setArrowHeight(40);
-                }
-                int shapeWidth = (int)shape.getPreferredSize().getWidth();
-                int shapeHeight = (int)shape.getPreferredSize().getHeight();
-                shape.setBounds(yesRunningX-(shapeWidth/2), yesRunningY, shapeWidth, shapeHeight);
-                add(shape);
-                yesRunningY += shapeHeight;
-                bounds = shape.getBounds();
-            }
-            else if (isDecisionShape) {
-                DecisionFlow decisionFlow = new DecisionFlow((DecisionShape) shape);
-                decisionFlow.drawFlowchart();
-                int shapeWidth = decisionFlow.getWidth();
-                int shapeHeight = decisionFlow.getHeight();
-                decisionFlow.setLocation(yesRunningX-(shapeWidth/2), yesRunningY);
-                add(decisionFlow);
-                yesRunningY += shapeHeight;
-                bounds = decisionFlow.getBounds();
-            }
-            checkBoundsAndAdjustPanel(bounds);
-        }
-        int noRunningX = ((getWidth()/2)+75)+mainShape.getWidth();
-        int noRunningY = 35+1;
-        ArrowComponent noLastArrow = null;
-        for (Shape shape : mainShape.getNoOrder()) {
-            boolean isConditionShape = ConditionShape.class.isAssignableFrom(shape.getClass());
-            boolean isDecisionShape = shape.getClass().equals(new DecisionShape().getClass());
-            if (!isConditionShape) {
-                if (shape.getClass().equals(new ArrowComponent().getClass())) {
-                    noLastArrow = (ArrowComponent) shape;
-                    noLastArrow.setArrowHeight(40);
-                }
-                int shapeWidth = (int)shape.getPreferredSize().getWidth();
-                int shapeHeight = (int)shape.getPreferredSize().getHeight();
-                shape.setBounds(noRunningX-(shapeWidth/2), noRunningY, shapeWidth, shapeHeight);
-                add(shape);
-                noRunningY += shapeHeight;
-            }
-            else if (isDecisionShape) {
-                DecisionFlow decisionFlow = new DecisionFlow((DecisionShape) shape);
-                decisionFlow.drawFlowchart();
-                int shapeWidth = decisionFlow.getWidth();
-                int shapeHeight = decisionFlow.getHeight();
-                decisionFlow.setLocation(noRunningX-(shapeWidth/2), noRunningY);
-                add(decisionFlow);
-                noRunningY += shapeHeight;
-            }
-        }
-        flowchartMaxY = Math.max(yesRunningY, noRunningY);
-        if (flowchartMaxY == yesRunningY) {
-            noLastArrow.setArrowHeight(noLastArrow.getArrowHeight()+(yesRunningY-noRunningY));
-        }else if (flowchartMaxY == noRunningY) {
-            yesLastArrow.setArrowHeight(yesLastArrow.getArrowHeight()+(noRunningY-yesRunningY));
-        }
-        System.out.println(getSize());
-        setSize(getWidth(), flowchartMaxY);
-        repaint();
-    }
+//    public JPanel drawFlowchart() {
+//        int yesRunningX = ((getWidth()/2)-75)-mainShape.getWidth();
+//        int yesRunningY = 35+1;
+//        ArrowComponent yesLastArrow = null;
+//        for (Shape shape : mainShape.getYesOrder()) {
+//            boolean isConditionShape = ConditionShape.class.isAssignableFrom(shape.getClass());
+//            boolean isDecisionShape = shape.getClass().equals(new DecisionShape().getClass());
+//            if (!isConditionShape) {
+//                if (shape.getClass().equals(new ArrowComponent().getClass())) {
+//                    yesLastArrow = (ArrowComponent) shape;
+//                    yesLastArrow.setArrowHeight(80);
+//                }
+//                int shapeWidth = (int)shape.getPreferredSize().getWidth();
+//                int shapeHeight = (int)shape.getPreferredSize().getHeight();
+//                shape.setBounds(yesRunningX-(shapeWidth/2), yesRunningY, shapeWidth, shapeHeight);
+//                add(shape);
+//                yesRunningY += shapeHeight;
+//            }
+//            else if (isDecisionShape) {
+//                DecisionFlow decisionFlow = new DecisionFlow((DecisionShape) shape);
+//                decisionFlow.drawFlowchart();
+//                int shapeWidth = decisionFlow.getWidth();
+//                int shapeHeight = decisionFlow.getHeight();
+//                decisionFlow.setLocation(yesRunningX-(shapeWidth/2), yesRunningY);
+//                add(decisionFlow);
+//                yesRunningY += shapeHeight;
+//            }
+//        }
+//        int noRunningX = ((getWidth()/2)+75)+mainShape.getWidth();
+//        int noRunningY = 35+1;
+//        ArrowComponent noLastArrow = null;
+//        for (Shape shape : mainShape.getNoOrder()) {
+//            boolean isConditionShape = ConditionShape.class.isAssignableFrom(shape.getClass());
+//            boolean isDecisionShape = shape.getClass().equals(new DecisionShape().getClass());
+//            if (!isConditionShape) {
+//                if (shape.getClass().equals(new ArrowComponent().getClass())) {
+//                    noLastArrow = (ArrowComponent) shape;
+//                    noLastArrow.setArrowHeight(80);
+//                }
+//                int shapeWidth = (int)shape.getPreferredSize().getWidth();
+//                int shapeHeight = (int)shape.getPreferredSize().getHeight();
+//                shape.setBounds(noRunningX-(shapeWidth/2), noRunningY, shapeWidth, shapeHeight);
+//                add(shape);
+//                noRunningY += shapeHeight;
+//            }
+//            else if (isDecisionShape) {
+//                DecisionFlow decisionFlow = new DecisionFlow((DecisionShape) shape);
+//                decisionFlow.drawFlowchart();
+//                int shapeWidth = decisionFlow.getWidth();
+//                int shapeHeight = decisionFlow.getHeight();
+//                decisionFlow.setLocation(noRunningX-(shapeWidth/2), noRunningY);
+//                add(decisionFlow);
+//                noRunningY += shapeHeight;
+//            }
+//        }
+//        flowchartMaxY = Math.max(yesRunningY, noRunningY);
+//        if (flowchartMaxY == yesRunningY) {
+//            noLastArrow.setArrowHeight(noLastArrow.getArrowHeight()+(yesRunningY-noRunningY));
+//        }else if (flowchartMaxY == noRunningY) {
+//            yesLastArrow.setArrowHeight(yesLastArrow.getArrowHeight()+(noRunningY-yesRunningY));
+//        }
+//        setSize(getWidth(), flowchartMaxY);
+//        return this;
+//    }
 
     public DecisionShape getMainShape() {
         return mainShape;
@@ -127,8 +106,12 @@ public class DecisionFlow extends JPanel{
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(750, 700);
+        return new Dimension(750, 140);
     }
+    public void setFlowchartMaxY(int maxY) {
+        this.flowchartMaxY = maxY;
+    }
+
 
     public static void main(String[] args) {
         JFrame fr = new JFrame();
@@ -141,7 +124,7 @@ public class DecisionFlow extends JPanel{
         decisionShape.getYesOrder().add(new ArrowComponent(80));
         decisionShape.getNoOrder().add(new ArrowComponent(80));
 
-        df.drawFlowchart();
+//        df.drawFlowchart();
         fr.add(df);
         fr.pack();
         fr.setLocationRelativeTo(null);
