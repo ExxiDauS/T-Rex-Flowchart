@@ -12,6 +12,12 @@ public class ProcessShape extends ActionShape{
         parentSize = panelSize;
     }
 
+    public ProcessShape() {
+        super();
+        xPosition = 0;  yPosition = 0;
+        clicked = false;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -19,12 +25,13 @@ public class ProcessShape extends ActionShape{
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         Font f = new Font("Montserrat", Font.PLAIN, 18);
-
+        Color highlighted = new Color(0, 150, 136);
+        Color identical = new Color(255,193,7);
         if(!clicked) {
             g2.setColor(Color.BLACK);
         }
         else {
-            g2.setColor(new Color(255, 193, 7));
+            g2.setColor(identical);
         }
 
         g2.drawRoundRect(xPosition, yPosition, getWidth()-1, getHeight()-1, 10, 10);
@@ -36,7 +43,7 @@ public class ProcessShape extends ActionShape{
             g2.setColor(Color.BLACK);
         }
         else {
-            g2.setColor(new Color(255, 193, 7));
+            g2.setColor(identical);
         }
 
         g2.setFont(f);
@@ -45,6 +52,11 @@ public class ProcessShape extends ActionShape{
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension((int)parentSize.getWidth()/2, (int)(parentSize.getHeight()/6));
+        if (!isInFlowchart()){
+            return new Dimension((int)parentSize.getWidth()/2, (int)(parentSize.getHeight()/6));
+        }
+        else {
+            return new Dimension(150, 60);
+        }
     }
 }

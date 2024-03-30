@@ -30,6 +30,7 @@ public class ShapePanel extends JPanel{
         setBackground(new Color(234,234,234));
         setBorder(new LineBorder(new Color(204, 204, 204)));
 
+
         //layout setting
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
