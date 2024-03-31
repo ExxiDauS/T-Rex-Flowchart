@@ -1,6 +1,8 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 
 public class FlowchartController implements ActionListener, WindowListener, MouseListener{
@@ -10,8 +12,10 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     private LoginViewController loginViewController;
     private ActionShape currentTool;
     private ActionShape current;
-    private ActionShape currentShapeSelected;
     private boolean deleteToggle;
+    private StartShape start;
+    private ArrowComponent firstArrow;
+    private EndShape end;
     public FlowchartController() {
         model = new FlowchartModel();
         mainView = new PlaygroundView();
@@ -22,23 +26,25 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         current = null;
         currentTool = null;
-        currentShapeSelected = null;
         deleteToggle = false;
         mainView.getToolPanel().getRunButton().addActionListener(this);
         mainView.getToolPanel().getLoginButton().addActionListener(this);
         mainView.getToolPanel().getDeleteToggleBtn().addActionListener(this);
+        mainView.getToolPanel().getSaveBtn().addActionListener(this);
+        mainView.getToolPanel().getLoadBtn().addActionListener(this);
         mainView.getShapePanel().getProcessShape().addMouseListener(this);
         mainView.getShapePanel().getInputShape().addMouseListener(this);
         mainView.getShapePanel().getOutputShape().addMouseListener(this);
         mainView.getShapePanel().getDecisionShape().addMouseListener(this);
         mainView.getShapePanel().getLoopShape().addMouseListener(this);
 
-        model.getOrder().add(new StartShape());
-        ArrowComponent firstArrow = new ArrowComponent();
+        start = new StartShape();
+        firstArrow = new ArrowComponent();
         firstArrow.addMouseListener(this);
+        end = new EndShape();
+        model.getOrder().add(start);
         model.getOrder().add(firstArrow);
-        model.getOrder().add(new EndShape());
-
+        model.getOrder().add(end);
         mainView.getFlowchartPanel().drawFlowchart(model.getOrder());
     }
 
@@ -56,6 +62,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     }
 
     public void runFlowchart() {
+//        model.saveModel();
         //run flowchart
     }
     public void addShape() {
@@ -113,7 +120,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
                 repeatOrder.add(index+1, newShape);
                 repeatOrder.add(index+2, newArrow);
             } else {
-                System.out.println("you fuck up not found to add");
+                System.out.println("Error");
             }
         }
         else {
@@ -160,10 +167,27 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         mainView.getFlowchartPanel().drawFlowchart(model.getOrder());
     }
 
+    public void listenToNewModel(Shape shape) {
+        shape.addMouseListener(this);
+        if (shape instanceof DecisionShape) {
+            for (Shape innerShape : ((DecisionShape) shape).getYesOrder()) {
+                listenToNewModel(innerShape);
+            }
+            for (Shape innerShape : ((DecisionShape) shape).getNoOrder()) {
+                listenToNewModel(innerShape);
+            }
+        }
+        else if (shape instanceof LoopShape) {
+            for (Shape innerShape : ((LoopShape) shape).getRepeatOrder()) {
+                listenToNewModel(innerShape);
+            }
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource().equals(mainView.getToolPanel().getRunButton())) {
-            runFlowchart();
+//            runFlowchart();
         }
         else if (ae.getSource().equals(mainView.getToolPanel().getLoginButton())) {
             loginViewController = new LoginViewController(model);
@@ -178,8 +202,36 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
             }
             else {
                 pointer.setText("Delete: OFF");
-                pointer.setColor(new Color(0,102,204));
+                pointer.setColor(new Color(0,150,136));
             }
+        }
+        else if (ae.getSource().equals(mainView.getToolPanel().getSaveBtn())) {
+            JFileChooser fc = new JFileChooser("Main_project//src//save//");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("TVSC", "tvsc");
+            fc.setFileFilter(filter);
+            File f;
+            int result = fc.showSaveDialog(mainView);
+            if (String.valueOf(fc.getSelectedFile()).contains(".tvsc")) {
+                f = new File(String.valueOf(fc.getSelectedFile()));
+            } else {
+                f = new File(String.valueOf(fc.getSelectedFile()) + ".tvsc");
+            }
+            if (result == JFileChooser.APPROVE_OPTION) {
+                model.saveModel(f);
+            }
+        }
+        else if (ae.getSource().equals(mainView.getToolPanel().getLoadBtn())) {
+            JFileChooser fc = new JFileChooser("Main_project//src//save//");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("TVSC", "tvsc");
+            fc.setFileFilter(filter);
+            fc.showOpenDialog(mainView);
+            File f = fc.getSelectedFile();
+            model.loadModel(f);
+            for (Shape shape : model.getOrder()) {
+                boolean isStarter = (shape.equals(start) || shape.equals(firstArrow) || shape.equals(end));
+                if (!isStarter) {listenToNewModel(shape);}
+            }
+            mainView.getFlowchartPanel().drawFlowchart(model.getOrder());
         }
     }
 

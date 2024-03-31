@@ -2,7 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.*;
 
-public abstract class Shape extends JPanel {
+public abstract class Shape extends JPanel implements Serializable{
     protected Dimension parentSize;
     public Shape() {
         setOpaque(false);

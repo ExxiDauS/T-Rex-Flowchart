@@ -117,7 +117,7 @@ public class LoopShape extends ActionShape implements DrawFlowchartable {
     public JPanel drawFlowchart() {
         LoopFlow panel = new LoopFlow(this);
         int runningX = (panel.getWidth()/2);
-        int runningY = 35+1;
+        int runningY = 70+1;
         ArrowComponent noLastArrow = null;
         for (Shape shape : repeatOrder) {
             boolean isDrawFlowchartable = shape instanceof DrawFlowchartable;

@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 
 public class FlowchartModel {
@@ -41,6 +42,27 @@ public class FlowchartModel {
 
     public ArrayList<Shape> getOrder() {
         return order;
+    }
+
+    public void loadModel(File f) {
+        if (f.exists()) {
+            try(FileInputStream fin = new FileInputStream(f);
+                ObjectInputStream oin = new ObjectInputStream(fin);) {
+                ArrayList<Shape> landing = (ArrayList<Shape>) oin.readObject();
+                order = landing;
+            } catch (IOException|ClassNotFoundException iex) {
+                iex.printStackTrace();
+            }
+        }
+    }
+
+    public void saveModel(File f) {
+        try(FileOutputStream fout = new FileOutputStream(f);
+            ObjectOutputStream oout = new ObjectOutputStream(fout);) {
+            oout.writeObject(order);
+        } catch (IOException iex) {
+            iex.printStackTrace();
+        }
     }
 }
 

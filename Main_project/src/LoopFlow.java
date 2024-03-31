@@ -42,7 +42,6 @@ public class LoopFlow extends SubFlow{
     }
 
 
-
     public LoopShape getMainShape() {
         return mainShape;
     }
