@@ -195,7 +195,7 @@ public class DecisionShape extends ActionShape implements drawFlowchartable{
                 e.printStackTrace();
             }
             for (Shape shape : yesOrder) {
-                shape.convertToCode(f);
+                if (!shape.getClass().equals(ArrowComponent.class)) {shape.convertToCode(f);}
             }
             try (FileWriter fw = new FileWriter(f,true)) {
                 fw.write("} else {\n");
@@ -204,7 +204,7 @@ public class DecisionShape extends ActionShape implements drawFlowchartable{
                 e.printStackTrace();
             }
             for (Shape shape : noOrder) {
-                shape.convertToCode(f);
+                if (!shape.getClass().equals(ArrowComponent.class)) {shape.convertToCode(f);}
             }
             try (FileWriter fw = new FileWriter(f,true)) {
                 fw.write("}\n");
@@ -215,26 +215,4 @@ public class DecisionShape extends ActionShape implements drawFlowchartable{
         }
     }
 
-    public static void main(String[] args) {
-        File f = new File("test.txt");
-        DecisionShape shape = new DecisionShape();
-        DecisionShape subShape = new DecisionShape();
-
-        shape.getYesOrder().add(new ProcessShape("A","5"));
-        shape.getYesOrder().add(new ProcessShape("B","3"));
-
-        shape.getNoOrder().add(new ProcessShape("C","1"));
-        shape.getNoOrder().add(new ProcessShape("D","8"));
-
-
-        subShape.getYesOrder().add(new ProcessShape("E","54"));
-        subShape.getYesOrder().add(new ProcessShape("F","74"));
-
-        subShape.getNoOrder().add(new ProcessShape("G","22"));
-        subShape.getNoOrder().add(new ProcessShape("H","242"));
-
-        shape.getYesOrder().add(subShape);
-
-        shape.convertToCode(f);
-    }
 }

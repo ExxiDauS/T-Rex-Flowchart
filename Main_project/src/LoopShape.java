@@ -8,8 +8,9 @@ import java.util.ArrayList;
 public class LoopShape extends ActionShape {
     private int xPosition;
     private int yPosition;
-    private ArrayList<Shape> trueOrder;
+    private ArrayList<Shape> repeatOrder;
     private String condition;
+    private int nestedLevel;
 
     public LoopShape(Dimension panelSize) {
         this();
@@ -20,7 +21,7 @@ public class LoopShape extends ActionShape {
         super();
         xPosition = 0;  yPosition = 0;
         clicked = false;
-        trueOrder = new ArrayList<Shape>();
+        repeatOrder = new ArrayList<Shape>();
         condition = "true";
     }
 
@@ -59,18 +60,6 @@ public class LoopShape extends ActionShape {
         drawCenteredString(g2, "While", new Rectangle(getWidth(), getHeight()), f);
     }
 
-    public void drawSubFlowchart(ArrayList<Shape> order) {
-        int runningX = getWidth()/2;
-        int runningY = 10;
-        for (Shape shape : order) {
-            int shapeWidth = (int)shape.getPreferredSize().getWidth();
-            int shapeHeight = (int)shape.getPreferredSize().getHeight();
-            shape.setBounds(runningX-(shapeWidth/2), runningY, shapeWidth, shapeHeight);
-            add(shape);
-            runningY += shapeHeight;
-            repaint();
-        }
-    }
 
     @Override
     public Dimension getPreferredSize() {
@@ -86,28 +75,28 @@ public class LoopShape extends ActionShape {
 
     @Override
     public void convertToCode(File f) {
-        if (f.exists()){
-            try(FileWriter fw = new FileWriter(f,true)) {
-                String header = "while (" + condition + ") {\n";
-                fw.write(header);
+        if (f.exists()) {
+            try (FileWriter fw = new FileWriter(f,true)) {
+                String Header = "while (" + condition + ")" + " {\n";
+                fw.write(Header);
             }
-            catch(IOException iex) {
-                iex.printStackTrace();
+            catch (IOException e) {
+                e.printStackTrace();
             }
-            try(FileWriter fw = new FileWriter(f,true)) {
-                fw.write("}");
+            for (Shape shape : repeatOrder) {
+                if (!shape.getClass().equals(ArrowComponent.class)) {shape.convertToCode(f);}
             }
-            catch(IOException iex) {
-                iex.printStackTrace();
+            try (FileWriter fw = new FileWriter(f,true)) {
+                fw.write("}\n");
             }
-
-
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
     }
 
-    public ArrayList<Shape> getTrueOrder() {
-        return trueOrder;
+    public ArrayList<Shape> getRepeatOrder() {
+        return repeatOrder;
     }
 
 }
