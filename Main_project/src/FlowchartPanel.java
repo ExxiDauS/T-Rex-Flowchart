@@ -1,5 +1,3 @@
-import org.w3c.dom.ls.LSOutput;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -37,7 +35,7 @@ public class FlowchartPanel extends JPanel{
         int runningY = 10;
         Rectangle bounds = new Rectangle();
         for (Shape shape : order) {
-            boolean isDrawFlowchartable = shape instanceof drawFlowchartable;
+            boolean isDrawFlowchartable = shape instanceof DrawFlowchartable;
             if (!isDrawFlowchartable) {
                 int shapeWidth = (int)shape.getPreferredSize().getWidth();
                 int shapeHeight = (int)shape.getPreferredSize().getHeight();
@@ -46,9 +44,18 @@ public class FlowchartPanel extends JPanel{
                 runningY += shapeHeight;
                 bounds = shape.getBounds();
             }
-            else {
+            else if (shape.getClass().equals(DecisionShape.class)){
                 DecisionShape castShape = (DecisionShape)shape;
-                JPanel Panel = castShape.drawFlowchart(this);
+                JPanel Panel = castShape.drawFlowchart();
+                int shapeWidth = Panel.getWidth();
+                int shapeHeight = Panel.getHeight();
+                Panel.setLocation(runningX-(shapeWidth/2), runningY);
+                add(Panel);
+                runningY += shapeHeight;
+                bounds = Panel.getBounds();
+            } else {
+                LoopShape castShape = (LoopShape) shape;
+                JPanel Panel = castShape.drawFlowchart();
                 int shapeWidth = Panel.getWidth();
                 int shapeHeight = Panel.getHeight();
                 Panel.setLocation(runningX-(shapeWidth/2), runningY);

@@ -55,6 +55,9 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         }
     }
 
+    public void runFlowchart() {
+        //run flowchart
+    }
     public void addShape() {
         ActionShape newShape;
         if (currentTool.getClass().equals(new ProcessShape().getClass())) {
@@ -70,7 +73,9 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
             yesArrow.addMouseListener(this);
             noArrow.addMouseListener(this);
         } else if (currentTool.getClass().equals(new LoopShape().getClass())) {
-            newShape = new LoopShape();
+            ArrowComponent firstArrow = new ArrowComponent(80);
+            newShape = new LoopShape(firstArrow);
+            firstArrow.addMouseListener(this);
         } else {
             newShape = null;
         }
@@ -80,7 +85,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
 
         if (current.getParent().getClass().equals(DecisionFlow.class)) {
             DecisionFlow pointer = (DecisionFlow) current.getParent();
-            if (newShape.getClass().equals(DecisionShape.class)){
+            if (newShape instanceof DrawFlowchartable){
                 pointer.getMainShape().nested();
             }
             ArrayList<Shape> yesOrder = pointer.getMainShape().getYesOrder();
@@ -93,6 +98,20 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
                 int index = noOrder.indexOf(current);
                 noOrder.add(index+1, newShape);
                 noOrder.add(index+2, newArrow);
+            } else {
+                System.out.println("you fuck up not found to add");
+            }
+        }
+        else if (current.getParent().getClass().equals(LoopFlow.class)) {
+            LoopFlow pointer = (LoopFlow) current.getParent();
+            if (newShape instanceof DrawFlowchartable){
+                pointer.getMainShape().nested();
+            }
+            ArrayList<Shape> repeatOrder = pointer.getMainShape().getRepeatOrder();
+            if ((repeatOrder.indexOf(current) != -1)) {
+                int index = repeatOrder.indexOf(current);
+                repeatOrder.add(index+1, newShape);
+                repeatOrder.add(index+2, newArrow);
             } else {
                 System.out.println("you fuck up not found to add");
             }
@@ -113,27 +132,32 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     }
 
     public void deleteSubShape() {
-        DecisionFlow pointer = (DecisionFlow) (current.getParent());
+        SubFlow pointer = (SubFlow) current.getParent();
         if (current.equals(pointer.getMainShape())) {
-            ((DecisionShape) current).unnested();
-            pointer = (DecisionFlow) pointer.getParent();
+            ((DrawFlowchartable) current).unnested();
+            pointer = (SubFlow) pointer.getParent();
         }
-        ArrayList<Shape> yesOrder = pointer.getMainShape().getYesOrder();
-        ArrayList<Shape> noOrder = pointer.getMainShape().getNoOrder();
-        if (yesOrder.indexOf(current) != -1) {
-            int index = yesOrder.indexOf(current);
-            yesOrder.remove(index + 1);
-            yesOrder.remove(index);
+        if (pointer instanceof DecisionFlow){
+            DecisionFlow DecisionPointer = (DecisionFlow) pointer;
+            ArrayList<Shape> yesOrder = DecisionPointer.getMainShape().getYesOrder();
+            ArrayList<Shape> noOrder = DecisionPointer.getMainShape().getNoOrder();
+            if (yesOrder.indexOf(current) != -1) {
+                int index = yesOrder.indexOf(current);
+                yesOrder.remove(index + 1);
+                yesOrder.remove(index);
+            } else {
+                int index = noOrder.indexOf(current);
+                noOrder.remove(index + 1);
+                noOrder.remove(index);
+            }
         } else {
-            int index = noOrder.indexOf(current);
-            noOrder.remove(index + 1);
-            noOrder.remove(index);
+            LoopFlow DecisionPointer = (LoopFlow) pointer;
+            ArrayList<Shape> repeatOrder = DecisionPointer.getMainShape().getRepeatOrder();
+            int index = repeatOrder.indexOf(current);
+            repeatOrder.remove(index + 1);
+            repeatOrder.remove(index);
         }
         mainView.getFlowchartPanel().drawFlowchart(model.getOrder());
-    }
-
-    public void runFlowchart() {
-        //run flowchart
     }
 
     @Override
@@ -208,7 +232,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
                 }
             }
             else {
-                boolean isDrawFlowchartable = current instanceof drawFlowchartable;
+                boolean isDrawFlowchartable = current instanceof DrawFlowchartable;
                 if (!isArrowComponent && !isDrawFlowchartable) {
                     if (current.getParent().equals(mainView.getFlowchartPanel())) {
                         deleteShape();

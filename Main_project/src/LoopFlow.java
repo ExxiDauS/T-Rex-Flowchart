@@ -1,20 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 
-public class DecisionFlow extends SubFlow{
-    private DecisionShape mainShape;
+public class LoopFlow extends SubFlow{
+    private LoopShape mainShape;
     private int flowchartMaxY;
 
-    public DecisionFlow(DecisionShape mainShape) {
+    public LoopFlow(LoopShape mainShape) {
         this.mainShape = mainShape;
         setLayout(null);
         setOpaque(false);
         add(mainShape);
-        setSize(25000,10000);
+        setSize(25000, 10000);
         mainShape.setBounds(getWidth()/2-75,0,150,70);
     }
 
@@ -28,22 +24,26 @@ public class DecisionFlow extends SubFlow{
         Font f = new Font("Montserrat", Font.PLAIN, 18);
         g2.setColor(Color.BLACK);
         g2.setFont(f);
-        int expand = 150 + (mainShape.getNestedLevel() * 20);
-        g2.drawString("Yes", (getWidth()/2-(expand/2)-48), 30);
-        g2.drawString("No", (getWidth()/2+(expand/2))+32, 30);
+        int expand = 150 + (mainShape.getNestedLevel() * 175);
+        g2.drawString("End Loop", (getWidth()/2-(expand/2)-86), 30);
+        g2.drawString("Loop", (getWidth()/2+(expand/2))+46, 30);
         g2.setStroke(new BasicStroke(2));
         g2.setColor(new Color(102,102,102));
         g2.drawLine((getWidth()/2)-(mainShape.getWidth()/2), mainShape.getHeight()/2,(getWidth()/2-(mainShape.getWidth()/2))-expand,mainShape.getHeight()/2);
         g2.drawLine((getWidth()/2)+(mainShape.getWidth()/2), mainShape.getHeight()/2,(getWidth()/2+(mainShape.getWidth()/2))+expand,mainShape.getHeight()/2);
-        g2.drawLine((getWidth()/2), flowchartMaxY-1,(getWidth()/2-(mainShape.getWidth()/2))-expand,flowchartMaxY-1);
+        g2.drawLine((getWidth()/2)+(mainShape.getWidth()/2), mainShape.getHeight()/2,(getWidth()/2)+(mainShape.getWidth()/2)+5,(mainShape.getHeight()/2)-5);
+        g2.drawLine((getWidth()/2)+(mainShape.getWidth()/2), mainShape.getHeight()/2,(getWidth()/2)+(mainShape.getWidth()/2)+5,(mainShape.getHeight()/2)+5);
         g2.drawLine((getWidth()/2), flowchartMaxY-1,(getWidth()/2+(mainShape.getWidth()/2))+expand,flowchartMaxY-1);
+        g2.drawLine((getWidth()/2), flowchartMaxY+74,(getWidth()/2-(mainShape.getWidth()/2))-expand,flowchartMaxY+74);
+        g2.drawLine((getWidth()/2+(mainShape.getWidth()/2))+expand, flowchartMaxY-1,(getWidth()/2+(mainShape.getWidth()/2))+expand,mainShape.getHeight()/2);
+        g2.drawLine((getWidth()/2-(mainShape.getWidth()/2))-expand, flowchartMaxY+74,(getWidth()/2-(mainShape.getWidth()/2))-expand,(mainShape.getHeight()/2));
         g2.setStroke(new BasicStroke(1));
         g2.setColor(Color.BLACK);
     }
 
 
 
-    public DecisionShape getMainShape() {
+    public LoopShape getMainShape() {
         return mainShape;
     }
 
@@ -58,17 +58,15 @@ public class DecisionFlow extends SubFlow{
 
     public static void main(String[] args) {
         JFrame fr = new JFrame();
-        DecisionShape decisionShape = new DecisionShape();
-        DecisionFlow df = new DecisionFlow(decisionShape);
-
-        decisionShape.getYesOrder().add(new ArrowComponent(80));
+        LoopShape loopShape = new LoopShape();
+        LoopFlow loopFlow = new LoopFlow(loopShape);
+        loopShape.getRepeatOrder().add(new ArrowComponent(80));
 //        decisionShape.getYesOrder().add(new DecisionShape(new ArrowComponent(80),new ArrowComponent(80)));
-
-        decisionShape.getYesOrder().add(new ArrowComponent(80));
-        decisionShape.getNoOrder().add(new ArrowComponent(80));
+        loopShape.getRepeatOrder().add(new ArrowComponent(80));
+        loopShape.getRepeatOrder().add(new ArrowComponent(80));
 
 //        df.drawFlowchart();
-        fr.add(df);
+        fr.add(loopFlow);
         fr.pack();
         fr.setLocationRelativeTo(null);
         fr.setVisible(true);

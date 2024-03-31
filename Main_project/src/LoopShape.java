@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class LoopShape extends ActionShape {
+public class LoopShape extends ActionShape implements DrawFlowchartable {
     private int xPosition;
     private int yPosition;
     private ArrayList<Shape> repeatOrder;
@@ -17,11 +17,17 @@ public class LoopShape extends ActionShape {
         parentSize = panelSize;
     }
 
+    public LoopShape(ArrowComponent firstArrow) {
+        this();
+        repeatOrder.add(firstArrow);
+    }
+
     public LoopShape() {
         super();
         xPosition = 0;  yPosition = 0;
         clicked = false;
         repeatOrder = new ArrayList<Shape>();
+        nestedLevel = 0;
         condition = "true";
     }
 
@@ -71,8 +77,6 @@ public class LoopShape extends ActionShape {
         }
     }
 
-
-
     @Override
     public void convertToCode(File f) {
         if (f.exists()) {
@@ -99,4 +103,74 @@ public class LoopShape extends ActionShape {
         return repeatOrder;
     }
 
+    @Override
+    public int addNonDrawable(Shape shape, int runningX, int runningY, JPanel panel) {
+        int shapeWidth = (int)shape.getPreferredSize().getWidth();
+        int shapeHeight = (int)shape.getPreferredSize().getHeight();
+        shape.setBounds(runningX-(shapeWidth/2), runningY, shapeWidth, shapeHeight);
+        panel.add(shape);
+        runningY += shapeHeight;
+        return runningY;
+    }
+
+    @Override
+    public JPanel drawFlowchart() {
+        LoopFlow panel = new LoopFlow(this);
+        int runningX = (panel.getWidth()/2);
+        int runningY = 35+1;
+        ArrowComponent noLastArrow = null;
+        for (Shape shape : repeatOrder) {
+            boolean isDrawFlowchartable = shape instanceof DrawFlowchartable;
+            if (!isDrawFlowchartable) {
+                if (shape.getClass().equals(new ArrowComponent().getClass())) {
+                    noLastArrow = (ArrowComponent) shape;
+                    noLastArrow.setArrowHeight(80);
+                }
+                runningY = addNonDrawable(shape, runningX, runningY, panel);
+            } else if (shape.getClass().equals(DecisionShape.class)){
+                DecisionShape castShape = (DecisionShape)shape;
+                DecisionFlow Panel = (DecisionFlow) castShape.drawFlowchart();
+                int shapeWidth = Panel.getWidth();
+                int shapeHeight = Panel.getHeight();
+                Panel.setLocation(runningX-(shapeWidth/2), runningY);
+                panel.add(Panel);
+                runningY += shapeHeight;
+            } else {
+                LoopShape castShape = (LoopShape) shape;
+                LoopFlow Panel = (LoopFlow) castShape.drawFlowchart();
+                int shapeWidth = Panel.getWidth();
+                int shapeHeight = Panel.getHeight();
+                Panel.setLocation(runningX-(shapeWidth/2), runningY);
+                panel.add(Panel);
+                runningY += shapeHeight;
+            }
+        }
+        int flowchartMaxY = runningY;
+        panel.setFlowchartMaxY(flowchartMaxY);
+        panel.setSize(panel.getWidth(), flowchartMaxY+75);
+        panel.repaint();
+        return panel;
+    }
+
+    @Override
+    public void unnested() {
+        nestedLevel -= 1;
+        JPanel pointer = (JPanel)getParent().getParent();
+        if (pointer instanceof SubFlow) {
+            ((SubFlow) pointer).getMainShape().unnested();
+        }
+    }
+
+    @Override
+    public void nested() {
+        nestedLevel += 1;
+        JPanel pointer = (JPanel)getParent().getParent();
+        if (pointer instanceof SubFlow) {
+            ((SubFlow) pointer).getMainShape().nested();
+        }
+    }
+
+    public int getNestedLevel() {
+        return nestedLevel;
+    }
 }
