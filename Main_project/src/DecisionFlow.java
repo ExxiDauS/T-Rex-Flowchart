@@ -28,12 +28,15 @@ public class DecisionFlow extends JPanel{
         Font f = new Font("Montserrat", Font.PLAIN, 18);
         g2.setColor(Color.BLACK);
         g2.setFont(f);
-        g2.drawString("Yes", (getWidth()/2-(150)-16), 30);
-        g2.drawLine((getWidth()/2)-(mainShape.getWidth()/2), mainShape.getHeight()/2,(getWidth()/2-(mainShape.getWidth()/2))-150,mainShape.getHeight()/2);
-        g2.drawString("No", (getWidth()/2+(150))-16, 30);
-        g2.drawLine((getWidth()/2)+(mainShape.getWidth()/2), mainShape.getHeight()/2,(getWidth()/2+(mainShape.getWidth()/2))+150,mainShape.getHeight()/2);
-        g2.drawLine((getWidth()/2), flowchartMaxY,(getWidth()/2-(mainShape.getWidth()/2))-150,flowchartMaxY);
-        g2.drawLine((getWidth()/2), flowchartMaxY,(getWidth()/2+(mainShape.getWidth()/2))+150,flowchartMaxY);
+        int expand = 150 + (mainShape.getNestedLevel() * 20);
+        g2.drawString("Yes", (getWidth()/2-(expand)-16), 30);
+        g2.drawLine((getWidth()/2)-(mainShape.getWidth()/2), mainShape.getHeight()/2,(getWidth()/2-(mainShape.getWidth()/2))-expand,mainShape.getHeight()/2);
+        g2.drawString("No", (getWidth()/2+(expand))-16, 30);
+        g2.drawLine((getWidth()/2)+(mainShape.getWidth()/2), mainShape.getHeight()/2,(getWidth()/2+(mainShape.getWidth()/2))+expand,mainShape.getHeight()/2);
+        g2.setStroke(new BasicStroke(3));
+        g2.drawLine((getWidth()/2), flowchartMaxY,(getWidth()/2-(mainShape.getWidth()/2))-expand,flowchartMaxY);
+        g2.drawLine((getWidth()/2), flowchartMaxY,(getWidth()/2+(mainShape.getWidth()/2))+expand,flowchartMaxY);
+        g2.setStroke(new BasicStroke(1));
     }
 
 

@@ -9,6 +9,7 @@ public class DecisionShape extends ActionShape implements drawFlowchartable{
     private int xPosition;
     private int yPosition;
     private String condition;
+    private int nestedLevel;
     private ArrayList<Shape> yesOrder;
     private ArrayList<Shape> noOrder;
 
@@ -30,6 +31,7 @@ public class DecisionShape extends ActionShape implements drawFlowchartable{
         condition = "true";
         yesOrder = new ArrayList<Shape>();
         noOrder = new ArrayList<Shape>();
+        nestedLevel = 0;
     }
 
     @Override
@@ -89,7 +91,7 @@ public class DecisionShape extends ActionShape implements drawFlowchartable{
     @Override
     public JPanel drawFlowchart(FlowchartPanel root) {
         DecisionFlow panel = new DecisionFlow(this);
-        int yesRunningX = ((panel.getWidth()/2)-75)-getWidth();
+        int yesRunningX = ((panel.getWidth()/2)-75)-(150+(nestedLevel*20));
         int yesRunningY = 35+1;
         ArrowComponent yesLastArrow = null;
         for (Shape shape : yesOrder) {
@@ -113,7 +115,7 @@ public class DecisionShape extends ActionShape implements drawFlowchartable{
         }
 
 
-        int noRunningX = ((panel.getWidth()/2)+75)+getWidth();
+        int noRunningX = ((panel.getWidth()/2)+75)+(150+(nestedLevel*20));
         int noRunningY = 35+1;
         ArrowComponent noLastArrow = null;
         for (Shape shape : noOrder) {
@@ -154,13 +156,58 @@ public class DecisionShape extends ActionShape implements drawFlowchartable{
         return yPosition;
     }
 
+    public ArrayList<Shape> getYesOrder() {
+        return yesOrder;
+    }
+
+    public ArrayList<Shape> getNoOrder() {
+        return noOrder;
+    }
+
+    public int getNestedLevel() {
+        return nestedLevel;
+    }
+
+    public void nested() {
+        nestedLevel += 1;
+        JPanel pointer = (JPanel)getParent().getParent();
+        if (pointer.getClass().equals(DecisionFlow.class)) {
+            ((DecisionFlow) pointer).getMainShape().nested();
+        }
+    }
+
+    public void unnested() {
+        nestedLevel -= 1;
+        JPanel pointer = (JPanel)getParent().getParent();
+        if (pointer.getClass().equals(DecisionFlow.class)) {
+            ((DecisionFlow) pointer).getMainShape().unnested();
+        }
+    }
+
     @Override
     public void convertToCode(File f) {
         if (f.exists()) {
-            f.delete();
-            try (FileWriter fw = new FileWriter(f)) {
+            try (FileWriter fw = new FileWriter(f,true)) {
                 String Header = "if (" + condition + ")" + " {\n";
                 fw.write(Header);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (Shape shape : yesOrder) {
+                shape.convertToCode(f);
+            }
+            try (FileWriter fw = new FileWriter(f,true)) {
+                fw.write("} else {\n");
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (Shape shape : noOrder) {
+                shape.convertToCode(f);
+            }
+            try (FileWriter fw = new FileWriter(f,true)) {
+                fw.write("}\n");
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -168,12 +215,26 @@ public class DecisionShape extends ActionShape implements drawFlowchartable{
         }
     }
 
+    public static void main(String[] args) {
+        File f = new File("test.txt");
+        DecisionShape shape = new DecisionShape();
+        DecisionShape subShape = new DecisionShape();
 
-    public ArrayList<Shape> getYesOrder() {
-        return yesOrder;
-    }
+        shape.getYesOrder().add(new ProcessShape("A","5"));
+        shape.getYesOrder().add(new ProcessShape("B","3"));
 
-    public ArrayList<Shape> getNoOrder() {
-        return noOrder;
+        shape.getNoOrder().add(new ProcessShape("C","1"));
+        shape.getNoOrder().add(new ProcessShape("D","8"));
+
+
+        subShape.getYesOrder().add(new ProcessShape("E","54"));
+        subShape.getYesOrder().add(new ProcessShape("F","74"));
+
+        subShape.getNoOrder().add(new ProcessShape("G","22"));
+        subShape.getNoOrder().add(new ProcessShape("H","242"));
+
+        shape.getYesOrder().add(subShape);
+
+        shape.convertToCode(f);
     }
 }

@@ -22,6 +22,7 @@ public class ProcessShape extends ActionShape{
         clicked = false;
         this.varName = variableName;
         this.varValue = value;
+        isNewVar = false;
     }
 
     public ProcessShape() {
@@ -72,7 +73,7 @@ public class ProcessShape extends ActionShape{
 
     @Override
     public void convertToCode(File f) {
-        try(FileWriter fw = new FileWriter(f)){
+        try(FileWriter fw = new FileWriter(f, true)){
             if(isNewVar){
                 fw.write("Object" + varName + ";\n");
             }

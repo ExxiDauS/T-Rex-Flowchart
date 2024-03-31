@@ -80,6 +80,9 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
 
         if (current.getParent().getClass().equals(DecisionFlow.class)) {
             DecisionFlow pointer = (DecisionFlow) current.getParent();
+            if (newShape.getClass().equals(DecisionShape.class)){
+                pointer.getMainShape().nested();
+            }
             ArrayList<Shape> yesOrder = pointer.getMainShape().getYesOrder();
             ArrayList<Shape> noOrder = pointer.getMainShape().getNoOrder();
             if ((yesOrder.indexOf(current) != -1)) {
@@ -112,6 +115,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     public void deleteSubShape() {
         DecisionFlow pointer = (DecisionFlow) (current.getParent());
         if (current.equals(pointer.getMainShape())) {
+            ((DecisionShape) current).unnested();
             pointer = (DecisionFlow) pointer.getParent();
         }
         ArrayList<Shape> yesOrder = pointer.getMainShape().getYesOrder();
@@ -125,8 +129,6 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
             noOrder.remove(index + 1);
             noOrder.remove(index);
         }
-        System.out.println(yesOrder);
-        System.out.println(noOrder);
         mainView.getFlowchartPanel().drawFlowchart(model.getOrder());
     }
 
@@ -207,12 +209,12 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
             }
             else {
                 boolean isDrawFlowchartable = current instanceof drawFlowchartable;
-                if (!isArrowComponent && current.isInFlowchart() && !isDrawFlowchartable) {
+                if (!isArrowComponent && !isDrawFlowchartable) {
                     if (current.getParent().equals(mainView.getFlowchartPanel())) {
                         deleteShape();
                     }
                     else {
-                        deleteSubShape();
+                        if(current.isInFlowchart()) {deleteSubShape();}
                     }
                 }
                 else {
@@ -220,7 +222,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
                         deleteShape();
                     }
                     else {
-                        deleteSubShape();
+                        if(current.isInFlowchart()) {deleteSubShape();}
                     }
                 }
             }
