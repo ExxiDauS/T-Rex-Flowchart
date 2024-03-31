@@ -17,6 +17,7 @@ public abstract class Shape extends JPanel {
         }
     }
     public void convertToCode(File f) {}
+    public void convertToCodeVerGrader(File f, String type, String varName, String input){}
     public void drawCenteredString(Graphics2D g2, String text, Rectangle rect, Font f) {
         FontMetrics metrics = g2.getFontMetrics();
         int x = rect.x + (((int)rect.getWidth() - metrics.stringWidth(text)) / 2)-2;

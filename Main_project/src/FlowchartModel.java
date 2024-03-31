@@ -44,13 +44,11 @@ public class FlowchartModel {
     }
     
     public ArrayList getInput(int questionID){
-//        return databaseConnect.getInput(questionID);
-        return null;
+        return databaseConnect.getInput(questionID);
     }
     
     public ArrayList getInputType(int questionID){
-//        return databaseConnect.getInputType(questionID);
-        return null;
+        return databaseConnect.getInputType(questionID);
     }
 }
 

@@ -135,24 +135,18 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         int iTmp = 0;
         String varName = "x";
         ArrayList result = new ArrayList();
+//        Loop equals testcases
         for (int j = 0; j < probModel.getProblemTestCasesCount(problemID); j++) {
-            for(int i=0;i<flowchart.size();i++) {
+//            Loop to get the code
+            for(int i=0; i<flowchart.size(); i++) {
                 if(!flowchart.get(i).getClass().equals(ArrowComponent.class)){
                     if (flowchart.get(i).getClass().equals(InputShape.class)) {
-                        try (FileWriter fOut = new FileWriter(f)){
+//                            Loop for input in that testcases
                             for (int k = 0; k < model.getInput(problemID + j).size(); k++) {
-                                if (model.getInputType(problemID + j).get(iTmp).equals("String")) {
-                                    fOut.write(model.getInputType(problemID + j).get(iTmp) + " " + varName + " = " +  "\"" + model.getInput(problemID + j).get(iTmp) + "\"" + ";" + "\n");
-                                }
-                                else{
-                                    fOut.write(model.getInputType(problemID + j).get(iTmp) + " " + varName + " = " + model.getInput(problemID + j).get(iTmp) + ";" + "\n");
-                                }
+                                flowchart.get(i).convertToCodeVerGrader(f, model.getInputType(problemID + j).get(k).toString(), varName, model.getInput(problemID + j).get(k).toString());
                                 iTmp += 1;
                                 varName = "x" + iTmp;
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
                     }
                     else{
                         flowchart.get(i).convertToCode(f);

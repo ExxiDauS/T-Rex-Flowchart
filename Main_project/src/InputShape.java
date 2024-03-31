@@ -53,7 +53,23 @@ public class InputShape extends ActionShape{
         g2.setFont(f);
         drawCenteredString(g2, "Input", new Rectangle(getWidth(), getHeight()), f);
     }
-
+    
+    @Override
+    public void convertToCodeVerGrader(File f, String type, String varName, String input){
+        if (f.exists()) {
+            try (FileWriter fOut = new FileWriter(f, true)){
+                if (type.equals("String")) {
+                    fOut.write(type + " " + varName + " = " + "\"" + input + "\"" + ";" + "\n");
+                }
+                else{
+                    fOut.write(type + " " + varName + " = " + input + ";" + "\n");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
     @Override
     public Dimension getPreferredSize() {
         if (!isInFlowchart()){
