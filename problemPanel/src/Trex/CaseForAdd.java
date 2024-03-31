@@ -63,7 +63,6 @@ public class CaseForAdd extends JPanel{
         input.setPreferredSize(new Dimension(230,100));     output.setPreferredSize(new Dimension(230,100));
         inputContainer.add(input);      outputContainer.add(output);
         
-        
         inOutPanel = new JPanel();
         inOutPanel.add(inputContainer);
         inOutPanel.add(outputContainer);
@@ -71,6 +70,11 @@ public class CaseForAdd extends JPanel{
 //        this.setBackground(Color.red);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
     }
+    
+    public JPanel getBelow(){
+        return below;
+    }
+    
     
     public void setBelow(JPanel next){
         this.below = next;
@@ -89,11 +93,10 @@ public class CaseForAdd extends JPanel{
             setBelow(newTextField);
             add(newTextField);
             this.revalidate();
-        }
-        
-        
+        }        
     }
 
+    
 //    public void detectTF(CaseForAdd panel){
 //        Component[] compo = panel.getComponents(); 
 //        for (Component i : compo) {

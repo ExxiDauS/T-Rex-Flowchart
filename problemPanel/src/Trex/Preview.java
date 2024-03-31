@@ -8,7 +8,7 @@ import Trex.problem;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URL;
+import java.net.*;
 import javax.imageio.*;
 
 import javax.swing.*;
@@ -110,6 +110,20 @@ public class Preview extends JPanel{
             imgPanel.add(img);      showProb.add(imgPanel);
             
         }catch (IOException ex){
+            try{
+            BufferedImage image = ImageIO.read(new File("../problemPanel/src/Trex//images/1-10.jpg"));
+//            URL url = new URL("https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?fit=845%2C503&ssl=1");
+//            BufferedImage image = ImageIO.read(url);
+            img = new JLabel(new ImageIcon(image));
+            img.setPreferredSize(new Dimension(875, 425));
+            imgPanel.add(img);      showProb.add(imgPanel);
+            
+            }catch (Exception e){
+                System.out.println("404");
+            }
+            System.out.println("404");
+            
+        }catch (NullPointerException ex){
             try{
             BufferedImage image = ImageIO.read(new File("../problemPanel/src/Trex//images/1-10.jpg"));
 //            URL url = new URL("https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?fit=845%2C503&ssl=1");

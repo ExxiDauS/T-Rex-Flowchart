@@ -217,7 +217,7 @@ public class problemFrame implements ActionListener, MouseListener{
         if (ae.getSource() instanceof JButton) {
             JButton clickedButton = (JButton) ae.getSource();
             int selected = Integer.parseInt(clickedButton.getText()) - 1;
-            System.out.println(titlePanel.getSize());
+//            System.out.println(titlePanel.getSize());
      
 //          Clear previous components (Panels)
             titlePanel.removeAll();
