@@ -26,6 +26,22 @@ public class problem{
         this.testCase = testCase;
     }
     
+    public void setTitleName(String titleName){
+        this.titleName = titleName;
+    }
+    
+    public void setImg(String description){
+        this.description = description;
+    }
+    
+    public void setDescription(String description){
+        this.description = description;
+    }
+    
+    public void setTestCase(cases[] testCase){
+        this.testCase = testCase;
+    }
+    
     public String getTitleName(){
         return titleName;
     }

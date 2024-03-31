@@ -16,6 +16,9 @@ public class main {
 //        new problemInfo();
 //        new problemFrameAlternate();
         new problemFrame();
+//        new resultFrame();
+        new addProb();
+//        new testPreview();
 
         
     }

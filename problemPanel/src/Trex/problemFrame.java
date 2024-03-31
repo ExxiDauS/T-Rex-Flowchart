@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Trex;
+import Trex.cases;
+import Trex.problem;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -12,6 +14,8 @@ import java.util.*;
 import javax.imageio.*;
 import javax.swing.table.*;
 import javax.swing.border.*;
+import java.net.*;
+
 
 /**
  *
@@ -26,7 +30,7 @@ public class problemFrame implements ActionListener, MouseListener{
     // {new cases("hey", "ha")}
     
     private problem[] problemLst = {new problem("DebtCalculation", 
-            "../problemPanel/src/Trex/images/jaii.jpg",
+            "../problemPanel/src/Trex/images/1-10.jpg",
     "Ni ai wo wo ai ni\n" +
     "Mi xue bing cheng tianmi mi\n" +
     "Ni ai wo wo ai ni\n" +
@@ -97,6 +101,7 @@ public class problemFrame implements ActionListener, MouseListener{
         leftAlign.setVerticalAlignment(SwingConstants.TOP); // Align to the top
         testCase.setDefaultRenderer(Object.class, leftAlign);
         
+        
 //      ** make Showing Panel (Left side) **
         setShowPanel(current);
         
@@ -147,12 +152,25 @@ public class problemFrame implements ActionListener, MouseListener{
         
 //        showProb.add(title, FlowLayout.LEFT);
         try{
-            BufferedImage image = ImageIO.read(new File(current.getImg()));
+//            BufferedImage image = ImageIO.read(new File(current.getImg()));
+            URL url = new URL(current.getImg());
+            BufferedImage image = ImageIO.read(url);
             img = new JLabel(new ImageIcon(image));
             img.setPreferredSize(new Dimension(875, 425));
             imgPanel.add(img);      showProb.add(imgPanel);
             
         }catch (IOException ex){
+            try{
+            BufferedImage image = ImageIO.read(new File("../problemPanel/src/Trex//images/1-10.jpg"));
+//            URL url = new URL("https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?fit=845%2C503&ssl=1");
+//            BufferedImage image = ImageIO.read(url);
+            img = new JLabel(new ImageIcon(image));
+            img.setPreferredSize(new Dimension(875, 425));
+            imgPanel.add(img);      showProb.add(imgPanel);
+            
+            }catch (Exception e){
+                System.out.println("404");
+            }
             System.out.println("404");
         }
         
