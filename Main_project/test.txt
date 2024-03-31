@@ -4,3 +4,5 @@ String x =  " Hello";
 String ty = "Hello test";
 int y = 6;
 double d = 5.7;
+int xx = 5;
+System.out.print("Hello");System.out.println("test");System.out.print(8888);

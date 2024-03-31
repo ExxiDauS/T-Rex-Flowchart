@@ -51,8 +51,8 @@ public class Input_Run_GUI {
                     value = valueString;
                 }
                 input.setValue(value); // Set value in input object
-                frame.dispose();
                 setted = true;
+                System.exit(0);
             }
         });
         panel.add(runButton);

@@ -43,6 +43,8 @@ public class Input implements Shape{
         return value;
     }
     
+    
+    // When merge to playground please make Enter_GUI to DoubleClickedEvent on shape
     @Override
     public void convertToCode(File f) {
         if (f.exists()) {
