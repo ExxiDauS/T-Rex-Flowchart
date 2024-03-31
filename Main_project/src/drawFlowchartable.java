@@ -1,5 +1,6 @@
 import javax.swing.*;
+import java.awt.*;
 
 public interface drawFlowchartable {
-    public JPanel drawFlowchart();
+    public JPanel drawFlowchart(FlowchartPanel root);
 }

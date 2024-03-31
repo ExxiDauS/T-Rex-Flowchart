@@ -40,14 +40,17 @@ public class PlaygroundView extends JFrame{
         shapePanel.setBounds(0,60,getWidth()/5,(getHeight()/2)-60);
         consolePanel.setBounds(0,60+shapePanel.getHeight(),getWidth()/5,getHeight()-(shapePanel.getHeight()+60));
         int flowchartPanelWidth = getWidth()-shapePanel.getWidth();
-        int flowchartPanelHeight = getHeight()-60;
+        int flowchartPanelHeight = getHeight()-95;
         flowchartPanel = new FlowchartPanel(new Dimension(flowchartPanelWidth, flowchartPanelHeight));
-        flowchartPanel.setBounds(shapePanel.getWidth(),60,flowchartPanelWidth,flowchartPanelHeight);
+        flowchartPanel.setBounds(shapePanel.getWidth(),60,25000,1000);
         flowchartScroll = new JScrollPane(flowchartPanel);
-        flowchartScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        flowchartScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         flowchartScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         flowchartScroll.setBounds(shapePanel.getWidth(), 60, flowchartPanelWidth-10,flowchartPanelHeight);
         flowchartScroll.setBorder(new LineBorder(new Color(204, 204, 204)));
+        JViewport viewport = (JViewport) flowchartPanel.getParent();
+        Rectangle rect = new Rectangle(new Point(12500, 0), flowchartPanel.getSize());
+        viewport.scrollRectToVisible(rect);
 
         dp.setBackground(Color.WHITE);
         dp.add(topBarPanel);

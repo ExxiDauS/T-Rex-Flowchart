@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -21,7 +23,7 @@ public class FlowchartPanel extends JPanel{
         int newHeight = Math.max(panelSize.height, bounds.y + bounds.height - newY);
 
         if (newWidth != panelSize.width || newHeight != panelSize.height || newX < 0 || newY < 0) {
-            setPreferredSize(new Dimension(newWidth, newHeight+50));
+            setSize(new Dimension(newWidth, newHeight));
             JViewport viewport = (JViewport) getParent();
             Rectangle rect = new Rectangle(-newX, -newY, bounds.width, bounds.height);
             viewport.scrollRectToVisible(rect);
@@ -46,7 +48,7 @@ public class FlowchartPanel extends JPanel{
             }
             else {
                 DecisionShape castShape = (DecisionShape)shape;
-                JPanel Panel = castShape.drawFlowchart();
+                JPanel Panel = castShape.drawFlowchart(this);
                 int shapeWidth = Panel.getWidth();
                 int shapeHeight = Panel.getHeight();
                 Panel.setLocation(runningX-(shapeWidth/2), runningY);
@@ -61,4 +63,12 @@ public class FlowchartPanel extends JPanel{
 
     public void paintCurrentShape(ArrayList<Shape> order) {}
 
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(getSize());
+    }
+
+    public int getThisY(JPanel panel) {
+        return panel.getY();
+    }
 }

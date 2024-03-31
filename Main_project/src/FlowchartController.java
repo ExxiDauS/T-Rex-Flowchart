@@ -111,9 +111,11 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
 
     public void deleteSubShape() {
         DecisionFlow pointer = (DecisionFlow) (current.getParent());
+        if (current.equals(pointer.getMainShape())) {
+            pointer = (DecisionFlow) pointer.getParent();
+        }
         ArrayList<Shape> yesOrder = pointer.getMainShape().getYesOrder();
         ArrayList<Shape> noOrder = pointer.getMainShape().getNoOrder();
-
         if (yesOrder.indexOf(current) != -1) {
             int index = yesOrder.indexOf(current);
             yesOrder.remove(index + 1);
@@ -204,8 +206,17 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
                 }
             }
             else {
-                if (!isArrowComponent && current.isInFlowchart()) {
+                boolean isDrawFlowchartable = current instanceof drawFlowchartable;
+                if (!isArrowComponent && current.isInFlowchart() && !isDrawFlowchartable) {
                     if (current.getParent().equals(mainView.getFlowchartPanel())) {
+                        deleteShape();
+                    }
+                    else {
+                        deleteSubShape();
+                    }
+                }
+                else {
+                    if (current.getParent().getParent().equals(mainView.getFlowchartPanel())) {
                         deleteShape();
                     }
                     else {
@@ -228,7 +239,6 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
     }
 
     @Override
