@@ -6,12 +6,14 @@ public class FlowchartModel {
     private String username;
     private String status;
     private DatabaseConnect databaseConnect;
+    private ArrayList<String> logData;
 
     public FlowchartModel() {
         order = new ArrayList<Shape>();
         databaseConnect = new DatabaseConnect();
         username = "";
         status = "play";
+        logData = new ArrayList<>();
     }
 
     public boolean logIn(String username, String password) {
@@ -42,6 +44,10 @@ public class FlowchartModel {
 
     public ArrayList<Shape> getOrder() {
         return order;
+    }
+
+    public ArrayList getLogData() {
+        return logData;
     }
 
     public void loadModel(File f) {

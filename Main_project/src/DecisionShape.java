@@ -28,7 +28,7 @@ public class DecisionShape extends ActionShape implements DrawFlowchartable {
         super();
         xPosition = 0;  yPosition = 0;
         clicked = false;
-        condition = "true";
+        condition = "";
         yesOrder = new ArrayList<Shape>();
         noOrder = new ArrayList<Shape>();
         nestedLevel = 0;

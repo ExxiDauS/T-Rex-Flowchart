@@ -38,7 +38,7 @@ public class PlaygroundView extends JFrame{
 
         topBarPanel.setBounds(0,0, getWidth(), 60);
         shapePanel.setBounds(0,60,getWidth()/5,(getHeight()/2)-60);
-        consolePanel.setBounds(0,60+shapePanel.getHeight(),getWidth()/5,getHeight()-(shapePanel.getHeight()+60));
+        consolePanel.setBounds(0,60+shapePanel.getHeight(),getWidth()/5,getHeight()-(shapePanel.getHeight()+60)-35);
         int flowchartPanelWidth = getWidth()-shapePanel.getWidth();
         int flowchartPanelHeight = getHeight()-95;
         flowchartPanel = new FlowchartPanel(new Dimension(flowchartPanelWidth, flowchartPanelHeight));

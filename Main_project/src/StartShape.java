@@ -32,9 +32,12 @@ public class StartShape extends Shape{
             f.delete();
             try (FileWriter fw = new FileWriter(f)){
                 String fileNameWithOutExt = f.getName().replaceFirst("[.][^.]+$", "");
+                fw.write("import javax.swing.*;\n\n");
                 fw.write("public class " + fileNameWithOutExt + " {\n");
                 fw.write("public static void main(String[] args) {\n");
                 fw.write("try { \n");
+                fw.write("UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());\n");
+                fw.write("String NoOneGonnaNameVariableLikeThis;");
             }
             catch (IOException e) {
                 e.printStackTrace();

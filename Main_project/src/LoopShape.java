@@ -28,7 +28,7 @@ public class LoopShape extends ActionShape implements DrawFlowchartable {
         clicked = false;
         repeatOrder = new ArrayList<Shape>();
         nestedLevel = 0;
-        condition = "true";
+        condition = "";
     }
 
     @Override

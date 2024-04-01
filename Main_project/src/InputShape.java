@@ -90,21 +90,31 @@ public class InputShape extends DeclareShape{
         return message;
     }
 
+    public void setVarValue(String varValue) {
+        this.varValue = varValue;
+    }
+
     @Override
     public void convertToCode(File f) {
         try(FileWriter fw = new FileWriter(f, true)){
-            varValue = JOptionPane.showInputDialog(null, message);
+            fw.write("NoOneGonnaNameVariableLikeThis = JOptionPane.showInputDialog(null, \""+message+"\");");
             if (varType.equals("String")) {
                 if(isNewVar){
                     fw.write(varType + " " + varName + ";\n");
                 }
-                fw.write(varName + " = \"" + varValue + "\";\n");
+                fw.write(varName + " = " + "NoOneGonnaNameVariableLikeThis" + ";\n");
+            }
+            else if (varType.equals("int")) {
+                if(isNewVar){
+                    fw.write(varType + " " + varName + ";\n");
+                }
+                fw.write(varName + " = " + "Integer.parseInt(NoOneGonnaNameVariableLikeThis)" + ";\n");
             }
             else {
                 if(isNewVar){
                     fw.write(varType + " " + varName + ";\n");
                 }
-                fw.write(varName + " = " + varValue + ";\n");
+                fw.write(varName + " = " + "Double.parseDouble(NoOneGonnaNameVariableLikeThis)" + ";\n");
             }
         }catch(IOException ioe){
             ioe.printStackTrace();

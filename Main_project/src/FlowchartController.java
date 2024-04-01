@@ -19,6 +19,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     private ArrowComponent firstArrow;
     private EndShape end;
     private ArrayList<ShapeGUI> activeGUI;
+    private Grader grader;
     public FlowchartController() {
         model = new FlowchartModel();
         mainView = new PlaygroundView();
@@ -31,6 +32,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         currentTool = null;
         deleteToggle = false;
         activeGUI = new ArrayList<ShapeGUI>();
+        grader = new Grader();
         mainView.getToolPanel().getRunButton().addActionListener(this);
         mainView.getToolPanel().getLoginButton().addActionListener(this);
         mainView.getToolPanel().getDeleteToggleBtn().addActionListener(this);
@@ -104,6 +106,8 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
                 }
             }
         }
+        model.getLogData().add(grader.run(new File("Trex.java")));
+        mainView.getConsolePanel().refresh(model.getLogData());
     }
     public void addShape() {
         ActionShape newShape;
