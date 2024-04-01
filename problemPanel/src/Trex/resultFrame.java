@@ -59,12 +59,12 @@ public class resultFrame {
         if (tf == true){
             status = new JLabel("Pass");
             status.setForeground(Color.white);
-            block.setBackground(new java.awt.Color(255, 0, 0));
+            block.setBackground(new java.awt.Color(0, 200, 0));
             block.add(status);
         }else{
             status = new JLabel("Not Pass");
             status.setForeground(Color.white);
-            block.setBackground(new java.awt.Color(0, 200, 0));
+            block.setBackground(new java.awt.Color(255, 0, 0));
             block.add(status);
         }
 

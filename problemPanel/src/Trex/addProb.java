@@ -8,29 +8,21 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
 import java.util.*;
-import java.util.List.*;
-import javax.imageio.*;
-import javax.swing.table.*;
-import javax.swing.border.*;
-import java.net.*;
-import java.beans.*;
+
 
 /**
  *
  * @author User
  */
 public class addProb implements ActionListener{
-    private JFrame frame, previewFrame;
-    private JPanel textInputContainer, nameInpPanel, imageInpPanel, descriptionInpPanel, previewPanel, casesPanel, casesField;
-    private JLabel nameLB, imgLB, img, discriptLB, casesLB;
-    private JTextField nameField, discriptionField, imageField, Field;
+    private JFrame frame;
+    private JPanel textInputContainer, nameInpPanel, imageInpPanel, descriptionInpPanel, previewPanel, casesPanel, casesField, submitPanel;
+    private JLabel nameLB, imgLB, img, descriptLB, casesLB;
+    private JTextField nameField, imageField;
     private JTextArea descriptionArea;
     private ArrayList<cases> allCase = new ArrayList<>();
-    private JButton updateBtn;
-    private String titleName, imgUrl, discription;
+    private JButton updateBtn, submitBtn;
     private ArrayList<String> casesStringLst = new ArrayList<>();
     
     public addProb(){
@@ -41,6 +33,7 @@ public class addProb implements ActionListener{
         frame.setLayout(new BorderLayout());
         textInputContainer = new JPanel();
         textInputContainer.setLayout(new BoxLayout(textInputContainer, BoxLayout.Y_AXIS));
+
 //        textInputContainer.setLayout(new GridLayout(4,2));
 
         nameInpPanel = new JPanel();        imageInpPanel = new JPanel();
@@ -49,7 +42,7 @@ public class addProb implements ActionListener{
         updateBtn = new JButton("Update Sample Case");
         updateBtn.addActionListener(this);
         
-        nameInpPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));        imageInpPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        nameInpPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));        imageInpPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
         descriptionInpPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
         
         nameLB = new JLabel("Problem name : ");
@@ -57,7 +50,7 @@ public class addProb implements ActionListener{
         nameInpPanel.add(nameLB);
         nameLB.setPreferredSize(new Dimension(100, nameLB.getPreferredSize().height));
                 
-        nameField = new JTextField();       nameField.setPreferredSize(new Dimension((frame.getWidth() / 2 ) - 100, nameField.getPreferredSize().height));
+        nameField = new JTextField(35);      nameField.setPreferredSize(new Dimension((frame.getWidth() / 2 ) - 100, nameField.getPreferredSize().height));
         nameField.getDocument().addDocumentListener(myOwnDocListener());
 //        nameField.addPropertyChangeListener("text", propertyChangeListener);
         
@@ -65,7 +58,7 @@ public class addProb implements ActionListener{
 //        nameInpPanel.setBackground(Color.red);
         textInputContainer.add(nameInpPanel);
         
-        imageField = new JTextField();
+        imageField = new JTextField(35);
         imgLB = new JLabel("Image url : ");
         imgLB.setPreferredSize(new Dimension(100, imgLB.getPreferredSize().height));
         
@@ -76,16 +69,15 @@ public class addProb implements ActionListener{
 //        imageField.addActionListener(this);
         imageField.getDocument().addDocumentListener(myOwnDocListener());
         
-        discriptLB = new JLabel("Discription : ");
-        descriptionArea = new JTextArea();
+        descriptLB = new JLabel("Description : ");
+        descriptionArea = new JTextArea(10, 20);
         
         descriptionArea.getDocument().addDocumentListener(myOwnDocListener());
         descriptionArea.setPreferredSize(new Dimension(frame.getWidth() / 2 , 200));
-        descriptionInpPanel.add(discriptLB);      descriptionInpPanel.add(descriptionArea);
+        descriptionInpPanel.add(descriptLB);      descriptionInpPanel.add(descriptionArea);
         textInputContainer.add(descriptionInpPanel);
        
         casesLB = new JLabel("Cases : ");
-        
         casesField = new CaseForAdd(null);
  
         caseUpdate(casesField, null);
@@ -98,13 +90,22 @@ public class addProb implements ActionListener{
         casesField.setPreferredSize(new Dimension(frame.getWidth() / 2 , 200));
         casesPanel.add(casesLB );   casesPanel.add(updateBtn);     casesPanel.add(casesField);
         textInputContainer.add(casesPanel);
+       
         
         previewPanel = setPre("\"Problem name here\"", "../problemPanel/src/Trex//images/1-10.jpg",
-                "\"Discription here\"", allCase);
+                "\"Dscription here\"", allCase);
+        
+        submitPanel = new JPanel();
+        
+        
+        submitBtn = new JButton("Submit");
+        submitBtn.addActionListener(this);
+        submitPanel.add(submitBtn);
+        textInputContainer.add(submitPanel);
         
         frame.add(textInputContainer, BorderLayout.CENTER);
         frame.add(previewPanel, BorderLayout.EAST);
-        
+ 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
@@ -134,15 +135,11 @@ public class addProb implements ActionListener{
         return myDocLis;
     }
     
-    
-    
     public void updatePreview() {
         String name = nameField.getText();
         String imgUrl = imageField.getText();
         String description = descriptionArea.getText();
         JPanel panel = setPre(name, imgUrl, description, allCase);
-//        caseUpdate(panel);
-//        checkField(casesField);
         
         previewPanel.removeAll();
         previewPanel.add(panel);
@@ -208,9 +205,7 @@ public class addProb implements ActionListener{
         }
         if (tF != null){
             String text = (String)((JTextArea) tF).getText() ;
-            System.out.println(text);
             casesStringLst.add(text);
-            
         }
 
     };
@@ -219,17 +214,28 @@ public class addProb implements ActionListener{
     public void actionPerformed(ActionEvent ae){
         casesStringLst = new ArrayList<>();
         if (ae.getSource().equals(updateBtn)){
+            casesStringLst = new ArrayList<>();
+            allCase = new ArrayList<>();
             caseUpdate(casesField,null);
-  
-            System.out.println(casesStringLst);
+            for (int i=0; i < casesStringLst.size(); i += 2){
+                if (!(casesStringLst.get(i).isEmpty() && casesStringLst.get(i+1).isEmpty())){
+                    cases cases = new cases(casesStringLst.get(i), casesStringLst.get(i+1));
+                    allCase.add(cases);
+//                    System.out.println(casesStringLst.get(i) +"   and   "+ casesStringLst.get(i+1));
+                    
+                }
+            }
+            
+        }if(ae.getSource().equals(submitBtn)){
+            String name = nameField.getText();
+            String imgUrl = imageField.getText();
+            String description = descriptionArea.getText();
+            System.out.println(name);
+            System.out.println(imgUrl);
+            System.out.println(description);
+            System.out.println(allCase);
         }
-        casesStringLst = new ArrayList<>();
-
-        
+        updatePreview();
         
     }
-    
-
-    
-
 }

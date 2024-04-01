@@ -27,19 +27,19 @@ public class Preview extends JPanel{
     private JPanel frame, inputPanel;
     private JPanel showProb;
     private JPanel titlePanel, imgPanel, desHPanel, descriptionPanel, sampleTestPanel, testCasePanel;
-    private JLabel title, img, desH, description, sampleTest;
+    private JLabel title, img, desH, descriptionLB, sampleTest;
     private JTable testCase;
     DefaultTableModel tModel;
     private problem current;
     private Border roundBorder;
     private JLabel closeAroow;
-    private String titleName, imgUrl, discription;
+    private String titleName, imgUrl, description;
     private ArrayList<cases> cases;
     
-    public Preview(String titleName, String imgUrl, String discription, ArrayList<cases> cases){
+    public Preview(String titleName, String imgUrl, String description, ArrayList<cases> cases){
         this.titleName = titleName;
         this.imgUrl = imgUrl;
-        this.discription = discription;
+        this.description = description;
         this.cases = cases;
         
 //        realFrame = new JFrame()realFrame ;
@@ -56,7 +56,6 @@ public class Preview extends JPanel{
         showProb.setLayout(new BoxLayout(showProb, BoxLayout.Y_AXIS));
         
 
-        
 //        set container
         titlePanel = new JPanel();      titlePanel.setLayout(new FlowLayout(10, 25, 10));
         
@@ -138,34 +137,23 @@ public class Preview extends JPanel{
             System.out.println("404");
         }
         
-        desH = new JLabel("Problems Discription");     desH.setFont(new Font(null, Font.PLAIN, 27));
+        desH = new JLabel("Problems Description");     desH.setFont(new Font(null, Font.PLAIN, 27));
         desHPanel.add(desH);        showProb.add(desHPanel);
         
-        description = new JLabel(strManage(discription));     description.setFont(new Font(null, Font.PLAIN, 18));
-        descriptionPanel.add(description);      showProb.add( descriptionPanel);
+        descriptionLB = new JLabel(strManage(description));     descriptionLB.setFont(new Font(null, Font.PLAIN, 18));
+        descriptionPanel.add(descriptionLB);      showProb.add( descriptionPanel);
         
         sampleTest = new JLabel("Sample Testcase");     sampleTest.setFont(new Font(null, Font.PLAIN, 27));
         sampleTestPanel.add(sampleTest);        showProb.add(sampleTestPanel);
         
         testCase.setRowHeight(100);
         
-        for (int i=0; i < cases.size(); i++){
+        for (int i=0; i < cases.size(); i++){  
             tModel.addRow(new Object[]{strManage((cases.get(i)).getInput()), strManage((cases.get(i).getOutput()))});
-            testCase.getColumnModel().getColumn(i).setPreferredWidth(425);
             testCase.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-//            int frt = (strManageForRowCal(current.getTestCase()[i].getInput()).split("SponkyDonky", -1).length-1);
-//            int sec = (strManageForRowCal(current.getTestCase()[i].getOutput()).split("SponkyDonky", -1).length-1);
-//            if (frt != 0 || sec != 0){
-//                if (frt >= sec){
-//                    testCase.setRowHeight(frt*20+20);
-//                }else{
-//                    testCase.setRowHeight(sec*20+20);
-//                }
-//            }else{
-//                testCase.setRowHeight(40);
-//            }
-//            testCase.setRowHeight();
         }   
+        testCase.getColumnModel().getColumn(0).setPreferredWidth(425);
+        testCase.getColumnModel().getColumn(1).setPreferredWidth(425);
         testCasePanel.add(testCase);        showProb.add(testCasePanel);  
 // ---------------------------------------------------------------------------------------------------------------------------
         
@@ -209,8 +197,8 @@ public class Preview extends JPanel{
     public String getimgUrl(){
         return imgUrl;
     }
-    public String getDiscription(){
-        return discription;
+    public String getDescription(){
+        return description;
     }
     
     public ArrayList<cases> getCases(){

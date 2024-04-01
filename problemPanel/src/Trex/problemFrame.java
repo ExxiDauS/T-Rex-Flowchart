@@ -174,7 +174,7 @@ public class problemFrame implements ActionListener, MouseListener{
             System.out.println("404");
         }
         
-        desH = new JLabel("Problems Discription");     desH.setFont(new Font(null, Font.PLAIN, 27));
+        desH = new JLabel("Problems Dscription");     desH.setFont(new Font(null, Font.PLAIN, 27));
         desHPanel.add(desH);        showProb.add(desHPanel);
         
         description = new JLabel(strManage(current.getDescription()));     description.setFont(new Font(null, Font.PLAIN, 18));
