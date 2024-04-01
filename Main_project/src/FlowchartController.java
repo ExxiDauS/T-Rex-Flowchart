@@ -229,7 +229,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
                 }
             }
             else if (ae.getSource().equals(mainView.getToolPanel().getSaveBtn())) {
-                JFileChooser fc = new JFileChooser("Main_project//src//save//");
+                JFileChooser fc = new JFileChooser("Documents\\");
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("TVSC", "tvsc");
                 fc.setFileFilter(filter);
                 File f;
@@ -244,12 +244,14 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
                 }
             }
             else if (ae.getSource().equals(mainView.getToolPanel().getLoadBtn())) {
-                JFileChooser fc = new JFileChooser("Main_project//src//save//");
+                JFileChooser fc = new JFileChooser("Documents\\");
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("TVSC", "tvsc");
                 fc.setFileFilter(filter);
-                fc.showOpenDialog(mainView);
+                int result = fc.showOpenDialog(mainView);
                 File f = fc.getSelectedFile();
-                model.loadModel(f);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    model.loadModel(f);
+                }
                 for (Shape shape : model.getOrder()) {
                     boolean isStarter = (shape.equals(start) || shape.equals(firstArrow) || shape.equals(end));
                     if (!isStarter) {listenToNewModel(shape);}

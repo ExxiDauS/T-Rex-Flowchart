@@ -64,11 +64,12 @@ public class InputShape extends ActionShape{
 
         g2.setFont(f);
         if (configured) {
-            String textPreview = varType + " " + varName;
-            if (textPreview.length() > 7) {
-                textPreview = textPreview.substring(0, Math.min(textPreview.length(), 7));
+            String textPreview = varName;
+            if (textPreview.length() > 10) {
+                textPreview = textPreview.substring(0, Math.min(textPreview.length(), 10));
                 textPreview += " ...";
             }
+            f = new Font("Montserrat", Font.PLAIN, 16);
             drawCenteredString(g2, textPreview, new Rectangle(getWidth(), getHeight()), f);
         }else {
                 drawCenteredString(g2, "Input", new Rectangle(getWidth(), getHeight()), f);
