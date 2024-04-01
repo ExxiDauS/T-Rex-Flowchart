@@ -59,7 +59,17 @@ public class ProcessShape extends ActionShape{
         }
 
         g2.setFont(f);
-        drawCenteredString(g2, "Process", new Rectangle(getWidth(), getHeight()), f);
+        if (configured) {
+            String textPreview = varName + " = " + varValue;
+            if (textPreview.length() > 12) {
+                textPreview = textPreview.substring(0, Math.min(textPreview.length(), 12));
+                textPreview += " ...";
+            }
+            drawCenteredString(g2, textPreview, new Rectangle(getWidth(), getHeight()), f);
+        }
+        else {
+            drawCenteredString(g2, "Process", new Rectangle(getWidth(), getHeight()), f);
+        }
     }
 
     @Override
@@ -72,11 +82,27 @@ public class ProcessShape extends ActionShape{
         }
     }
 
+    public void setVarName(String varName) {
+        this.varName = varName;
+    }
+
+    public String getVarName() {
+        return varName;
+    }
+
+    public String getVarValue() {
+        return varValue;
+    }
+
+    public void setVarValue(String varValue) {
+        this.varValue = varValue;
+    }
+
     @Override
     public void convertToCode(File f) {
         try(FileWriter fw = new FileWriter(f, true)){
             if(isNewVar){
-                fw.write("Object" + varName + ";\n");
+                fw.write("Object " + varName + ";\n");
             }
             fw.write(varName + " = " + varValue + ";\n");
         }catch(IOException ioe){

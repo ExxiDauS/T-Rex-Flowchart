@@ -58,6 +58,11 @@ public class OutputGUI extends ShapeGUI{
         gbc.insets = new Insets(0, 0, 0, 0);
         bag.add(doneBtn, gbc);
 
+        if (host.isConfigured()) {
+            String userMessage = ((OutputShape)host).getMessage();
+            promptInp.setText(userMessage);
+        }
+
         frame.add(outputText, BorderLayout.NORTH);
         frame.add(bag, BorderLayout.CENTER);
 
@@ -69,11 +74,10 @@ public class OutputGUI extends ShapeGUI{
         frame.setResizable(false);
     }
 
-    public JLabel getPromptText() {
-        return promptText;
-    }
     @Override
     public void configShape() {
-        System.out.println("Output Config");
+        String prompt = promptInp.getText();
+        ((OutputShape)host).setMessage(prompt);
+        host.setConfigured(true);
     }
 }

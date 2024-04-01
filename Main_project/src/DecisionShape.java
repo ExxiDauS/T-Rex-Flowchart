@@ -66,7 +66,17 @@ public class DecisionShape extends ActionShape implements DrawFlowchartable {
         }
 
         g2.setFont(f);
-        drawCenteredString(g2, "if/else", new Rectangle(getWidth(), getHeight()), f);
+        if (configured) {
+            String textPreview = condition;
+            if (textPreview.length() > 7) {
+                textPreview = textPreview.substring(0, Math.min(textPreview.length(), 7));
+                textPreview += " ...";
+            }
+            drawCenteredString(g2, textPreview, new Rectangle(getWidth(), getHeight()), f);
+        }
+        else {
+            drawCenteredString(g2, "if / else", new Rectangle(getWidth(), getHeight()), f);
+        }
     }
 
     @Override
@@ -165,6 +175,14 @@ public class DecisionShape extends ActionShape implements DrawFlowchartable {
         return panel;
     }
 
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
     public ArrayList<Shape> getYesOrder() {
         return yesOrder;
     }
@@ -223,5 +241,4 @@ public class DecisionShape extends ActionShape implements DrawFlowchartable {
             }
         }
     }
-
 }

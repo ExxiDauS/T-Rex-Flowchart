@@ -2,6 +2,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
+import java.util.Enumeration;
 public class InputGUI extends ShapeGUI{
     private JLabel inputText, messageText, varType, assignTo;
     private JPanel bag, messageGrid, messagePanel, varGrid, varPanel, assignGrid, assignPanel, radioPanel;
@@ -26,7 +27,7 @@ public class InputGUI extends ShapeGUI{
         varPanel = new JPanel(new GridLayout(1, 2));
         assignGrid = new JPanel(new GridLayout(2, 1));
         assignPanel = new JPanel(new GridLayout(1, 2));
-        intRadio = new JRadioButton("int");
+        intRadio = new JRadioButton("int", true);
         doubleRadio = new JRadioButton("double");
         stringRadio = new JRadioButton("String");
         radioPanel = new JPanel(new GridLayout(3, 1));
@@ -93,6 +94,21 @@ public class InputGUI extends ShapeGUI{
         gbc.gridy = 4;
         bag.add(doneBtn, gbc);
 
+        for (Enumeration<AbstractButton> buttons = TheBtDeviceIsReadyToPair.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            if (button.getText().equals(((InputShape)host).getVarType())) {
+                button.setSelected(true);
+            }
+            else {
+                button.setSelected(false);
+            }
+        }
+        String userMessage = ((InputShape)host).getMessage();
+        String variableName = ((InputShape)host).getVarName();
+        inputTextfield.setText(userMessage);
+        assignTextfield.setText(variableName);
+
+
         frame.add(inputText, BorderLayout.NORTH);
         frame.add(bag, BorderLayout.CENTER);
 
@@ -105,20 +121,21 @@ public class InputGUI extends ShapeGUI{
         frame.setResizable(false);
     }
 
-    public CustomTextField getAssignTextfield() {
-        return assignTextfield;
-    }
-
-    public CustomTextField getInputTextfield() {
-        return inputTextfield;
-    }
-
-    public ButtonGroup getTheBtDeviceIsReadyToPair() {
-        return TheBtDeviceIsReadyToPair;
-    }
-
     @Override
     public void configShape() {
-        System.out.println("Input Config");
+        String variableType = "";
+        for (Enumeration<AbstractButton> buttons = TheBtDeviceIsReadyToPair.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                variableType = button.getText();
+            }
+        }
+        String userMessage = inputTextfield.getText();
+        String variableName = assignTextfield.getText();
+        ((InputShape)host).setVarName(variableName);
+        ((InputShape)host).setVarType(variableType);
+        ((InputShape)host).setMessage(userMessage);
+        host.setConfigured(true);
+//        ((InputShape)host).previewToCode();
     }
 }

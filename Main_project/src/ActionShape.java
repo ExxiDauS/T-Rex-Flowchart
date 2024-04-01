@@ -35,4 +35,11 @@ public abstract class ActionShape extends Shape{
     public void setAssociatedGUI(ShapeGUI associatedGUI) {
         this.associatedGUI = associatedGUI;
     }
+
+    public void setConfigured(boolean configured) {
+        this.configured = configured;
+    }
+    public boolean isConfigured() {
+        return configured;
+    }
 }

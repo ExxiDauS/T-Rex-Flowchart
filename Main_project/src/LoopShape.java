@@ -63,7 +63,17 @@ public class LoopShape extends ActionShape implements DrawFlowchartable {
         }
 
         g2.setFont(f);
-        drawCenteredString(g2, "While", new Rectangle(getWidth(), getHeight()), f);
+        if (configured) {
+            String textPreview = condition;
+            if (textPreview.length() > 7) {
+                textPreview = textPreview.substring(0, Math.min(textPreview.length(), 7));
+                textPreview += " ...";
+            }
+            drawCenteredString(g2, textPreview, new Rectangle(getWidth(), getHeight()), f);
+        }
+        else {
+            drawCenteredString(g2, "while", new Rectangle(getWidth(), getHeight()), f);
+        }
     }
 
 
@@ -150,6 +160,14 @@ public class LoopShape extends ActionShape implements DrawFlowchartable {
         panel.setSize(panel.getWidth(), flowchartMaxY+75);
         panel.repaint();
         return panel;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public String getCondition() {
+        return condition;
     }
 
     @Override

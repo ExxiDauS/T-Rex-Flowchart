@@ -5,6 +5,11 @@ import java.io.*;
 public class InputShape extends ActionShape{
     private int xPosition;
     private int yPosition;
+    private String varType;
+    private String varName;
+    private String message;
+    private String varValue;
+    private boolean isNewVar;
 
     public InputShape(Dimension panelSize) {
         super();
@@ -17,6 +22,7 @@ public class InputShape extends ActionShape{
         super();
         xPosition = 0;  yPosition = 0;
         clicked = false;
+        configured = false;
     }
 
     @Override
@@ -38,6 +44,12 @@ public class InputShape extends ActionShape{
             g2.setColor(identical);
         }
 
+        g2.setStroke(new BasicStroke(2));
+        g2.drawLine(xPosition + getWidth()/6 - 3, yPosition + 5, xPosition, yPosition+5);
+        g2.drawLine(xPosition + getWidth()/6 - 3, yPosition + 5, xPosition + getWidth()/6 - 3 - 5, yPosition);
+        g2.drawLine(xPosition + getWidth()/6 - 3, yPosition + 5, xPosition + getWidth()/6 - 3 - 5, yPosition+10);
+        g2.setStroke(new BasicStroke(1));
+
         g2.drawPolygon(xPoints, yPoints, 4);
         int[] xPoints2 = {xPosition + 1, xPosition + (getWidth()/6) + 1, xPosition + (getWidth())-1, xPosition + ((getWidth()*5)/6)-1};
         int[] yPoints2 = {yPosition + getHeight() - 1, yPosition+1, yPosition+1, yPosition + getHeight() - 1};
@@ -51,7 +63,80 @@ public class InputShape extends ActionShape{
         }
 
         g2.setFont(f);
-        drawCenteredString(g2, "Input", new Rectangle(getWidth(), getHeight()), f);
+        if (configured) {
+            String textPreview = varType + " " + varName;
+            if (textPreview.length() > 7) {
+                textPreview = textPreview.substring(0, Math.min(textPreview.length(), 7));
+                textPreview += " ...";
+            }
+            drawCenteredString(g2, textPreview, new Rectangle(getWidth(), getHeight()), f);
+        }else {
+                drawCenteredString(g2, "Input", new Rectangle(getWidth(), getHeight()), f);
+            }
+    }
+
+    public void setVarType(String varType) {
+        this.varType = varType;
+    }
+
+    public void setVarName(String varName) {
+        this.varName = varName;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getVarType() {
+        return varType;
+    }
+
+    public String getVarName() {
+        return varName;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
+    public void convertToCode(File f) {
+        try(FileWriter fw = new FileWriter(f, true)){
+            varValue = JOptionPane.showInputDialog(null, message);
+            if (varType.equals("String")) {
+                if(isNewVar){
+                    fw.write("Object " + varName + ";\n");
+                }
+                fw.write(varName + " = \"" + varValue + "\";\n");
+            }
+            else {
+                if(isNewVar){
+                    fw.write("Object " + varName + ";\n");
+                }
+                fw.write(varName + " = " + varValue + ";\n");
+            }
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+    }
+
+    public void previewToCode() {
+        String result = "";
+        isNewVar = true;
+        varValue = JOptionPane.showInputDialog(null, message);
+        if (varType.equals("String")) {
+            if(isNewVar){
+                result += ("Object " + varName + ";\n");
+            }
+            result += (varName + " = \"" + varValue + "\";\n");
+        }
+        else {
+            if(isNewVar){
+                result += ("Object " + varName + ";\n");
+            }
+            result += (varName + " = " + varValue + ";\n");
+        }
+        System.out.println(result);
     }
 
     @Override

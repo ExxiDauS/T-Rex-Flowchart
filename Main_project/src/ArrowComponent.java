@@ -23,8 +23,10 @@ public class ArrowComponent extends ActionShape{
         g2.setStroke(new BasicStroke(2));
         g2.drawLine(5,0,5,(arrowHeight/2)-10);
 
+        g2.setColor(new Color(76, 175, 80));
         g2.drawLine(5, ((arrowHeight/2)-4), 5, ((arrowHeight/2)+4));
         g2.drawLine(1, (arrowHeight/2), 9, (arrowHeight/2));
+        g2.setColor(new Color(102,102,102));
 
         g2.drawLine(5,(arrowHeight/2)+10,5,arrowHeight);
         g2.drawLine(5, arrowHeight,10, arrowHeight-5);

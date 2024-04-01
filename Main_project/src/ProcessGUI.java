@@ -61,6 +61,13 @@ public class ProcessGUI extends ShapeGUI{
         gbc.insets = new Insets(0, 0, 0, 0);
         bag.add(doneBtn, gbc);
 
+        if (host.isConfigured()) {
+            String variableName = ((ProcessShape)host).getVarName();
+            String variableValue = ((ProcessShape)host).getVarValue();
+            varInp.setText(variableName);
+            statementInp.setText(variableValue);
+        }
+
         frame.add(process, BorderLayout.NORTH);
         frame.add(bag, BorderLayout.CENTER);
 
@@ -73,16 +80,12 @@ public class ProcessGUI extends ShapeGUI{
         frame.setResizable(false);
     }
 
-    public CustomTextField getVarInp() {
-        return varInp;
-    }
-
-    public CustomTextField getStatementInp() {
-        return statementInp;
-    }
-
     @Override
     public void configShape() {
-        System.out.println("Process Config");
+        String variableName = varInp.getText();
+        String variableValue = statementInp.getText();
+        ((ProcessShape)host).setVarName(variableName);
+        ((ProcessShape)host).setVarValue(variableValue);
+        host.setConfigured(true);
     }
 }

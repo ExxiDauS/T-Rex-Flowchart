@@ -47,6 +47,11 @@ public class LoopGUI extends ShapeGUI{
         gbc.insets = new Insets(0, 0, 0, 0);
         bag.add(doneBtn, gbc);
 
+        if (host.isConfigured()) {
+            String condition = ((LoopShape)host).getCondition();
+            whileInp.setText(condition);
+        }
+
         frame.add(loop, BorderLayout.NORTH);
         frame.add(bag, BorderLayout.CENTER);
 
@@ -59,12 +64,11 @@ public class LoopGUI extends ShapeGUI{
         frame.setResizable(false);
     }
 
-    public CustomTextField getWhileInp() {
-        return whileInp;
-    }
     @Override
     public void configShape() {
-        System.out.println("Loop Config");
+        String condition = whileInp.getText();
+        ((LoopShape)host).setCondition(condition);
+        host.setConfigured(true);
     }
 
 }

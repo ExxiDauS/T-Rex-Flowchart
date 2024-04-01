@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
@@ -31,13 +33,18 @@ public class OutputShape extends ActionShape{
         Color identical = new Color(33,150,243);
         int[] xPoints = {xPosition, xPosition + getWidth()/6, xPosition + getWidth(), xPosition + (getWidth()*5)/6};
         int[] yPoints = {yPosition + getHeight() - 1, yPosition, yPosition, yPosition + getHeight() - 1};
-
         if(!clicked) {
             g2.setColor(Color.BLACK);
         }
         else {
             g2.setColor(identical);
         }
+
+        g2.setStroke(new BasicStroke(2));
+        g2.drawLine(3+xPosition + (getWidth()*5)/6, yPosition + getHeight()-1-5, xPosition+getWidth()-1, yPosition + getHeight()-1-5);
+        g2.drawLine(xPosition+getWidth()-1, yPosition + getHeight()-1-5, xPosition+getWidth()-1-5, yPosition + getHeight()-1-5-5);
+        g2.drawLine(xPosition+getWidth()-1, yPosition + getHeight()-1-5, xPosition+getWidth()-1-5, yPosition + getHeight()-1-5+5);
+        g2.setStroke(new BasicStroke(1));
 
         g2.drawPolygon(xPoints, yPoints, 4);
         int[] xPoints2 = {xPosition + 1, xPosition + (getWidth()/6) + 1, xPosition + (getWidth())-1, xPosition + ((getWidth()*5)/6)-1};
@@ -65,12 +72,21 @@ public class OutputShape extends ActionShape{
         }
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
     @Override
     public void convertToCode(File f) {
-        try(FileWriter fw = new FileWriter(f)){
-            fw.write("System.out.println("+message+");");
+        try(FileWriter fw = new FileWriter(f, true)){
+            fw.write("System.out.println(\""+message+"\");");
         }catch(IOException ioe){
             ioe.printStackTrace();
         }
     }
+
 }

@@ -261,6 +261,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
             for (ShapeGUI GUI: activeGUI) {
                 if (GUI.getDoneBtn().equals(ae.getSource())) {
                     GUI.configShape();
+                    mainView.getFlowchartPanel().drawFlowchart(model.getOrder());
                     GUI.getFrame().dispose();
                 }
             }

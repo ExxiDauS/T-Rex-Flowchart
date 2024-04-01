@@ -47,6 +47,11 @@ public class DecisionGUI extends ShapeGUI{
         gbc.insets = new Insets(0, 0, 0, 0);
         bag.add(doneBtn, gbc);
 
+        if (host.isConfigured()) {
+            String condition = ((DecisionShape)host).getCondition();
+            conditionInp.setText(condition);
+        }
+
         frame.add(decision, BorderLayout.NORTH);
         frame.add(bag, BorderLayout.CENTER);
 
@@ -59,11 +64,10 @@ public class DecisionGUI extends ShapeGUI{
         frame.setResizable(false);
     }
 
-    public CustomTextField getConditionInp() {
-        return conditionInp;
-    }
     @Override
     public void configShape() {
-        System.out.println("Decision Config");
+        String condition = conditionInp.getText();
+        ((DecisionShape)host).setCondition(condition);
+        host.setConfigured(true);
     }
 }
