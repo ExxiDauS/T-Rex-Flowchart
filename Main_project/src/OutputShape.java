@@ -83,7 +83,7 @@ public class OutputShape extends ActionShape{
     @Override
     public void convertToCode(File f) {
         try(FileWriter fw = new FileWriter(f, true)){
-            fw.write("System.out.println(\""+message+"\");");
+            fw.write("System.out.println("+message+");");
         }catch(IOException ioe){
             ioe.printStackTrace();
         }

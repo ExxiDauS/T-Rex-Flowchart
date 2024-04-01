@@ -62,7 +62,7 @@ public class ProcessGUI extends ShapeGUI{
         bag.add(doneBtn, gbc);
 
         if (host.isConfigured()) {
-            String variableName = ((ProcessShape)host).getVarName();
+            String variableName = ((ProcessShape)host).getVarType() + " " + ((ProcessShape)host).getVarName();
             String variableValue = ((ProcessShape)host).getVarValue();
             varInp.setText(variableName);
             statementInp.setText(variableValue);
@@ -83,8 +83,10 @@ public class ProcessGUI extends ShapeGUI{
     @Override
     public void configShape() {
         String variableName = varInp.getText();
+        String splited[] = variableName.split(" ");
         String variableValue = statementInp.getText();
-        ((ProcessShape)host).setVarName(variableName);
+        ((ProcessShape)host).setVarType(splited[0]);
+        ((ProcessShape)host).setVarName(splited[1]);
         ((ProcessShape)host).setVarValue(variableValue);
         host.setConfigured(true);
     }

@@ -2,12 +2,11 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.*;
 
-public class ProcessShape extends ActionShape{
+public class ProcessShape extends DeclareShape{
     private int xPosition;
     private int yPosition;
-    private String varName;
     private String varValue;
-    private boolean isNewVar;
+    private String varType;
 
     public ProcessShape(Dimension panelSize) {
         super();
@@ -82,14 +81,6 @@ public class ProcessShape extends ActionShape{
         }
     }
 
-    public void setVarName(String varName) {
-        this.varName = varName;
-    }
-
-    public String getVarName() {
-        return varName;
-    }
-
     public String getVarValue() {
         return varValue;
     }
@@ -98,13 +89,29 @@ public class ProcessShape extends ActionShape{
         this.varValue = varValue;
     }
 
+    public void setVarType(String varType) {
+        this.varType = varType;
+    }
+
+    public String getVarType() {
+        return varType;
+    }
+
     @Override
     public void convertToCode(File f) {
         try(FileWriter fw = new FileWriter(f, true)){
-            if(isNewVar){
-                fw.write("Object " + varName + ";\n");
+            if (varType.equals("String")) {
+                if(isNewVar){
+                    fw.write(varType + " " + varName + ";\n");
+                }
+                fw.write(varName + " = \"" + varValue + "\";\n");
             }
-            fw.write(varName + " = " + varValue + ";\n");
+            else {
+                if(isNewVar){
+                    fw.write(varType + " " + varName + ";\n");
+                }
+                fw.write(varName + " = " + varValue + ";\n");
+            }
         }catch(IOException ioe){
             ioe.printStackTrace();
         }

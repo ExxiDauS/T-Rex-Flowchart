@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FlowchartController implements ActionListener, WindowListener, MouseListener{
     private FlowchartModel model;
@@ -85,7 +87,23 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     }
 
     public void runFlowchart() {
-        //run flowchart
+        File f = new File("Trex.java");
+        Set<String> variablePool = new HashSet<String>();
+        for (Shape shape : model.getOrder()) {
+            if (!(shape instanceof ArrowComponent)) {
+                if (DeclareShape.class.isAssignableFrom(shape.getClass())) {
+                    String suspectVarName = ((DeclareShape)shape).getVarName();
+                    boolean isNewVar = !(variablePool.contains(suspectVarName));
+                    if (isNewVar) {
+                        variablePool.add(suspectVarName);
+                    }
+                    ((DeclareShape)shape).setNewVar(isNewVar);
+                    shape.convertToCode(f);
+                } else {
+                    shape.convertToCode(f);
+                }
+            }
+        }
     }
     public void addShape() {
         ActionShape newShape;
@@ -210,7 +228,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     public void actionPerformed(ActionEvent ae) {
         if (!(ae.getSource() instanceof DoneCustomButton)) {
             if (ae.getSource().equals(mainView.getToolPanel().getRunButton())) {
-//            runFlowchart();
+                runFlowchart();
             }
             else if (ae.getSource().equals(mainView.getToolPanel().getLoginButton())) {
                 loginViewController = new LoginViewController(model);
@@ -322,7 +340,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         Object source = e.getSource();
         boolean isActionShape = ActionShape.class.isAssignableFrom(source.getClass());
         boolean isArrowComponent = source.getClass().equals(new ArrowComponent().getClass());
-        if (e.getClickCount() < 2){
+        if (e.getClickCount() < 2 || isArrowComponent || deleteToggle){
             if (isActionShape) {
                 current = (ActionShape) source;
                 if (!deleteToggle) {
@@ -356,7 +374,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
             }
         }
         else {
-            if (isActionShape && !isArrowComponent) {
+            if (isActionShape) {
                 current = (ActionShape) source;
                 if (current.isInFlowchart()) {
                     openGUI(current);

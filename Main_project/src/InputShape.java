@@ -2,14 +2,12 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.*;
 
-public class InputShape extends ActionShape{
+public class InputShape extends DeclareShape{
     private int xPosition;
     private int yPosition;
     private String varType;
-    private String varName;
     private String message;
     private String varValue;
-    private boolean isNewVar;
 
     public InputShape(Dimension panelSize) {
         super();
@@ -80,20 +78,12 @@ public class InputShape extends ActionShape{
         this.varType = varType;
     }
 
-    public void setVarName(String varName) {
-        this.varName = varName;
-    }
-
     public void setMessage(String message) {
         this.message = message;
     }
 
     public String getVarType() {
         return varType;
-    }
-
-    public String getVarName() {
-        return varName;
     }
 
     public String getMessage() {
@@ -106,13 +96,13 @@ public class InputShape extends ActionShape{
             varValue = JOptionPane.showInputDialog(null, message);
             if (varType.equals("String")) {
                 if(isNewVar){
-                    fw.write("Object " + varName + ";\n");
+                    fw.write(varType + " " + varName + ";\n");
                 }
                 fw.write(varName + " = \"" + varValue + "\";\n");
             }
             else {
                 if(isNewVar){
-                    fw.write("Object " + varName + ";\n");
+                    fw.write(varType + " " + varName + ";\n");
                 }
                 fw.write(varName + " = " + varValue + ";\n");
             }
@@ -120,26 +110,6 @@ public class InputShape extends ActionShape{
             ioe.printStackTrace();
         }
     }
-
-    public void previewToCode() {
-        String result = "";
-        isNewVar = true;
-        varValue = JOptionPane.showInputDialog(null, message);
-        if (varType.equals("String")) {
-            if(isNewVar){
-                result += ("Object " + varName + ";\n");
-            }
-            result += (varName + " = \"" + varValue + "\";\n");
-        }
-        else {
-            if(isNewVar){
-                result += ("Object " + varName + ";\n");
-            }
-            result += (varName + " = " + varValue + ";\n");
-        }
-        System.out.println(result);
-    }
-
     @Override
     public Dimension getPreferredSize() {
         if (!isInFlowchart()){
