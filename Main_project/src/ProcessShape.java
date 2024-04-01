@@ -23,6 +23,7 @@ public class ProcessShape extends ActionShape{
         this.varName = variableName;
         this.varValue = value;
         isNewVar = false;
+        associatedGUI = null;
     }
 
     public ProcessShape() {

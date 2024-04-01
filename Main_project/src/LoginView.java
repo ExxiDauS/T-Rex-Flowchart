@@ -69,6 +69,7 @@ public class LoginView {
             contGuest.setBorder(new EmptyBorder(0,3,0,0));
             contGuest.setBorderPainted(false);
             contGuest.setForeground(new Color(0, 150, 136));
+            contGuest.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             guestPanel.add(noaccLabel);
             guestPanel.add(contGuest);
             ((FlowLayout)guestPanel.getLayout()).setHgap(0);

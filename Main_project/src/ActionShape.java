@@ -6,15 +6,10 @@ public abstract class ActionShape extends Shape{
     protected boolean clicked;
     protected boolean inFlowchart;
     protected boolean configured;
+    protected ShapeGUI associatedGUI;
     public ActionShape() {
         super();
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-//        Image image = toolkit.getImage("Main_project\\src\\picture\\IconOri.png");
-//        Cursor c = toolkit.createCustomCursor(image, new Point(0,0), "img");
-//        setCursor(c);
-
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
         inFlowchart = true;
     }
 
@@ -31,5 +26,13 @@ public abstract class ActionShape extends Shape{
 
     public boolean isClicked() {
         return clicked;
+    }
+
+    public ShapeGUI getAssociatedGUI() {
+        return associatedGUI;
+    }
+
+    public void setAssociatedGUI(ShapeGUI associatedGUI) {
+        this.associatedGUI = associatedGUI;
     }
 }

@@ -10,7 +10,6 @@ public class TopBarPanel extends JPanel{
     private BarCustomButton loadBtn;
     private JPanel leftAlign, rightAlign;
     public TopBarPanel(){
-        setBackground(new Color(234,234,234));
         setBorder(new LineBorder(new Color(204,204,204)));
         setLayout(new GridLayout(1,2));
         leftAlign = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
@@ -40,6 +39,8 @@ public class TopBarPanel extends JPanel{
         leftAlign.add(saveBtn);
         leftAlign.add(loadBtn);
         rightAlign.add(loginBtn);
+        leftAlign.setOpaque(false);
+        rightAlign.setOpaque(false);
         add(leftAlign);     add(rightAlign);
     }
 

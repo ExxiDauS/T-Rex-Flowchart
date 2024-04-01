@@ -6,6 +6,7 @@ public class CustomButton extends JButton {
     public CustomButton(){
         setOpaque(false);
         setContentAreaFilled(false);
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setFont(new Font("Montserrat", Font.BOLD, 24));
         setBorder(new EmptyBorder(20,3,20,3));
     }

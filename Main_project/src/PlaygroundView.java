@@ -29,7 +29,7 @@ public class PlaygroundView extends JFrame{
         Dimension screenSize = toolkit.getScreenSize();
         Dimension fixedScreenSize = new Dimension((int)screenSize.getWidth(), (int)screenSize.getHeight()-48);
         this.setSize(fixedScreenSize);
-//        this.setSize(1366, 768-48);
+//        this.setSize(1920, 1080-48);
 
         topBarPanel = new TopBarPanel();
         dp = new JDesktopPane();
@@ -59,7 +59,12 @@ public class PlaygroundView extends JFrame{
         dp.add(shapePanel);
         dp.add(consolePanel);
         dp.add(flowchartScroll);
+//        JInternalFrame bank = new JInternalFrame();
+//        bank.setSize(getWidth()-shapePanel.getWidth(), getHeight()-60-48);
+//        bank.setVisible(true);
+//        dp.add(bank);
         dp.setVisible(true);
+//        bank.toFront();
 
         this.add(dp);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);

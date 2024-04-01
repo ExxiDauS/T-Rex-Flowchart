@@ -16,6 +16,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     private StartShape start;
     private ArrowComponent firstArrow;
     private EndShape end;
+    private ArrayList<ShapeGUI> activeGUI;
     public FlowchartController() {
         model = new FlowchartModel();
         mainView = new PlaygroundView();
@@ -27,6 +28,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         current = null;
         currentTool = null;
         deleteToggle = false;
+        activeGUI = new ArrayList<ShapeGUI>();
         mainView.getToolPanel().getRunButton().addActionListener(this);
         mainView.getToolPanel().getLoginButton().addActionListener(this);
         mainView.getToolPanel().getDeleteToggleBtn().addActionListener(this);
@@ -49,20 +51,40 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     }
 
     public void paintClicked(Object source) {
-        current.paintWhenClicked();
         if (!current.isInFlowchart()) {
+            current.paintWhenClicked();
             boolean isSame = current.equals(currentTool);
             currentTool = current;
             mainView.getShapePanel().paintCurrentTool(currentTool);
             if (isSame) {currentTool = null;}
         }
+    }
+
+    public void openGUI(ActionShape actionShape) {
+        ShapeGUI GUI = actionShape.getAssociatedGUI();
+        if (GUI == null) {
+            if (actionShape instanceof ProcessShape) {
+                GUI = new ProcessGUI(actionShape);
+            } else if (actionShape instanceof InputShape) {
+                GUI = new InputGUI(actionShape);
+            } else if (actionShape instanceof OutputShape) {
+                GUI = new OutputGUI(actionShape);
+            } else if (actionShape instanceof DecisionShape) {
+                GUI = new DecisionGUI(actionShape);
+            } else if (actionShape instanceof LoopShape) {
+                GUI = new LoopGUI(actionShape);
+            }
+            actionShape.setAssociatedGUI(GUI);
+            activeGUI.add(GUI);
+            GUI.getDoneBtn().addActionListener(this);
+            GUI.getFrame().addWindowListener(this);
+        }
         else {
-            //after config
+            GUI.getFrame().toFront();
         }
     }
 
     public void runFlowchart() {
-//        model.saveModel();
         //run flowchart
     }
     public void addShape() {
@@ -186,53 +208,64 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource().equals(mainView.getToolPanel().getRunButton())) {
+        if (!(ae.getSource() instanceof DoneCustomButton)) {
+            if (ae.getSource().equals(mainView.getToolPanel().getRunButton())) {
 //            runFlowchart();
-        }
-        else if (ae.getSource().equals(mainView.getToolPanel().getLoginButton())) {
-            loginViewController = new LoginViewController(model);
-            loginViewController.getLoginView().getFrame().addWindowListener(this);
-        }
-        else if (ae.getSource().equals(mainView.getToolPanel().getDeleteToggleBtn())) {
-            deleteToggle = !deleteToggle;
-            BarCustomButton pointer = (BarCustomButton) (mainView.getToolPanel().getDeleteToggleBtn());
-            if (deleteToggle) {
-                pointer.setText("Delete: ON");
-                pointer.setColor(new Color(233, 17, 69));
             }
-            else {
-                pointer.setText("Delete: OFF");
-                pointer.setColor(new Color(0,150,136));
+            else if (ae.getSource().equals(mainView.getToolPanel().getLoginButton())) {
+                loginViewController = new LoginViewController(model);
+                loginViewController.getLoginView().getFrame().addWindowListener(this);
+            }
+            else if (ae.getSource().equals(mainView.getToolPanel().getDeleteToggleBtn())) {
+                deleteToggle = !deleteToggle;
+                BarCustomButton pointer = (BarCustomButton) (mainView.getToolPanel().getDeleteToggleBtn());
+                if (deleteToggle) {
+                    pointer.setText("Delete: ON");
+                    pointer.setColor(new Color(233, 17, 69));
+                }
+                else {
+                    pointer.setText("Delete: OFF");
+                    pointer.setColor(new Color(0,150,136));
+                }
+            }
+            else if (ae.getSource().equals(mainView.getToolPanel().getSaveBtn())) {
+                JFileChooser fc = new JFileChooser("Main_project//src//save//");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("TVSC", "tvsc");
+                fc.setFileFilter(filter);
+                File f;
+                int result = fc.showSaveDialog(mainView);
+                if (String.valueOf(fc.getSelectedFile()).contains(".tvsc")) {
+                    f = new File(String.valueOf(fc.getSelectedFile()));
+                } else {
+                    f = new File(String.valueOf(fc.getSelectedFile()) + ".tvsc");
+                }
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    model.saveModel(f);
+                }
+            }
+            else if (ae.getSource().equals(mainView.getToolPanel().getLoadBtn())) {
+                JFileChooser fc = new JFileChooser("Main_project//src//save//");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("TVSC", "tvsc");
+                fc.setFileFilter(filter);
+                fc.showOpenDialog(mainView);
+                File f = fc.getSelectedFile();
+                model.loadModel(f);
+                for (Shape shape : model.getOrder()) {
+                    boolean isStarter = (shape.equals(start) || shape.equals(firstArrow) || shape.equals(end));
+                    if (!isStarter) {listenToNewModel(shape);}
+                }
+                mainView.getFlowchartPanel().drawFlowchart(model.getOrder());
             }
         }
-        else if (ae.getSource().equals(mainView.getToolPanel().getSaveBtn())) {
-            JFileChooser fc = new JFileChooser("Main_project//src//save//");
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("TVSC", "tvsc");
-            fc.setFileFilter(filter);
-            File f;
-            int result = fc.showSaveDialog(mainView);
-            if (String.valueOf(fc.getSelectedFile()).contains(".tvsc")) {
-                f = new File(String.valueOf(fc.getSelectedFile()));
-            } else {
-                f = new File(String.valueOf(fc.getSelectedFile()) + ".tvsc");
-            }
-            if (result == JFileChooser.APPROVE_OPTION) {
-                model.saveModel(f);
+        else {
+            for (ShapeGUI GUI: activeGUI) {
+                if (GUI.getDoneBtn().equals(ae.getSource())) {
+                    GUI.configShape();
+                    GUI.getFrame().dispose();
+                }
             }
         }
-        else if (ae.getSource().equals(mainView.getToolPanel().getLoadBtn())) {
-            JFileChooser fc = new JFileChooser("Main_project//src//save//");
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("TVSC", "tvsc");
-            fc.setFileFilter(filter);
-            fc.showOpenDialog(mainView);
-            File f = fc.getSelectedFile();
-            model.loadModel(f);
-            for (Shape shape : model.getOrder()) {
-                boolean isStarter = (shape.equals(start) || shape.equals(firstArrow) || shape.equals(end));
-                if (!isStarter) {listenToNewModel(shape);}
-            }
-            mainView.getFlowchartPanel().drawFlowchart(model.getOrder());
-        }
+
     }
 
     @Override
@@ -242,12 +275,27 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     public void windowOpened(WindowEvent e) {
 
     }
+
+    public boolean removingGUI(WindowEvent we) {
+        boolean isRemovingGUI = false;
+        for (ShapeGUI GUI: activeGUI) {
+            if (GUI.getFrame().equals(we.getSource())) {
+                GUI.getHost().setAssociatedGUI(null);
+                activeGUI.remove(GUI);
+                isRemovingGUI = true;
+                break;
+            }
+        }
+        return isRemovingGUI;
+    }
     @Override
     public void windowClosed(WindowEvent we) {
-        if (we.getSource().equals(loginViewController.getLoginView().getFrame())) {
-            if (!model.getStatus().equals("play")) {
-                mainView.getToolPanel().getLoginButton().setText(model.getUsername());
-                mainView.getToolPanel().getLoginButton().setEnabled(false);
+        if (!removingGUI(we)) {
+            if (we.getSource().equals(loginViewController.getLoginView().getFrame())) {
+                if (!model.getStatus().equals("play")) {
+                    mainView.getToolPanel().getLoginButton().setText(model.getUsername());
+                    mainView.getToolPanel().getLoginButton().setEnabled(false);
+                }
             }
         }
     }
@@ -271,35 +319,44 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         Object source = e.getSource();
         boolean isActionShape = ActionShape.class.isAssignableFrom(source.getClass());
         boolean isArrowComponent = source.getClass().equals(new ArrowComponent().getClass());
-        if (isActionShape) {
-            current = (ActionShape) source;
-            if (!deleteToggle) {
-                if (!isArrowComponent) {
-                    paintClicked(source);
-                }
-                else {
-                    if (!(currentTool==(null))) {
-                        addShape();
+        if (e.getClickCount() < 2){
+            if (isActionShape) {
+                current = (ActionShape) source;
+                if (!deleteToggle) {
+                    if (!isArrowComponent) {
+                        paintClicked(source);
+                    } else {
+                        if (!(currentTool == (null))) {
+                            addShape();
+                        }
+                    }
+                } else {
+                    boolean isDrawFlowchartable = current instanceof DrawFlowchartable;
+                    if (!isArrowComponent && !isDrawFlowchartable) {
+                        if (current.getParent().equals(mainView.getFlowchartPanel())) {
+                            deleteShape();
+                        } else {
+                            if (current.isInFlowchart()) {
+                                deleteSubShape();
+                            }
+                        }
+                    } else if (isDrawFlowchartable) {
+                        if (current.getParent().getParent().equals(mainView.getFlowchartPanel())) {
+                            deleteShape();
+                        } else {
+                            if (current.isInFlowchart()) {
+                                deleteSubShape();
+                            }
+                        }
                     }
                 }
             }
-            else {
-                boolean isDrawFlowchartable = current instanceof DrawFlowchartable;
-                if (!isArrowComponent && !isDrawFlowchartable) {
-                    if (current.getParent().equals(mainView.getFlowchartPanel())) {
-                        deleteShape();
-                    }
-                    else {
-                        if(current.isInFlowchart()) {deleteSubShape();}
-                    }
-                }
-                else {
-                    if (current.getParent().getParent().equals(mainView.getFlowchartPanel())) {
-                        deleteShape();
-                    }
-                    else {
-                        if(current.isInFlowchart()) {deleteSubShape();}
-                    }
+        }
+        else {
+            if (isActionShape && !isArrowComponent) {
+                current = (ActionShape) source;
+                if (current.isInFlowchart()) {
+                    openGUI(current);
                 }
             }
         }
