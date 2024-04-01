@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
+import java.util.HashSet;
 
 public class ProcessShape extends DeclareShape{
     private int xPosition;
@@ -98,7 +99,7 @@ public class ProcessShape extends DeclareShape{
     }
 
     @Override
-    public void convertToCode(File f) {
+    public void convertToCode(File f, HashSet<String> variablePool) {
         try(FileWriter fw = new FileWriter(f, true)){
             if (varType.equals("String")) {
                 if(isNewVar){

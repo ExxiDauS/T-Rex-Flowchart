@@ -39,48 +39,48 @@ public class problemFrame extends JInternalFrame implements ActionListener, Mous
     public problemFrame(){
         try {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Main_project\\src\\font\\Montserrat-Thin.ttf")));
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Main_project\\src\\font\\Montserrat-Bold.ttf")));
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Main_project\\src\\font\\Montserrat-Regular.ttf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src\\font\\Montserrat-Thin.ttf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src\\font\\Montserrat-Bold.ttf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src\\font\\Montserrat-Regular.ttf")));
         }
         catch(IOException|FontFormatException e) {
             e.printStackTrace();
         }
         setLayout(new BorderLayout());
         setBackground(new java.awt.Color(217, 217, 217));
-        
+
         showProb = new JPanel();
         showProb.setLayout(new BoxLayout(showProb, BoxLayout.Y_AXIS));
 
-        
+
         closeAroow = new JLabel(">");
         closeAroow.setHorizontalAlignment(JLabel.CENTER);
-        
+
         databaseConnect = new DatabaseConnect();
 
         problemLst = databaseConnect.getAllProblem();
-        
+
 //        set container
         titlePanel = new JPanel();      titlePanel.setLayout(new FlowLayout(10, 25, 10));
-        
+
         imgPanel = new JPanel();        imgPanel.setLayout(new FlowLayout( 10, 25, 10));
-        
+
         desHPanel = new JPanel();       desHPanel.setLayout(new FlowLayout(10, 25, 10));
-       
+
         descriptionPanel = new JPanel();        descriptionPanel.setLayout(new FlowLayout(10, 40, 7));
-        
+
         sampleTestPanel = new JPanel();     sampleTestPanel.setLayout(new FlowLayout(10, 25, 10));
-        
+
         testCasePanel = new JPanel();       testCasePanel.setLayout(new FlowLayout(10, 40, 10));
-        
+
         current = (problem) problemLst.get(selectProb - 1);
-        
+
         //      set Column name
         testCase = new JTable();
         testCase.setFont(new Font("Montserrat", Font.PLAIN, 20));
-        
+
         roundBorder = new LineBorder(Color.black, 1, true);
-        
+
         tModel = (DefaultTableModel)testCase.getModel();
         tModel.setColumnIdentifiers(new String[]{"Input", "Output"});
         testCase.setBorder(roundBorder);
@@ -91,7 +91,7 @@ public class problemFrame extends JInternalFrame implements ActionListener, Mous
         testCase.setDefaultRenderer(Object.class, leftAlign);
 
         setShowPanel(current);
-        
+
         probLst = new JPanel();
         probLst.setPreferredSize(new Dimension(50,600));
 
@@ -103,7 +103,7 @@ public class problemFrame extends JInternalFrame implements ActionListener, Mous
         vScrollBar.setBlockIncrement(10);
 
         add(scrollPanel, BorderLayout.CENTER);
-        
+
         ArrayList<Integer> myVariables = new ArrayList<>();
         for (int i=0; i < problemLst.size();i++){
             btn = new JButton(i+1+"");
@@ -119,18 +119,18 @@ public class problemFrame extends JInternalFrame implements ActionListener, Mous
 
 
         add(probLst,BorderLayout.EAST);
-        
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
     }
-    
+
     public void setShowPanel(problem current){
 
         System.out.println(current.getTitleName());
         title = new JLabel(current.getTitleName());
         title.setFont(new Font("Montserrat", Font.BOLD, 48));
-        
+
         titlePanel.add(title);          showProb.add(titlePanel);
 
 //        showProb.add(title, FlowLayout.LEFT);
@@ -141,10 +141,10 @@ public class problemFrame extends JInternalFrame implements ActionListener, Mous
             img = new JLabel(new ImageIcon(image));
             img.setPreferredSize(new Dimension(875, 425));
             imgPanel.add(img);      showProb.add(imgPanel);
-            
+
         }catch (IOException ex){
             try{
-            BufferedImage image = ImageIO.read(new File("Main_project\\src\\picture\\404.jpg"));
+            BufferedImage image = ImageIO.read(new File("src\\picture\\404.jpg"));
 //            URL url = new URL("https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?fit=845%2C503&ssl=1");
 //            BufferedImage image = ImageIO.read(url);
             img = new JLabel(new ImageIcon(image));

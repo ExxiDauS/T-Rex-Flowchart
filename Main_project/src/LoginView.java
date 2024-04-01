@@ -28,9 +28,9 @@ public class LoginView {
 
             //Register Font
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Main_project\\src\\font\\Montserrat-Thin.ttf")));
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Main_project\\src\\font\\Montserrat-Bold.ttf")));
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Main_project\\src\\font\\Montserrat-Regular.ttf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src\\font\\Montserrat-Thin.ttf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src\\font\\Montserrat-Bold.ttf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src\\font\\Montserrat-Regular.ttf")));
 
             //GridBagLayout
             bagPanel.setLayout(new GridBagLayout());
@@ -90,7 +90,7 @@ public class LoginView {
             gbc.insets = new Insets(30,0,0,0);
             gbc.gridy = 4;
             bagPanel.add(guestPanel, gbc);
-            ImageIcon img = new ImageIcon("Main_project//src//picture//logo96.png");
+            ImageIcon img = new ImageIcon("src//picture//logo96.png");
             fr.setIconImage(img.getImage());
 
             // showing frame config

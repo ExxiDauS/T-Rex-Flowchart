@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class LoopShape extends ActionShape implements DrawFlowchartable {
     private int xPosition;
@@ -88,8 +89,22 @@ public class LoopShape extends ActionShape implements DrawFlowchartable {
         }
     }
 
+    public void convertInnerShape(Shape shape, HashSet<String> variablePool,File f) {
+        if (DeclareShape.class.isAssignableFrom(shape.getClass())) {
+            String suspectVarName = ((DeclareShape)shape).getVarName();
+            boolean isNewVar = !(variablePool.contains(suspectVarName));
+            if (isNewVar) {
+                variablePool.add(suspectVarName);
+            }
+            ((DeclareShape)shape).setNewVar(isNewVar);
+            shape.convertToCode(f, variablePool);
+        } else {
+            shape.convertToCode(f, variablePool);
+        }
+    }
+
     @Override
-    public void convertToCode(File f) {
+    public void convertToCode(File f, HashSet<String> variablePool) {
         if (f.exists()) {
             try (FileWriter fw = new FileWriter(f,true)) {
                 String Header = "while (" + condition + ")" + " {\n";
@@ -99,7 +114,9 @@ public class LoopShape extends ActionShape implements DrawFlowchartable {
                 e.printStackTrace();
             }
             for (Shape shape : repeatOrder) {
-                if (!shape.getClass().equals(ArrowComponent.class)) {shape.convertToCode(f);}
+                if (!shape.getClass().equals(ArrowComponent.class)) {
+                    convertInnerShape(shape, variablePool, f);
+                }
             }
             try (FileWriter fw = new FileWriter(f,true)) {
                 fw.write("}\n");

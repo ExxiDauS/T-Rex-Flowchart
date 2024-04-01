@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
+import java.util.HashSet;
 
 public class StartShape extends Shape{
 
@@ -27,7 +28,7 @@ public class StartShape extends Shape{
     }
 
     @Override
-    public void convertToCode(File f) {
+    public void convertToCode(File f, HashSet<String> variablePool) {
         if (f.exists()){
             f.delete();
             try (FileWriter fw = new FileWriter(f)){

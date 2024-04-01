@@ -15,14 +15,14 @@ public class PlaygroundView extends JFrame{
     private problemFrame prbfr;
     public PlaygroundView() {
         setTitle("T-Rex Flowchart");
-        ImageIcon img = new ImageIcon("Main_project//src//picture//logo96.png");
+        ImageIcon img = new ImageIcon("src//picture//logo96.png");
         setIconImage(img.getImage());
         //load font
         try {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Main_project\\src\\font\\Montserrat-Thin.ttf")));
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Main_project\\src\\font\\Montserrat-Bold.ttf")));
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Main_project\\src\\font\\Montserrat-Regular.ttf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src\\font\\Montserrat-Thin.ttf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src\\font\\Montserrat-Bold.ttf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src\\font\\Montserrat-Regular.ttf")));
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }

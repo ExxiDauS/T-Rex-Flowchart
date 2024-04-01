@@ -21,6 +21,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     private EndShape end;
     private ArrayList<ShapeGUI> activeGUI;
     private Grader grader;
+    private HashSet<String> variablePool;
     public FlowchartController() {
         model = new FlowchartModel();
         mainView = new PlaygroundView();
@@ -93,7 +94,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
 
     public void runFlowchart() {
         File f = new File("Trex.java");
-        Set<String> variablePool = new HashSet<String>();
+        variablePool = new HashSet<String>();
         for (Shape shape : model.getOrder()) {
             if (!(shape instanceof ArrowComponent)) {
                 if (DeclareShape.class.isAssignableFrom(shape.getClass())) {
@@ -103,9 +104,9 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
                         variablePool.add(suspectVarName);
                     }
                     ((DeclareShape)shape).setNewVar(isNewVar);
-                    shape.convertToCode(f);
+                    shape.convertToCode(f, variablePool);
                 } else {
-                    shape.convertToCode(f);
+                    shape.convertToCode(f, variablePool);
                 }
             }
         }

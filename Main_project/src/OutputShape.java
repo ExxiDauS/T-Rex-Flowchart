@@ -3,6 +3,7 @@ import org.w3c.dom.ls.LSOutput;
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
+import java.util.HashSet;
 
 public class OutputShape extends ActionShape{
     private int xPosition;
@@ -81,7 +82,7 @@ public class OutputShape extends ActionShape{
     }
 
     @Override
-    public void convertToCode(File f) {
+    public void convertToCode(File f, HashSet<String> variablePool) {
         try(FileWriter fw = new FileWriter(f, true)){
             fw.write("System.out.println("+message+");");
         }catch(IOException ioe){
