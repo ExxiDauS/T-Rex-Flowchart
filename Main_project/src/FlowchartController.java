@@ -6,7 +6,6 @@ import java.util.*;
 
 public class FlowchartController implements ActionListener, WindowListener, MouseListener{
     private FlowchartModel model;
-    private ProblemModel probModel;
     private Toolkit toolkit;
     private PlaygroundView mainView;
     private LoginViewController loginViewController;
@@ -14,7 +13,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     private ActionShape current;
     private ActionShape currentShapeSelected;
     private boolean deleteToggle;
-    private Grader grader;
+//    private Grader grader;
     public FlowchartController() {
         model = new FlowchartModel();
         mainView = new PlaygroundView();
@@ -127,46 +126,46 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         }
     }
     
-    private void runGrader(){
-        ArrayList<Shape> flowchart = model.getOrder();
-        File f = new File("trex.java");
-//        !!Don't forget to change.
-        int problemID = probModel.getProblemID();
-        int iTmp = 0;
-        String varName = "x";
-        ArrayList result = new ArrayList();
-        for (int j = 0; j < probModel.getProblemTestCasesCount(problemID); j++) {
-            for(int i=0;i<flowchart.size();i++) {
-                if(!flowchart.get(i).getClass().equals(ArrowComponent.class)){
-                    if (flowchart.get(i).getClass().equals(InputShape.class)) {
-                        try (FileWriter fOut = new FileWriter(f)){
-                            for (int k = 0; k < model.getInput(problemID + j).size(); k++) {
-                                if (model.getInputType(problemID + j).get(iTmp).equals("String")) {
-                                    fOut.write(model.getInputType(problemID + j).get(iTmp) + " " + varName + " = " +  "\"" + model.getInput(problemID + j).get(iTmp) + "\"" + ";" + "\n");
-                                }
-                                else{
-                                    fOut.write(model.getInputType(problemID + j).get(iTmp) + " " + varName + " = " + model.getInput(problemID + j).get(iTmp) + ";" + "\n");
-                                }
-                                iTmp += 1;
-                                varName = "x" + iTmp;
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    else{
-                        flowchart.get(i).convertToCode(f);
-                    }
-                }
-            }
-            if (grader.checkResult(f, problemID + j).contains(false)) {
-                result.add(false);
-            }
-            else{
-                result.add(true);
-            }
-        }
-    }
+//    private void runGrader(){
+//        ArrayList<Shape> flowchart = model.getOrder();
+//        File f = new File("trex.java");
+////        !!Don't forget to change.
+//        int problemID = probModel.getProblemID();
+//        int iTmp = 0;
+//        String varName = "x";
+//        ArrayList result = new ArrayList();
+//        for (int j = 0; j < probModel.getProblemTestCasesCount(problemID); j++) {
+//            for(int i=0;i<flowchart.size();i++) {
+//                if(!flowchart.get(i).getClass().equals(ArrowComponent.class)){
+//                    if (flowchart.get(i).getClass().equals(InputShape.class)) {
+//                        try (FileWriter fOut = new FileWriter(f)){
+//                            for (int k = 0; k < model.getInput(problemID + j).size(); k++) {
+//                                if (model.getInputType(problemID + j).get(iTmp).equals("String")) {
+//                                    fOut.write(model.getInputType(problemID + j).get(iTmp) + " " + varName + " = " +  "\"" + model.getInput(problemID + j).get(iTmp) + "\"" + ";" + "\n");
+//                                }
+//                                else{
+//                                    fOut.write(model.getInputType(problemID + j).get(iTmp) + " " + varName + " = " + model.getInput(problemID + j).get(iTmp) + ";" + "\n");
+//                                }
+//                                iTmp += 1;
+//                                varName = "x" + iTmp;
+//                            }
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    else{
+//                        flowchart.get(i).convertToCode(f);
+//                    }
+//                }
+//            }
+//            if (grader.checkResult(f, problemID + j).contains(false)) {
+//                result.add(false);
+//            }
+//            else{
+//                result.add(true);
+//            }
+//        }
+//    }
 
     @Override
     public void windowClosing(WindowEvent e) {
