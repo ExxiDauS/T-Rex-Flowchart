@@ -4,6 +4,8 @@
  */
 package Trex;
 import Trex.cases;
+import Trex.cases;
+import Trex.problem;
 import Trex.problem;
 import java.awt.*;
 import java.awt.event.*;
@@ -29,18 +31,7 @@ public class problemFrame implements ActionListener, MouseListener{
     private cases case2 = new cases("1", "2");
     // {new cases("hey", "ha")}
     
-    private problem[] problemLst = {new problem("DebtCalculation", 
-            "../problemPanel/src/Trex/images/1-10.jpg",
-    "Ni ai wo wo ai ni\n" +
-    "Mi xue bing cheng tianmi mi\n" +
-    "Ni ai wo wo ai ni\n" +
-    "Mi xue bing cheng tianmi mi\n"
-  ,  new cases[]{case1, case2}),
-    new problem("Tim", "../problemPanel/src/Trex/images/v6wirw3s76g91.jpg","jekjek\nasdsdsad",  new cases[]{case1, case2}),
-    new problem("T$E", 
- "14255",
-    "jekjek",  new cases[]{case1, case2})
-    };
+    private ArrayList problemLst = new ArrayList();
     
     private int selectProb = 1;
     private JPanel titlePanel, imgPanel, desHPanel, descriptionPanel, sampleTestPanel, testCasePanel;
@@ -68,6 +59,8 @@ public class problemFrame implements ActionListener, MouseListener{
         dropClose.add(closeAroow, BorderLayout.CENTER);
         dropClose.addMouseListener(this);
         
+        problemLst.add(new problem("TER", "ERAWREDS", "FSADSGFaghfadga", new cases[]{case1, case2}));
+        
 //        set container
         titlePanel = new JPanel();      titlePanel.setLayout(new FlowLayout(10, 25, 10));
         
@@ -81,7 +74,7 @@ public class problemFrame implements ActionListener, MouseListener{
         
         testCasePanel = new JPanel();       testCasePanel.setLayout(new FlowLayout(10, 40, 10));
         
-        current = problemLst[selectProb - 1];
+        current = (problem) problemLst.get(selectProb - 1);
         
         //      set Column name
         testCase = new JTable();
@@ -100,8 +93,7 @@ public class problemFrame implements ActionListener, MouseListener{
         leftAlign.setHorizontalAlignment(SwingConstants.LEFT);
         leftAlign.setVerticalAlignment(SwingConstants.TOP); // Align to the top
         testCase.setDefaultRenderer(Object.class, leftAlign);
-        
-        
+                
 //      ** make Showing Panel (Left side) **
         setShowPanel(current);
         
@@ -121,7 +113,7 @@ public class problemFrame implements ActionListener, MouseListener{
         frame.add(scrollPanel, BorderLayout.CENTER);
         
         ArrayList<Integer> myVariables = new ArrayList<>();
-        for (int i=0; i < problemLst.length;i++){
+        for (int i=0; i < problemLst.size();i++){
             btn = new JButton(i+1+"");
             btn.addActionListener(this);
             probLst.add(btn);
@@ -235,7 +227,7 @@ public class problemFrame implements ActionListener, MouseListener{
             showProb.revalidate();
             
 //            Rebuild probPanel
-            setShowPanel(problemLst[selected]);
+            setShowPanel((problem) problemLst.get(selected));
             
             JScrollBar scrollValue = ((JScrollPane) showProb.getParent().getParent()).getVerticalScrollBar();
             scrollValue.setValue(0);

@@ -1,5 +1,7 @@
 import java.sql.*;
 import java.util.*;
+import org.json.*;
+
 
 public class DatabaseConnect {
 //    DB credentials.
@@ -31,9 +33,9 @@ public class DatabaseConnect {
         return false;
     }
     
-    public void insertProblem(String description, String imgUrl, ArrayList cases[], String titleName, int casesCount){
-        String sql = "INSERT INTO Question VALUES(ID, '{\"description\": " + description + ", \"imgUrl\": " + imgUrl
-                + ", \"cases\": " + Arrays.toString(cases) + ", \"titleName\": " + titleName + "}', " + casesCount + ");";
+    public void insertProblem(String description, String imgUrl, ArrayList cases, String titleName, int casesCount){
+        String sql = "INSERT INTO Question VALUES(ID, '{\"description\": " + description + ", \"cases\": " + cases.toString() +
+                ", \"titleName\": " + titleName + "}', " + casesCount + ", \'" + imgUrl + "\');";
         try (Connection connect = DriverManager.getConnection(
                     "jdbc:mariadb://161.246.127.24:9004/clua7yac5000cbsmnfvj64hef", 
                     "clua7yac3000absmnajq5d7jl", "kVGzhZ64mXAGplcwmtUL3Ub4");
@@ -67,6 +69,48 @@ public class DatabaseConnect {
                     return rec.getString("Problem");
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Please check problem ID and try again.");
+        return null;
+    }
+    
+    public ArrayList getAllProblem(){
+        String sql = "SELECT * FROM Question";
+        ArrayList problemLst = new ArrayList();
+        
+        try (Connection connect = DriverManager.getConnection(
+                    "jdbc:mariadb://161.246.127.24:9004/clua7yac5000cbsmnfvj64hef", 
+                    "clua7yac3000absmnajq5d7jl", "kVGzhZ64mXAGplcwmtUL3Ub4");
+                Statement s = connect.createStatement();
+                ResultSet rec = s.executeQuery(sql);){
+            Class.forName("org.mariadb.jdbc.Driver");
+            System.out.println("Connected database successfully...");
+            while (rec.next()) {
+                ArrayList testcasesTMP = new ArrayList();
+                ArrayList realTestCases = new ArrayList();
+                System.out.println("Get problem successfully.");
+                String jsonString = rec.getString("Problem");
+                JSONObject jsonObject = new JSONObject(jsonString);
+                JSONArray jsonArray = (JSONArray) jsonObject.get("cases");
+                if (jsonArray != null) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        testcasesTMP.add(jsonArray.get(i));
+                    }
+                    for (int i = 0; i < testcasesTMP.size(); i++) {
+                        ArrayList testcasenaja = new ArrayList();
+                        JSONArray json = (JSONArray)testcasesTMP.get(i);
+                        for (int j = 0; j < json.length(); j++) {
+                            testcasenaja.add(json.get(j));
+                        }
+                        realTestCases.add(testcasenaja);
+                    }
+                }
+                problem tmpProblem = new problem(jsonObject.getString("titleName"), rec.getString("ImgUrl"), jsonObject.getString("description"), realTestCases);
+                problemLst.add(tmpProblem);
+            }
+            return problemLst;
         } catch (Exception e) {
             e.printStackTrace();
         }
