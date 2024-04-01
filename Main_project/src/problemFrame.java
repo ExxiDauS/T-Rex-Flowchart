@@ -153,7 +153,7 @@ public class problemFrame implements ActionListener, MouseListener{
             
         }catch (IOException ex){
             try{
-            BufferedImage image = ImageIO.read(new File("../problemPanel/src/Trex//images/1-10.jpg"));
+            BufferedImage image = ImageIO.read(new File("../Main_project/src/images/404.jpg"));
 //            URL url = new URL("https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?fit=845%2C503&ssl=1");
 //            BufferedImage image = ImageIO.read(url);
             img = new JLabel(new ImageIcon(image));
@@ -179,8 +179,10 @@ public class problemFrame implements ActionListener, MouseListener{
         
         for (int i=0; i < current.getTestCase().size(); i++){
             tModel.addRow(new Object[]{strManage(current.getInput(i)), strManage(current.getOutput(i))});
-            testCase.getColumnModel().getColumn(i).setPreferredWidth(425);
+            
         }   
+        testCase.getColumnModel().getColumn(0).setPreferredWidth(425);
+        testCase.getColumnModel().getColumn(1).setPreferredWidth(425);
         testCasePanel.add(testCase);        showProb.add(testCasePanel);  
         
     }
