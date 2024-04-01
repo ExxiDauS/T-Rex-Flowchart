@@ -15,6 +15,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
     private ActionShape currentTool;
     private ActionShape current;
     private boolean deleteToggle;
+    private boolean quizibilty;
     private StartShape start;
     private ArrowComponent firstArrow;
     private EndShape end;
@@ -31,6 +32,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         current = null;
         currentTool = null;
         deleteToggle = false;
+        quizibilty = false;
         activeGUI = new ArrayList<ShapeGUI>();
         grader = new Grader();
         mainView.getToolPanel().getRunButton().addActionListener(this);
@@ -38,6 +40,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
         mainView.getToolPanel().getDeleteToggleBtn().addActionListener(this);
         mainView.getToolPanel().getSaveBtn().addActionListener(this);
         mainView.getToolPanel().getLoadBtn().addActionListener(this);
+        mainView.getToolPanel().getQuizBtn().addActionListener(this);
         mainView.getShapePanel().getProcessShape().addMouseListener(this);
         mainView.getShapePanel().getInputShape().addMouseListener(this);
         mainView.getShapePanel().getOutputShape().addMouseListener(this);
@@ -250,6 +253,20 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
                     pointer.setColor(new Color(0,150,136));
                 }
             }
+            else if (ae.getSource().equals(mainView.getToolPanel().getQuizBtn())) {
+                quizibilty = !quizibilty;
+                BarCustomButton pointer = (BarCustomButton) (mainView.getToolPanel().getQuizBtn());
+                if (quizibilty) {
+                    pointer.setText("See Problems");
+                    pointer.setColor(new Color(33, 150, 243));
+                    mainView.getPrbfr().setVisible(false);
+                }
+                else {
+                    pointer.setText("No More Problems");
+                    pointer.setColor(new Color(21, 101, 192));
+                    mainView.getPrbfr().setVisible(true);
+                }
+            }
             else if (ae.getSource().equals(mainView.getToolPanel().getSaveBtn())) {
                 JFileChooser fc = new JFileChooser("Documents\\");
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("TVSC", "tvsc");
@@ -280,6 +297,7 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
                 }
                 mainView.getFlowchartPanel().drawFlowchart(model.getOrder());
             }
+
         }
         else {
             for (ShapeGUI GUI: activeGUI) {
@@ -319,7 +337,10 @@ public class FlowchartController implements ActionListener, WindowListener, Mous
             if (we.getSource().equals(loginViewController.getLoginView().getFrame())) {
                 if (!model.getStatus().equals("play")) {
                     mainView.getToolPanel().getLoginButton().setText(model.getUsername());
+                    mainView.getToolPanel().getQuizBtn().setVisible(true);
                     mainView.getToolPanel().getLoginButton().setEnabled(false);
+                    mainView.initProblemFrame();
+                    quizibilty = true;
                 }
             }
         }

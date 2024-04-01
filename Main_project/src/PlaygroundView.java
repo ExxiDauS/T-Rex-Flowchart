@@ -12,6 +12,7 @@ public class PlaygroundView extends JFrame{
     private ConsolePanel consolePanel;
     private JScrollPane flowchartScroll;
     private FlowchartPanel flowchartPanel;
+    private problemFrame prbfr;
     public PlaygroundView() {
         setTitle("T-Rex Flowchart");
         ImageIcon img = new ImageIcon("Main_project//src//picture//logo96.png");
@@ -59,12 +60,8 @@ public class PlaygroundView extends JFrame{
         dp.add(shapePanel);
         dp.add(consolePanel);
         dp.add(flowchartScroll);
-//        JInternalFrame bank = new JInternalFrame();
-//        bank.setSize(getWidth()-shapePanel.getWidth(), getHeight()-60-48);
-//        bank.setVisible(true);
-//        dp.add(bank);
         dp.setVisible(true);
-//        bank.toFront();
+
 
         this.add(dp);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -87,5 +84,16 @@ public class PlaygroundView extends JFrame{
     }
     public JDesktopPane getDesktopPane() {
         return dp;
+    }
+    public void initProblemFrame() {
+        prbfr = new problemFrame();
+        prbfr.setSize(1024,576);
+        prbfr.setVisible(true);
+        dp.add(prbfr);
+        prbfr.toFront();
+    }
+
+    public problemFrame getPrbfr() {
+        return prbfr;
     }
 }

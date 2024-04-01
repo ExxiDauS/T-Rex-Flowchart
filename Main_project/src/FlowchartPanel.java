@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class FlowchartPanel extends JPanel{
-    private ArrayList<Shape> order;
     public FlowchartPanel(Dimension frameSize) {
         setLayout(null);
         setBackground(Color.WHITE);
@@ -67,8 +66,6 @@ public class FlowchartPanel extends JPanel{
             checkBoundsAndAdjustPanel(bounds);
         }
     }
-
-    public void paintCurrentShape(ArrayList<Shape> order) {}
 
     @Override
     public Dimension getPreferredSize() {

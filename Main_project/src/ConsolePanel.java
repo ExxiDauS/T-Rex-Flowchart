@@ -24,7 +24,7 @@ public class ConsolePanel extends JPanel{
         log = new JTextArea();
         scPane = new JScrollPane(log);
         log.setFont(new Font("Montserrat", Font.PLAIN, 18));
-//        log.setEditable(false);
+        log.setEditable(false);
         log.setText("Welcome to T-Rex Flowchart\nThis is the Console!");
         scPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
